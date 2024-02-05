@@ -1,12 +1,12 @@
 package com.example.parking.domain.parking;
 
-import static lombok.AccessLevel.PROTECTED;
-
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import lombok.NoArgsConstructor;
+
+import static lombok.AccessLevel.PROTECTED;
 
 @NoArgsConstructor(access = PROTECTED)
 @Embeddable
@@ -38,5 +38,14 @@ public class FeePolicy {
         this.baseTimeUnit = baseTimeUnit;
         this.extraTimUnit = extraTimUnit;
         this.dayMaximumFee = dayMaximumFee;
+    }
+
+    public Fee calculateFee(int oneDayMinutes) {
+        if (baseTimeUnit.isEqualOrGreaterThan(oneDayMinutes)) {
+            return baseFee;
+        }
+        oneDayMinutes = oneDayMinutes - baseTimeUnit.getTimeUnit();
+        int time = extraTimUnit.calculateQuotient(oneDayMinutes);
+        return Fee.min(extraFee.multiply(time).plus(baseFee), dayMaximumFee);
     }
 }

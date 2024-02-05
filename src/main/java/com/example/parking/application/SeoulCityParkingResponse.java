@@ -53,8 +53,8 @@ public class SeoulCityParkingResponse {
             private String tel;
 
             private String addr;
-            private String lat;
-            private String lng;
+            private Double lat;
+            private Double lng;
 
             private Integer queStatus;
             private Integer capacity;

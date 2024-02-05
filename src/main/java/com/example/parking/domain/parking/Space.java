@@ -1,11 +1,12 @@
 package com.example.parking.domain.parking;
 
+import static lombok.AccessLevel.*;
+
 import jakarta.persistence.Embeddable;
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 public class Space {
 
     private static final Integer NO_PROVIDE = -1;

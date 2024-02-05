@@ -8,7 +8,7 @@ public enum OperationType {
 
     private final String description;
 
-    OperationType(final String description) {
+    OperationType(String description) {
         this.description = description;
     }
 }

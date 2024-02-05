@@ -1,10 +1,10 @@
 package com.example.parking.domain.parking;
 
+import static jakarta.persistence.EnumType.*;
 import static lombok.AccessLevel.PROTECTED;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.NoArgsConstructor;
 
@@ -19,15 +19,14 @@ public class BaseInformation {
     @Embedded
     private PayTypes payType;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private ParkingType parkingType;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private OperationType operationType;
 
-    public BaseInformation(final String name, final String tel, final String address, final PayTypes payType,
-                           final ParkingType parkingType,
-                           final OperationType operationType) {
+    public BaseInformation(String name, String tel, String address, PayTypes payType, ParkingType parkingType,
+                           OperationType operationType) {
         this.name = name;
         this.tel = tel;
         this.address = address;

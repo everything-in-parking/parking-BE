@@ -1,12 +1,13 @@
 package com.example.parking.domain.parking;
 
+import static lombok.AccessLevel.PROTECTED;
+
 import jakarta.persistence.Embeddable;
 import java.util.Collection;
 import java.util.stream.Collectors;
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 @Embeddable
 public class PayTypes {
 
@@ -15,7 +16,7 @@ public class PayTypes {
 
     private String description;
 
-    private PayTypes(final String description) {
+    private PayTypes(String description) {
         this.description = description;
     }
 
