@@ -1,13 +1,12 @@
 package com.example.parking.domain.parking;
 
-import static lombok.AccessLevel.PROTECTED;
-
 import jakarta.persistence.Embeddable;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class PayTypes {
 

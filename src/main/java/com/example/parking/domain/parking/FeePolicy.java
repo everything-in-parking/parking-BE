@@ -4,11 +4,10 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import static lombok.AccessLevel.PROTECTED;
-
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class FeePolicy {
 
