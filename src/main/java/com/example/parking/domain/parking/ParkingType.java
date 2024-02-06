@@ -25,6 +25,28 @@ public enum ParkingType {
     }
 
     public static ParkingType find(String description) {
-        return descriptions.getOrDefault(description, NO_INFO);
+        if (descriptions.containsKey(description)) {
+            return descriptions.get(description);
+        }
+        
+        return descriptions.get(
+                descriptions.keySet().stream()
+                .filter(key -> isSame(description, key))
+                .findAny()
+                .orElse(NO_INFO.description)
+        );
+    }
+
+    private static boolean isSame(String input, String description) {
+        if (input.isBlank()) {
+            return false;
+        }
+        input = removeSpace(input);
+        description = removeSpace(description);
+        return description.startsWith(input);
+    }
+
+    private static String removeSpace(String description) {
+        return description.replace(" ", "");
     }
 }

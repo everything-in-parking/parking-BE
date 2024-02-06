@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class TimeInfo {
 
+    public static final TimeInfo CLOSED = new TimeInfo(LocalTime.MIN, LocalTime.MIN);
+    public static final TimeInfo ALL_DAY = new TimeInfo(LocalTime.MIN, LocalTime.MAX);
+
     private LocalTime beginTime;
     private LocalTime endTime;
 

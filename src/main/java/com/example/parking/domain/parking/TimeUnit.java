@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class TimeUnit {
 
+    private static final TimeUnit NO_INFO = new TimeUnit(-1);
+
     private int timeUnit;
 
     private TimeUnit(int timeUnit) {
@@ -20,11 +22,16 @@ public class TimeUnit {
         return new TimeUnit(timeUnit);
     }
 
-    public boolean isEqualOrGreaterThan(int other) {
-        if (timeUnit >= other) {
-            return true;
+    public static TimeUnit from(String timeUnit) {
+        try {
+            return new TimeUnit(Integer.parseInt(timeUnit));
+        } catch (NumberFormatException | NullPointerException e) {
+            return NO_INFO;
         }
-        return false;
+    }
+
+    public boolean isEqualOrGreaterThan(int other) {
+        return timeUnit >= other;
     }
 
     public int calculateQuotient(int minutes) {

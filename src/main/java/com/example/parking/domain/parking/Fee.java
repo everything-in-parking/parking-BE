@@ -2,17 +2,18 @@ package com.example.parking.domain.parking;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
-
-@Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Embeddable
 public class Fee {
 
     public static final Fee ZERO = new Fee(0);
+    private static final Fee NO_INFO = new Fee(-1);
 
     private Integer fee;
 
@@ -22,6 +23,14 @@ public class Fee {
 
     public static Fee from(Integer fee) {
         return new Fee(fee);
+    }
+
+    public static Fee from(String fee) {
+        try {
+            return new Fee(Integer.parseInt(fee));
+        } catch (NumberFormatException | NullPointerException e) {
+            return NO_INFO;
+        }
     }
 
     public Fee multiply(int time) {
@@ -37,18 +46,5 @@ public class Fee {
             return fee;
         }
         return otherFee;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Fee fee1 = (Fee) o;
-        return Objects.equals(fee, fee1.fee);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(fee);
     }
 }
