@@ -8,9 +8,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Parking extends AuditingEntity {
 
@@ -53,5 +55,12 @@ public class Parking extends AuditingEntity {
                 .map(minutes -> feePolicy.calculateFee(minutes))
                 .reduce(Fee::plus)
                 .orElse(Fee.ZERO);
+    }
+
+    public void update(Parking updated) {
+        this.space = updated.space;
+        this.freeOperatingTime = updated.freeOperatingTime;
+        this.operatingTime = updated.operatingTime;
+        this.feePolicy = updated.feePolicy;
     }
 }

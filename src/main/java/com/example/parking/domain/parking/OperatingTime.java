@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class OperatingTime {
 
+    public static final OperatingTime ALWAYS_OPEN = new OperatingTime(TimeInfo.ALL_DAY, TimeInfo.ALL_DAY, TimeInfo.ALL_DAY);
+
     @AttributeOverride(name = "beginTime", column = @Column(name = "weekday_begin_time"))
     @AttributeOverride(name = "endTime", column = @Column(name = "weekday_end_time"))
     @Embedded
