@@ -38,12 +38,10 @@ public class ParkingUpdateScheduler {
     @Transactional
     @Scheduled(fixedRate = 30, timeUnit = TimeUnit.MINUTES)
     public void autoUpdateOfferCurrentParking() {
-        log.info("start");
         Map<String, Parking> parkingLots = readBy(ParkingApiService::offerCurrentParking);
         Map<String, Parking> saved = findAllByName(parkingLots.keySet());
         updateSavedParkingLots(parkingLots, saved);
         saveNewParkingLots(parkingLots, saved);
-        log.info("end");
     }
 
     private Map<String, Parking> readBy(Predicate<ParkingApiService> currentParkingAvailable) {
