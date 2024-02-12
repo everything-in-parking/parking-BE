@@ -63,4 +63,8 @@ public class Parking extends AuditingEntity {
         this.operatingTime = updated.operatingTime;
         this.feePolicy = updated.feePolicy;
     }
+
+    public void update(Location location) {
+        this.location = location;
+    }
 }

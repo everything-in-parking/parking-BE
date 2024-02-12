@@ -1,7 +1,9 @@
 package com.example.parking.external.scheduler;
 
+import com.example.parking.domain.parking.Location;
 import com.example.parking.domain.parking.Parking;
 import com.example.parking.domain.parking.ParkingRepository;
+import com.example.parking.external.coordinate.CoordinateService;
 import com.example.parking.external.parkingapi.ParkingApiService;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,24 +25,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class ParkingUpdateScheduler {
 
     private final List<ParkingApiService> parkingApiServices;
+    private final CoordinateService coordinateService;
     private final ParkingRepository parkingRepository;
 
-    public ParkingUpdateScheduler(List<ParkingApiService> parkingApiServices, ParkingRepository parkingRepository) {
+    public ParkingUpdateScheduler(List<ParkingApiService> parkingApiServices, CoordinateService coordinateService,
+                                  ParkingRepository parkingRepository) {
         this.parkingApiServices = parkingApiServices;
+        this.coordinateService = coordinateService;
         this.parkingRepository = parkingRepository;
     }
 
-    /**
-     * todo
-     * 새로 생성되는 데이터의 경우, 주소에서 필요한 정보(좌표) 정확하게 변환
-     */
     @Transactional
     @Scheduled(fixedRate = 30, timeUnit = TimeUnit.MINUTES)
     public void autoUpdateOfferCurrentParking() {
+        log.info("start");
         Map<String, Parking> parkingLots = readBy(ParkingApiService::offerCurrentParking);
         Map<String, Parking> saved = findAllByName(parkingLots.keySet());
         updateSavedParkingLots(parkingLots, saved);
         saveNewParkingLots(parkingLots, saved);
+        log.info("end");
     }
 
     private Map<String, Parking> readBy(Predicate<ParkingApiService> currentParkingAvailable) {
@@ -84,8 +87,16 @@ public class ParkingUpdateScheduler {
                 .filter(parkingName -> !saved.containsKey(parkingName))
                 .map(parkingLots::get)
                 .toList();
-
+        updateLocation(newParkingLots);
         parkingRepository.saveAll(newParkingLots);
+    }
+
+    private void updateLocation(List<Parking> newParkingLots) {
+        for (Parking parking : newParkingLots) {
+            Location locationByAddress = coordinateService.extractLocationByAddress(parking.getBaseInformation().getAddress(),
+                    parking.getLocation());
+            parking.update(locationByAddress);
+        }
     }
 
     @Transactional

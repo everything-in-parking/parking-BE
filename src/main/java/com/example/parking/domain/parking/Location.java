@@ -17,9 +17,17 @@ public class Location {
     private double longitude;
     private double latitude;
 
-    public Location(double longitude, double latitude) {
+    private Location(double longitude, double latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+
+    public static Location of(Double longitude, Double latitude) {
+        try {
+            return new Location(longitude, latitude);
+        } catch (NullPointerException e) {
+            return NO_PROVIDE;
+        }
     }
 
     public static Location of(String longitude, String latitude) {

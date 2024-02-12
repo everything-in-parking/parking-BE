@@ -30,6 +30,7 @@ class ParkingUpdateSchedulerTest {
 
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(offerCurrentParkingApiService),
+                null,
                 parkingRepository
         );
         //when
@@ -50,6 +51,7 @@ class ParkingUpdateSchedulerTest {
 
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(notOfferCurrentParkingApiService),
+                null,
                 parkingRepository
         );
         //when
@@ -70,6 +72,7 @@ class ParkingUpdateSchedulerTest {
 
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(offerCurrentParkingApiService, notOfferCurrentParkingApiService),
+                null,
                 parkingRepository
         );
         //when
@@ -85,6 +88,7 @@ class ParkingUpdateSchedulerTest {
         //given
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(offerCurrentParkingApiService, exceptionParkingApiService),
+                null,
                 parkingRepository
         );
         //when
