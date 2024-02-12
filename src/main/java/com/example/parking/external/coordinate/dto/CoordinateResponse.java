@@ -1,4 +1,4 @@
-package com.example.parking.application.coordinate.dto;
+package com.example.parking.external.coordinate.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;

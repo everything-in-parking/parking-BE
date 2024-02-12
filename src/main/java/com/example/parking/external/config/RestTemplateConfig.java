@@ -1,6 +1,6 @@
-package com.example.parking.config;
+package com.example.parking.external.config;
 
-import com.example.parking.application.coordinate.CoordinateErrorHandler;
+import com.example.parking.external.coordinate.CoordinateErrorHandler;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;

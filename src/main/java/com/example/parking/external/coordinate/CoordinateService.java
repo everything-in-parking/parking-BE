@@ -1,7 +1,7 @@
-package com.example.parking.application.coordinate;
+package com.example.parking.external.coordinate;
 
-import com.example.parking.application.coordinate.dto.CoordinateResponse;
-import com.example.parking.application.coordinate.dto.CoordinateResponse.ExactLocation;
+import com.example.parking.external.coordinate.dto.CoordinateResponse;
+import com.example.parking.external.coordinate.dto.CoordinateResponse.ExactLocation;
 import com.example.parking.domain.parking.Location;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +24,16 @@ public class CoordinateService {
         this.restTemplate = restTemplate;
     }
 
-    public Location extractLocationByAddress(String address, double longitude, double latitude) {
+    public Location extractLocationByAddress(String address, Location location) {
         UriComponents uriComponents = makeCompleteUri(address);
         ResponseEntity<CoordinateResponse> result = connect(uriComponents);
 
         if (isEmptyResultData(result)) {
-            return new Location(longitude, latitude);
+            return location;
         }
 
         ExactLocation exactLocation = getExactLocation(result);
-        return new Location(exactLocation.getLongitude(), exactLocation.getLatitude());
+        return Location.of(exactLocation.getLongitude(), exactLocation.getLatitude());
     }
 
     private ExactLocation getExactLocation(ResponseEntity<CoordinateResponse> result) {

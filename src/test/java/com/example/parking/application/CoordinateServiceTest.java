@@ -6,9 +6,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import com.example.parking.application.coordinate.CoordinateService;
-import com.example.parking.application.coordinate.dto.CoordinateResponse;
-import com.example.parking.application.coordinate.dto.CoordinateResponse.Meta;
+import com.example.parking.external.coordinate.CoordinateService;
+import com.example.parking.external.coordinate.dto.CoordinateResponse;
+import com.example.parking.external.coordinate.dto.CoordinateResponse.Meta;
 import com.example.parking.domain.parking.Location;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ class CoordinateServiceTest {
 
         double expectedLatitude = 67;
         double expectedLongitude = 100;
-        Location result = coordinateService.extractLocationByAddress("address", expectedLongitude, expectedLatitude);
+        Location result = coordinateService.extractLocationByAddress("address", Location.of(67.0, 10.0));
         assertAll(
                 () -> assertThat(result.getLatitude()).isEqualTo(expectedLatitude),
                 () -> assertThat(result.getLongitude()).isEqualTo(expectedLongitude)

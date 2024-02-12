@@ -1,4 +1,4 @@
-package com.example.parking.application.coordinate;
+package com.example.parking.external.coordinate;
 
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
