@@ -12,7 +12,7 @@ public interface ParkingRepository extends Repository<Parking, Long> {
         return findById(id).orElseThrow(() -> new RuntimeException("익셉션 !!"));
     }
 
-    Set<Parking> findAllByName(Set<String> names);
+    Set<Parking> findAllByBaseInformationNameIn(Set<String> names);
 
     void saveAll(Iterable<Parking> parkingLots);
 }

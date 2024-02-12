@@ -19,7 +19,7 @@ public class BasicParkingRepository implements ParkingRepository {
     }
 
     @Override
-    public Set<Parking> findAllByName(Set<String> names) {
+    public Set<Parking> findAllByBaseInformationNameIn(Set<String> names) {
         return store.values()
                 .stream()
                 .filter(parking -> names.contains(parking.getBaseInformation().getName()))

@@ -48,11 +48,15 @@ public class ParkingUpdateScheduler {
                 .filter(currentParkingAvailable)
                 .map(this::read)
                 .flatMap(Collection::stream)
-                .collect(Collectors.toMap(parking -> parking.getBaseInformation().getName(), Function.identity()));
+                .collect(Collectors.toMap(
+                        parking -> parking.getBaseInformation().getName(),
+                        Function.identity(),
+                        (existing, replacement) -> existing
+                ));
     }
 
     private Map<String, Parking> findAllByName(Set<String> names) {
-        return parkingRepository.findAllByName(names)
+        return parkingRepository.findAllByBaseInformationNameIn(names)
                 .stream()
                 .collect(Collectors.toMap(parking -> parking.getBaseInformation().getName(), Function.identity()));
     }
