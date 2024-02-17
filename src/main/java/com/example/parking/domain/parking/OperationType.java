@@ -1,6 +1,10 @@
 package com.example.parking.domain.parking;
 
-public enum OperationType {
+import com.example.parking.domain.searchcondition.SearchConditionAvailable;
+import lombok.Getter;
+
+@Getter
+public enum OperationType implements SearchConditionAvailable {
 
     PUBLIC("공영"),
     PRIVATE("민영"),
@@ -10,5 +14,10 @@ public enum OperationType {
 
     OperationType(String description) {
         this.description = description;
+    }
+
+    @Override
+    public OperationType getDefault() {
+        return NO_INFO;
     }
 }
