@@ -1,11 +1,7 @@
 package com.example.parking.domain.parking;
 
 import com.example.parking.domain.searchcondition.SearchConditionAvailable;
-import java.util.Collections;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Arrays;
 import lombok.Getter;
 
 @Getter
@@ -15,30 +11,21 @@ public enum ParkingType implements SearchConditionAvailable {
     MECHANICAL("기계식"),
     NO_INFO("정보 없음");
 
-    private static final Map<String, ParkingType> descriptions =
-            Collections.unmodifiableMap(Stream.of(values())
-                    .collect(Collectors.toMap(ParkingType::getDescription, Function.identity())));
-
     private final String description;
 
     ParkingType(String description) {
         this.description = description;
     }
 
-    private static boolean isSame(String input, String description) {
-        if (input.isBlank()) {
-            return false;
-        }
-        input = removeSpace(input);
-        description = removeSpace(description);
-        return description.startsWith(input);
-    }
-
-    private static String removeSpace(String description) {
-        return description.replace(" ", "");
-
     @Override
     public ParkingType getDefault() {
         return NO_INFO;
+    }
+
+    public static ParkingType find(String description) {
+        return Arrays.stream(values())
+                .filter(e -> description.startsWith(e.getDescription()))
+                .findAny()
+                .orElse(NO_INFO);
     }
 }
