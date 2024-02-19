@@ -1,4 +1,4 @@
-package com.example.parking.config.argumentresolver;
+package com.example.parking.external.config.argumentresolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

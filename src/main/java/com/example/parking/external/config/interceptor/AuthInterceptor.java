@@ -1,4 +1,4 @@
-package com.example.parking.config.interceptor;
+package com.example.parking.external.config.interceptor;
 
 import com.example.parking.auth.AuthService;
 import com.example.parking.auth.MemberSession;

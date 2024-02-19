@@ -1,4 +1,4 @@
-package com.example.parking.config.argumentresolver;
+package com.example.parking.external.config.argumentresolver;
 
 import com.example.parking.auth.AuthService;
 import com.example.parking.auth.MemberSession;
