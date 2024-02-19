@@ -36,8 +36,9 @@ class CoordinateServiceTest {
         when(restTemplate.getForEntity(anyString(), any()))
                 .thenReturn(new ResponseEntity<>(emptyResponse, HttpStatus.OK));
 
-        double expectedLatitude = 67;
-        double expectedLongitude = 100;
+        double expectedLongitude = 67;
+        double expectedLatitude = 10;
+
         Location result = coordinateService.extractLocationByAddress("address", Location.of(67.0, 10.0));
         assertAll(
                 () -> assertThat(result.getLatitude()).isEqualTo(expectedLatitude),

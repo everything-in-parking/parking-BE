@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum ParkingType implements SearchConditionAvailable {
     OFF_STREET("노외"),
     ON_STREET("노상"),
-    MECHANICAL("기계식"),
+    MECHANICAL("기계"),
     NO_INFO("정보 없음");
 
     private final String description;

@@ -1,9 +1,11 @@
 package com.example.parking.external.scheduler;
 
 import com.example.parking.domain.parking.Parking;
+import com.example.parking.external.coordinate.CoordinateService;
 import com.example.parking.external.parkingapi.ParkingApiService;
 import com.example.parking.fake.BasicParkingRepository;
 import com.example.parking.fake.ExceptionParkingApiService;
+import com.example.parking.fake.FakeCoordinateService;
 import com.example.parking.fake.NotOfferCurrentParkingApiService;
 import com.example.parking.fake.OfferCurrentParkingApiService;
 import java.util.List;
@@ -13,10 +15,11 @@ import org.junit.jupiter.api.Test;
 
 class ParkingUpdateSchedulerTest {
 
-    private OfferCurrentParkingApiService offerCurrentParkingApiService =  new OfferCurrentParkingApiService(5);
-    private NotOfferCurrentParkingApiService notOfferCurrentParkingApiService =  new NotOfferCurrentParkingApiService(5);
-    private ParkingApiService exceptionParkingApiService = new ExceptionParkingApiService();
-    private BasicParkingRepository parkingRepository = new BasicParkingRepository();
+    private final OfferCurrentParkingApiService offerCurrentParkingApiService =  new OfferCurrentParkingApiService(5);
+    private final NotOfferCurrentParkingApiService notOfferCurrentParkingApiService =  new NotOfferCurrentParkingApiService(5);
+    private final ParkingApiService exceptionParkingApiService = new ExceptionParkingApiService();
+    private final BasicParkingRepository parkingRepository = new BasicParkingRepository();
+    private final CoordinateService coordinateService = new FakeCoordinateService();
 
 
     @DisplayName("실시간 주차 대수를 제공하는 API에서 주차장이 0~4까지 저장되어 있는 상태에서 0~9까지 주차장을 읽어와 업데이트한다.")
@@ -30,9 +33,10 @@ class ParkingUpdateSchedulerTest {
 
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(offerCurrentParkingApiService),
-                null,
+                coordinateService,
                 parkingRepository
         );
+
         //when
         scheduler.autoUpdateOfferCurrentParking();
 
@@ -51,9 +55,10 @@ class ParkingUpdateSchedulerTest {
 
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(notOfferCurrentParkingApiService),
-                null,
+                coordinateService,
                 parkingRepository
         );
+
         //when
         scheduler.autoUpdateNotOfferCurrentParking();
 
@@ -72,9 +77,10 @@ class ParkingUpdateSchedulerTest {
 
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(offerCurrentParkingApiService, notOfferCurrentParkingApiService),
-                null,
+                coordinateService,
                 parkingRepository
         );
+
         //when
         scheduler.autoUpdateOfferCurrentParking();
 
@@ -88,9 +94,10 @@ class ParkingUpdateSchedulerTest {
         //given
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(offerCurrentParkingApiService, exceptionParkingApiService),
-                null,
+                coordinateService,
                 parkingRepository
         );
+
         //when
         scheduler.autoUpdateOfferCurrentParking();
 
