@@ -36,7 +36,7 @@ public class SeoulPublicParkingApiService implements ParkingApiService {
     }
 
     @Override
-    public List<Parking> read() {
+    public List<Parking> read() throws Exception {
         List<SeoulPublicParkingResponse> response = call();
         return response.stream()
                 .map(adapter::convert)
