@@ -1,11 +1,10 @@
 package com.example.parking.external.scheduler;
 
-import com.example.parking.domain.parking.Parking;
 import com.example.parking.external.coordinate.CoordinateService;
-import com.example.parking.external.parkingapi.ParkingApiService;
 import com.example.parking.fake.BasicParkingRepository;
 import com.example.parking.fake.ExceptionParkingApiService;
 import com.example.parking.fake.FakeCoordinateService;
+import com.example.parking.fake.FakeParkingService;
 import com.example.parking.fake.NotOfferCurrentParkingApiService;
 import com.example.parking.fake.OfferCurrentParkingApiService;
 import java.util.List;
@@ -15,77 +14,76 @@ import org.junit.jupiter.api.Test;
 
 class ParkingUpdateSchedulerTest {
 
-    private final OfferCurrentParkingApiService offerCurrentParkingApiService =  new OfferCurrentParkingApiService(5);
-    private final NotOfferCurrentParkingApiService notOfferCurrentParkingApiService =  new NotOfferCurrentParkingApiService(5);
-    private final ParkingApiService exceptionParkingApiService = new ExceptionParkingApiService();
-    private final BasicParkingRepository parkingRepository = new BasicParkingRepository();
+    private final FakeParkingService parkingService = new FakeParkingService(new BasicParkingRepository());
     private final CoordinateService coordinateService = new FakeCoordinateService();
-
 
     @DisplayName("실시간 주차 대수를 제공하는 API에서 주차장이 0~4까지 저장되어 있는 상태에서 0~9까지 주차장을 읽어와 업데이트한다.")
     @Test
     void autoUpdateOfferCurrentParking() {
         //given
-        List<Parking> parkingLots = offerCurrentParkingApiService.read();
-        parkingRepository.saveAll(parkingLots);
+        OfferCurrentParkingApiService offerCurrentParkingApiService = new OfferCurrentParkingApiService(5);
+        parkingService.saveAll(offerCurrentParkingApiService.read());
         int readSize = 10;
         offerCurrentParkingApiService.setReadSize(readSize);
 
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(offerCurrentParkingApiService),
                 coordinateService,
-                parkingRepository
+                parkingService
         );
 
         //when
         scheduler.autoUpdateOfferCurrentParking();
 
         //then
-        Assertions.assertThat(parkingRepository.count()).isEqualTo(readSize);
+        Assertions.assertThat(parkingService.count()).isEqualTo(readSize);
     }
 
     @DisplayName("실시간 주차 대수를 제공하지 않는 API에서 주차장이 0~4까지 저장되어 있는 상태에서 0~9까지 주차장을 읽어와 업데이트한다.")
     @Test
     void autoUpdateNotOfferCurrentParking() {
         //given
-        List<Parking> parkingLots = notOfferCurrentParkingApiService.read();
-        parkingRepository.saveAll(parkingLots);
+        NotOfferCurrentParkingApiService notOfferCurrentParkingApiService = new NotOfferCurrentParkingApiService(
+                5);
+        parkingService.saveAll(notOfferCurrentParkingApiService.read());
         int readSize = 10;
         notOfferCurrentParkingApiService.setReadSize(readSize);
 
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(notOfferCurrentParkingApiService),
                 coordinateService,
-                parkingRepository
+                parkingService
         );
 
         //when
         scheduler.autoUpdateNotOfferCurrentParking();
 
         //then
-        Assertions.assertThat(parkingRepository.count()).isEqualTo(readSize);
+        Assertions.assertThat(parkingService.count()).isEqualTo(readSize);
     }
 
     @DisplayName("실시간 주차 대수를 제공하는 API와 제공하지 않는 API는 영향을 안준다.")
     @Test
     void notAffectBetweenOfferAndNotOfferCurrentParking() {
         //given
-        List<Parking> parkingLots = offerCurrentParkingApiService.read();
-        parkingRepository.saveAll(parkingLots);
+        OfferCurrentParkingApiService offerCurrentParkingApiService = new OfferCurrentParkingApiService(5);
+        NotOfferCurrentParkingApiService notOfferCurrentParkingApiService = new NotOfferCurrentParkingApiService(
+                5);
+        parkingService.saveAll(offerCurrentParkingApiService.read());
         int readSize = 10;
         notOfferCurrentParkingApiService.setReadSize(readSize);
 
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(offerCurrentParkingApiService, notOfferCurrentParkingApiService),
                 coordinateService,
-                parkingRepository
+                parkingService
         );
 
         //when
         scheduler.autoUpdateOfferCurrentParking();
 
         //then
-        Assertions.assertThat(parkingRepository.count()).isEqualTo(5);
+        Assertions.assertThat(parkingService.count()).isEqualTo(5);
     }
 
     @DisplayName("특정 API에서 예외 발생시, 해당 API는 log를 남기고 무시한다.")
@@ -93,15 +91,15 @@ class ParkingUpdateSchedulerTest {
     void autoUpdateWithExceptionApi() {
         //given
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
-                List.of(offerCurrentParkingApiService, exceptionParkingApiService),
+                List.of(new OfferCurrentParkingApiService(5), new ExceptionParkingApiService()),
                 coordinateService,
-                parkingRepository
+                parkingService
         );
 
         //when
         scheduler.autoUpdateOfferCurrentParking();
 
         //then
-        Assertions.assertThat(parkingRepository.count()).isEqualTo(5);
+        Assertions.assertThat(parkingService.count()).isEqualTo(5);
     }
 }
