@@ -2,6 +2,7 @@ package com.example.parking.domain.searchcondition;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.parking.infra.converter.FeeTypeConverter;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;

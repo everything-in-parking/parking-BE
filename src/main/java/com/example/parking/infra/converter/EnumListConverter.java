@@ -1,4 +1,4 @@
-package com.example.parking.domain.searchcondition;
+package com.example.parking.infra.converter;
 
 import jakarta.persistence.AttributeConverter;
 import java.util.Arrays;

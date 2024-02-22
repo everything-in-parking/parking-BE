@@ -1,4 +1,4 @@
-package com.example.parking.domain.searchcondition;
+package com.example.parking.infra.converter;
 
 import com.example.parking.domain.parking.PayType;
 import jakarta.persistence.Converter;
