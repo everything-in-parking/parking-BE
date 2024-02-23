@@ -1,4 +1,4 @@
-package com.example.parking.external.config;
+package com.example.parking.config;
 
 import com.example.parking.external.coordinate.CoordinateErrorHandler;
 import org.springframework.beans.factory.annotation.Qualifier;

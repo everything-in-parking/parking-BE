@@ -1,4 +1,4 @@
-package com.example.parking.external.config;
+package com.example.parking.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.client.RestTemplateBuilder;

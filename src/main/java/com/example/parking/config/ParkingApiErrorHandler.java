@@ -1,4 +1,4 @@
-package com.example.parking.external.config;
+package com.example.parking.config;
 
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
