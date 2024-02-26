@@ -49,7 +49,7 @@ public class MemberService {
 
     private Member findMemberByEmail(String email) {
         return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new MemberLoginException("회원가입되지 않은 유저아이디입니다."));
+                .orElseThrow(() -> new MemberLoginException("회원가입되지 않은 유저입니다."));
     }
 
     private void validatePassword(Member member, String password) {
