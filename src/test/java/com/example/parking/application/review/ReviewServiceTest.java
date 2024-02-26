@@ -12,10 +12,7 @@ import com.example.parking.fake.BasicParkingRepository;
 import com.example.parking.fake.BasicReviewRepository;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 class ReviewServiceTest {
 
     private final BasicParkingRepository parkingRepository = new BasicParkingRepository();
