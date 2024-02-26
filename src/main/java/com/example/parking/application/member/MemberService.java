@@ -1,7 +1,6 @@
 package com.example.parking.application.member;
 
 import com.example.parking.application.member.dto.MemberLoginRequest;
-import com.example.parking.application.member.dto.MemberNotFoundException;
 import com.example.parking.application.member.dto.MemberSignupRequest;
 import com.example.parking.application.member.dto.PasswordChangeRequest;
 import com.example.parking.application.member.exception.MemberLoginException;
@@ -60,14 +59,9 @@ public class MemberService {
 
     @Transactional
     public void changePassword(Long memberId, PasswordChangeRequest dto) {
-        Member member = findMemberById(memberId);
+        Member member = memberRepository.getById(memberId);
         String previousPassword = dto.getPreviousPassword();
         String newPassword = dto.getNewPassword();
         member.changePassword(previousPassword, newPassword);
-    }
-
-    private Member findMemberById(Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException("회원가입되지 않은 유저아이디입니다."));
     }
 }

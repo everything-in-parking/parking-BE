@@ -65,6 +65,6 @@ class MemberServiceTest {
         // when, then
         Assertions.assertThatThrownBy(() -> memberService.changePassword(wrongMemberId, new PasswordChangeRequest(previousPassword, newPassword)))
                 .isInstanceOf(MemberNotFoundException.class)
-                .hasMessage("회원가입되지 않은 유저아이디입니다.");
+                .hasMessage("존재하지 않는 회원입니다.");
     }
 }
