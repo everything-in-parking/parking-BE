@@ -1,16 +1,21 @@
 package com.example.parking.fake;
 
-import com.example.parking.domain.member.Member;
-import com.example.parking.domain.parking.Parking;
+import com.example.parking.domain.common.Association;
 import com.example.parking.domain.review.Review;
 import com.example.parking.domain.review.ReviewRepository;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class BasicReviewRepository implements ReviewRepository, BasicRepository<Review, Long> {
 
     private static Long id = 1L;
     private final Map<Long, Review> store = new HashMap<>();
+
+    @Override
+    public Optional<Review> findById(Long id) {
+        return Optional.of(store.get(id));
+    }
 
     @Override
     public void save(Review review) {
@@ -19,8 +24,11 @@ public class BasicReviewRepository implements ReviewRepository, BasicRepository<
     }
 
     @Override
-    public boolean existsByParkingAndReviewer(Parking parking, Member reviewer) {
+    public boolean existsByParkingIdAndReviewerId(Association parkingId, Association reviewerId) {
         return store.values().stream()
-                .anyMatch(review -> review.getParking().equals(parking) && review.getReviewer().equals(reviewer));
+                .anyMatch(
+                        review -> review.getParkingId().equals(parkingId) &&
+                                review.getReviewerId().equals(reviewerId)
+                );
     }
 }

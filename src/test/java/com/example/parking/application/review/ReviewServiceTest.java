@@ -17,9 +17,7 @@ class ReviewServiceTest {
     private final BasicParkingRepository parkingRepository = new BasicParkingRepository();
     private final BasicMemberRepository memberRepository = new BasicMemberRepository();
     private final ReviewService reviewService = new ReviewService(
-            new BasicReviewRepository(),
-            parkingRepository,
-            memberRepository
+            new BasicReviewRepository()
     );
 
     @Test
