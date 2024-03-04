@@ -17,7 +17,6 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -41,7 +40,6 @@ public class Review {
     @Convert(converter = ContentConverter.class)
     private List<Content> contents;
 
-    @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
@@ -50,6 +48,7 @@ public class Review {
         this.parkingId = parkingId;
         this.reviewerId = reviewerId;
         this.contents = contents;
+        this.createdAt = LocalDateTime.now();
     }
 
     private static void validate(List<Content> contents) {
