@@ -4,6 +4,7 @@ import com.example.parking.domain.common.Association;
 import com.example.parking.domain.review.Review;
 import com.example.parking.domain.review.ReviewRepository;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,6 +16,13 @@ public class BasicReviewRepository implements ReviewRepository, BasicRepository<
     @Override
     public Optional<Review> findById(Long id) {
         return Optional.of(store.get(id));
+    }
+
+    @Override
+    public List<Review> findAllByParkingId(Association parkingId) {
+        return store.values().stream()
+                .filter(review -> review.getParkingId().equals(parkingId))
+                .toList();
     }
 
     @Override
