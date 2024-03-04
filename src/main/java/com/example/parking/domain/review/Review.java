@@ -1,10 +1,12 @@
 package com.example.parking.domain.review;
 
+import com.example.parking.infra.converter.ContentConverter;
 import com.example.parking.support.Association;
 import com.example.parking.domain.member.Member;
 import com.example.parking.domain.parking.Parking;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +25,7 @@ import org.springframework.data.annotation.CreatedDate;
 public class Review {
 
     private static final int MAX_CONTENTS_SIZE = 3;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +38,7 @@ public class Review {
     @AttributeOverride(name = "id", column = @Column(name = "reviewer_id"))
     private Association<Member> reviewerId;
 
+    @Convert(converter = ContentConverter.class)
     private List<Content> contents;
 
     @CreatedDate

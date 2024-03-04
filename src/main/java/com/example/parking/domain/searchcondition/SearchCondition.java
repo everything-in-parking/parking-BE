@@ -4,6 +4,11 @@ import com.example.parking.domain.member.Member;
 import com.example.parking.domain.parking.OperationType;
 import com.example.parking.domain.parking.ParkingType;
 import com.example.parking.domain.parking.PayType;
+import com.example.parking.infra.converter.FeeTypeConverter;
+import com.example.parking.infra.converter.OperationTypeConverter;
+import com.example.parking.infra.converter.ParkingTypeConverter;
+import com.example.parking.infra.converter.PayTypeConverter;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -32,9 +37,16 @@ public class SearchCondition {
         @JoinColumn
         private Member member;
 
+        @Convert(converter = OperationTypeConverter.class)
         private List<OperationType> operationTypes;
+
+        @Convert(converter = ParkingTypeConverter.class)
         private List<ParkingType> parkingTypes;
+
+        @Convert(converter = FeeTypeConverter.class)
         private List<FeeType> feeTypes;
+
+        @Convert(converter = PayTypeConverter.class)
         private List<PayType> payTypes;
 
         @Enumerated(EnumType.STRING)
