@@ -1,6 +1,6 @@
 package com.example.parking.fake;
 
-import com.example.parking.domain.common.Association;
+import com.example.parking.support.Association;
 import com.example.parking.domain.review.Review;
 import com.example.parking.domain.review.ReviewRepository;
 import java.util.HashMap;

@@ -3,7 +3,7 @@ package com.example.parking.application.review;
 import com.example.parking.application.review.dto.ReviewCountResponse;
 import com.example.parking.application.review.dto.ReviewCreateRequest;
 import com.example.parking.application.review.dto.ReviewInfoResponse;
-import com.example.parking.domain.common.Association;
+import com.example.parking.support.Association;
 import com.example.parking.domain.review.Content;
 import com.example.parking.domain.review.Review;
 import com.example.parking.domain.review.ReviewRepository;

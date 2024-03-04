@@ -1,6 +1,6 @@
 package com.example.parking.domain.review;
 
-import com.example.parking.domain.common.Association;
+import com.example.parking.support.Association;
 import com.example.parking.domain.member.Member;
 import com.example.parking.domain.parking.Parking;
 import jakarta.persistence.AttributeOverride;

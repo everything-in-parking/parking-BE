@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import com.example.parking.domain.common.Association;
+import com.example.parking.support.Association;
 import com.example.parking.domain.member.Member;
 import com.example.parking.domain.parking.Parking;
 import com.example.parking.domain.review.Content;

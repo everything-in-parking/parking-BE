@@ -1,4 +1,4 @@
-package com.example.parking.domain.common;
+package com.example.parking.support;
 
 import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;

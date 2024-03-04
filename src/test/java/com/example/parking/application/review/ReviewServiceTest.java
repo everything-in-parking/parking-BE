@@ -6,7 +6,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import com.example.parking.application.review.dto.ReviewCreateRequest;
 import com.example.parking.application.review.dto.ReviewInfoResponse;
-import com.example.parking.domain.common.Association;
+import com.example.parking.support.Association;
 import com.example.parking.domain.member.Member;
 import com.example.parking.domain.parking.Parking;
 import com.example.parking.domain.review.Content;
