@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.example.parking.application.review.dto.ReviewCreateRequest;
 import com.example.parking.domain.member.Member;
 import com.example.parking.domain.parking.Parking;
-import com.example.parking.domain.review.PrivateImageStorage;
 import com.example.parking.fake.BasicMemberRepository;
 import com.example.parking.fake.BasicParkingRepository;
 import com.example.parking.fake.BasicReviewRepository;
@@ -20,8 +19,7 @@ class ReviewServiceTest {
     private final ReviewService reviewService = new ReviewService(
             new BasicReviewRepository(),
             parkingRepository,
-            memberRepository,
-            new PrivateImageStorage(null)
+            memberRepository
     );
 
     @Test
@@ -29,7 +27,7 @@ class ReviewServiceTest {
         //given
         Parking parking = parkingRepository.saveAndGet(1).get(0);
         Member reviewer = memberRepository.saveAndGet(1).get(0);
-        ReviewCreateRequest request = new ReviewCreateRequest(List.of("주차 자리가 많아요", "결제가 편리해요"), null);
+        ReviewCreateRequest request = new ReviewCreateRequest(List.of("주차 자리가 많아요", "결제가 편리해요"));
 
         //when
         Long reviewId = reviewService.createReview(parking.getId(), reviewer.getId(), request);
@@ -43,7 +41,7 @@ class ReviewServiceTest {
         //given
         Parking parking = parkingRepository.saveAndGet(1).get(0);
         Member reviewer = memberRepository.saveAndGet(1).get(0);
-        ReviewCreateRequest request = new ReviewCreateRequest(List.of("주차 자리가 많아요", "결제가 편리해요"), null);
+        ReviewCreateRequest request = new ReviewCreateRequest(List.of("주차 자리가 많아요", "결제가 편리해요"));
         reviewService.createReview(parking.getId(), reviewer.getId(), request);
 
         //when, then
