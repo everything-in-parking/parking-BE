@@ -1,6 +1,6 @@
-package com.example.parking.external.config;
+package com.example.parking.config;
 
-import com.example.parking.external.config.argumentresolver.AuthArgumentResolver;
+import com.example.parking.config.argumentresolver.AuthArgumentResolver;
 import com.example.parking.external.config.interceptor.AuthInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

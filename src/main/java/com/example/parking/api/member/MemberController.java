@@ -5,7 +5,7 @@ import com.example.parking.application.member.dto.MemberLoginRequest;
 import com.example.parking.application.member.dto.MemberSignupRequest;
 import com.example.parking.application.member.dto.PasswordChangeRequest;
 import com.example.parking.auth.AuthService;
-import com.example.parking.external.config.argumentresolver.MemberAuth;
+import com.example.parking.config.argumentresolver.MemberAuth;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
