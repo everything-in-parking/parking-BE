@@ -64,6 +64,3 @@ replay_pid*
 # properties
 application.properties
 application-dev.properties
-
-src/main/resources/static/images
-src/test/resources/static/images
