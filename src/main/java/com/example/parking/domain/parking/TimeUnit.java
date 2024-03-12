@@ -40,4 +40,8 @@ public class TimeUnit {
         }
         return (minutes - 1) / timeUnit + 1;
     }
+
+    public boolean isValidTimeUnit() {
+        return !NO_INFO.equals(this);
+    }
 }

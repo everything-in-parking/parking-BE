@@ -61,6 +61,4 @@ out/
 hs_err_pid*
 replay_pid*
 
-# properties
-application.properties
-application-dev.properties
+application-dev.yml

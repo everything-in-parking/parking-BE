@@ -1,0 +1,8 @@
+kakao:
+  key: test
+seoul-public-parking-key: test
+pusan-public-parking-key: test
+
+#file
+file:
+  dir: src/test/resources/static/images/

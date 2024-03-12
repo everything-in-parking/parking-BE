@@ -1,4 +1,4 @@
-package com.example.parking.config.argumentresolver;
+package com.example.parking.external.config.argumentresolver;
 
 import com.example.parking.auth.AuthService;
 import com.example.parking.auth.MemberSession;
@@ -24,7 +24,8 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         String sessionId = webRequest.getHeader(JSESSIONID);
         MemberSession session = authService.findSession(sessionId);
         return session.getMemberId();

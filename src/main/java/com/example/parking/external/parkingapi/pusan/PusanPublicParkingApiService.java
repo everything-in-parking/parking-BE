@@ -32,7 +32,7 @@ public class PusanPublicParkingApiService implements ParkingApiService {
     }
 
     @Override
-    public List<Parking> read() {
+    public List<Parking> read() throws Exception {
         PusanPublicParkingResponse response = call(1, SIZE);
         return adapter.convert(response);
     }

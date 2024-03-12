@@ -9,5 +9,5 @@ public interface ParkingApiService {
         return false;
     }
 
-    List<Parking> read();
+    List<Parking> read() throws Exception;
 }

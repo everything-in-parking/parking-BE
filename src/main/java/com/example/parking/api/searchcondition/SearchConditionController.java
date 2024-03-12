@@ -2,7 +2,7 @@ package com.example.parking.api.searchcondition;
 
 import com.example.parking.application.searchcondition.SearchConditionService;
 import com.example.parking.application.searchcondition.dto.SearchConditionDto;
-import com.example.parking.config.argumentresolver.MemberAuth;
+import com.example.parking.external.config.argumentresolver.MemberAuth;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

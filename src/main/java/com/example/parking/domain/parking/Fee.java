@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Fee {
 
     public static final Fee ZERO = new Fee(0);
-    private static final Fee NO_INFO = new Fee(-1);
+    public static final Fee NO_INFO = new Fee(-1);
 
     private Integer fee;
 
@@ -46,5 +46,9 @@ public class Fee {
             return fee;
         }
         return otherFee;
+    }
+
+    public boolean isValidFee() {
+        return !NO_INFO.equals(this);
     }
 }

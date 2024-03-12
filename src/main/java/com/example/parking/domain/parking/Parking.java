@@ -49,13 +49,16 @@ public class Parking extends AuditingEntity {
         this.feePolicy = feePolicy;
     }
 
-    public Fee calculateParkingFee(List<DayParking> dayParkings) {
-        return dayParkings.stream()
-//                .filter(freePolicy::isNotFreeDay)
-                .map(DayParking::getMinutes)
-                .map(minutes -> feePolicy.calculateFee(minutes))
-                .reduce(Fee::plus)
-                .orElse(Fee.ZERO);
+    public int calculatePayOfChargeMinutes(DayParking dayParking) {
+        return freeOperatingTime.calculateNonFreeUsageMinutes(dayParking);
+    }
+
+    public Fee calculateParkingFee(int payOfChargeMinutes) {
+        return feePolicy.calculateFee(payOfChargeMinutes);
+    }
+
+    public boolean supportCalculateParkingFee() {
+        return feePolicy.supportBase() && feePolicy.supportExtra();
     }
 
     public void update(Parking updated) {

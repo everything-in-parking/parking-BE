@@ -1,8 +1,8 @@
 package com.example.parking.external.scheduler;
 
+import com.example.parking.application.parking.ParkingService;
 import com.example.parking.domain.parking.Location;
 import com.example.parking.domain.parking.Parking;
-import com.example.parking.domain.parking.ParkingRepository;
 import com.example.parking.external.coordinate.CoordinateService;
 import com.example.parking.external.parkingapi.ParkingApiService;
 import java.util.Collection;
@@ -13,29 +13,22 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@Transactional(readOnly = true)
-@Service
+@RequiredArgsConstructor
+@Component
 public class ParkingUpdateScheduler {
 
     private final List<ParkingApiService> parkingApiServices;
     private final CoordinateService coordinateService;
-    private final ParkingRepository parkingRepository;
+    private final ParkingService parkingService;
 
-    public ParkingUpdateScheduler(List<ParkingApiService> parkingApiServices, CoordinateService coordinateService,
-                                  ParkingRepository parkingRepository) {
-        this.parkingApiServices = parkingApiServices;
-        this.coordinateService = coordinateService;
-        this.parkingRepository = parkingRepository;
-    }
-
-    @Transactional
     @Scheduled(fixedRate = 30, timeUnit = TimeUnit.MINUTES)
     public void autoUpdateOfferCurrentParking() {
         Map<String, Parking> parkingLots = readBy(ParkingApiService::offerCurrentParking);
@@ -49,17 +42,7 @@ public class ParkingUpdateScheduler {
                 .filter(currentParkingAvailable)
                 .map(this::read)
                 .flatMap(Collection::stream)
-                .collect(Collectors.toMap(
-                        parking -> parking.getBaseInformation().getName(),
-                        Function.identity(),
-                        (existing, replacement) -> existing
-                ));
-    }
-
-    private Map<String, Parking> findAllByName(Set<String> names) {
-        return parkingRepository.findAllByBaseInformationNameIn(names)
-                .stream()
-                .collect(Collectors.toMap(parking -> parking.getBaseInformation().getName(), Function.identity()));
+                .collect(toParkingMap());
     }
 
     private List<Parking> read(ParkingApiService parkingApiService) {
@@ -69,6 +52,20 @@ public class ParkingUpdateScheduler {
             log.warn("Error while converting {} to Parking {}", parkingApiService.getClass(), e.getMessage());
             return Collections.emptyList();
         }
+    }
+
+    private Collector<Parking, ?, Map<String, Parking>> toParkingMap() {
+        return Collectors.toMap(
+                parking -> parking.getBaseInformation().getName(),
+                Function.identity(),
+                (existing, replacement) -> existing
+        );
+    }
+
+    private Map<String, Parking> findAllByName(Set<String> names) {
+        return parkingService.getParkingLots(names)
+                .stream()
+                .collect(toParkingMap());
     }
 
     private void updateSavedParkingLots(Map<String, Parking> parkingLots, Map<String, Parking> saved) {
@@ -86,7 +83,7 @@ public class ParkingUpdateScheduler {
                 .map(parkingLots::get)
                 .toList();
         updateLocation(newParkingLots);
-        parkingRepository.saveAll(newParkingLots);
+        parkingService.saveAll(newParkingLots);
     }
 
     private void updateLocation(List<Parking> newParkingLots) {
@@ -97,7 +94,6 @@ public class ParkingUpdateScheduler {
         }
     }
 
-    @Transactional
     @Scheduled(fixedRate = 30, timeUnit = TimeUnit.DAYS)
     public void autoUpdateNotOfferCurrentParking() {
         Map<String, Parking> parkingLots = readBy(parkingApiService -> !parkingApiService.offerCurrentParking());

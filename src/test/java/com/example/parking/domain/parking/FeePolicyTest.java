@@ -60,6 +60,26 @@ class FeePolicyTest {
                                 Fee.from(10000)),
                         46,
                         Fee.from(7000)
+                ),
+                Arguments.of(
+                        new FeePolicy(
+                                Fee.from(2000),
+                                Fee.from(2000),
+                                TimeUnit.from(30),
+                                TimeUnit.from(15),
+                                Fee.from(55000)),
+                        180,
+                        Fee.from(22000)
+                ),
+                Arguments.of(
+                        new FeePolicy(
+                                Fee.from(2000),
+                                Fee.from(2000),
+                                TimeUnit.from(30),
+                                TimeUnit.from(15),
+                                Fee.from(55000)),
+                        0,
+                        Fee.from(0)
                 )
         );
     }

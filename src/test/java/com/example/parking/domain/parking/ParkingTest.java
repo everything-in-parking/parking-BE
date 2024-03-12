@@ -1,159 +1,156 @@
-//package com.example.parking.domain.parking;
-//
-//import org.assertj.core.api.Assertions;
-//import org.junit.jupiter.params.ParameterizedTest;
-//import org.junit.jupiter.params.provider.Arguments;
-//import org.junit.jupiter.params.provider.MethodSource;
-//
-//import java.util.List;
-//import java.util.stream.Stream;
-//
-//class ParkingTest {
-//
-//    @ParameterizedTest
-//    @MethodSource("getParking")
-//    void 주어진_주차장_정보에_따라_요금_계산을_한다(Parking parking, List<DayParking> dayParkings, Fee expected) {
-//        // given, when
-//        Fee actual = parking.calculateParkingFee(dayParkings);
-//
-//        // then
-//        Assertions.assertThat(actual).isEqualTo(expected);
-//    }
-//
-//    static Stream<Arguments> getParking() {
-//        return Stream.of(
-//                Arguments.of(
-//                        new Parking
-//                                (
-//                                        new BaseInformation(),
-//                                        Type.ON_STREET,
-//                                        new Location(),
-//                                        new Space(),
-//                                        new OperatingTime(),
-//                                        new FeePolicy(
-//                                                Fee.from(2000),
-//                                                Fee.from(2000),
-//                                                TimeUnit.from(15),
-//                                                TimeUnit.from(15),
-//                                                Fee.from(10000)),
-//                                        new FreePolicy(true, true, true)
-//                                ),
-//                        List.of(
-//                                new DayParking(15, Day.WEEKDAY),
-//                                new DayParking(240, Day.SATURDAY)
-//                        ),
-//                        Fee.ZERO
-//                ),
-//                Arguments.of(
-//                        new Parking
-//                                (
-//                                        new BaseInformation(),
-//                                        Type.ON_STREET,
-//                                        new Location(),
-//                                        new Space(),
-//                                        new OperatingTime(),
-//                                        new FeePolicy(
-//                                                Fee.from(2000),
-//                                                Fee.from(2000),
-//                                                TimeUnit.from(15),
-//                                                TimeUnit.from(15),
-//                                                Fee.from(10000)),
-//                                        new FreePolicy(false, false, true)
-//                                ),
-//                        List.of(
-//                                new DayParking(15, Day.WEEKDAY),
-//                                new DayParking(240, Day.SATURDAY)
-//                        ),
-//                        Fee.from(2000 + 10000)
-//                ),
-//                Arguments.of(
-//                        new Parking
-//                                (
-//                                        new BaseInformation(),
-//                                        Type.ON_STREET,
-//                                        new Location(),
-//                                        new Space(),
-//                                        new OperatingTime(),
-//                                        new FeePolicy(
-//                                                Fee.from(2000),
-//                                                Fee.from(2000),
-//                                                TimeUnit.from(15),
-//                                                TimeUnit.from(15),
-//                                                Fee.from(200000)),
-//                                        new FreePolicy(false, false, true)
-//                                ),
-//                        List.of(
-//                                new DayParking(15, Day.WEEKDAY),
-//                                new DayParking(240, Day.SATURDAY)
-//                        ),
-//                        Fee.from(2000 + 32000)
-//                ),
-//                Arguments.of(
-//                        new Parking
-//                                (
-//                                        new BaseInformation(),
-//                                        Type.ON_STREET,
-//                                        new Location(),
-//                                        new Space(),
-//                                        new OperatingTime(),
-//                                        new FeePolicy(
-//                                                Fee.from(2000),
-//                                                Fee.from(2000),
-//                                                TimeUnit.from(15),
-//                                                TimeUnit.from(15),
-//                                                Fee.from(200000)),
-//                                        new FreePolicy(false, false, true)
-//                                ),
-//                        List.of(
-//                                new DayParking(15, Day.WEEKDAY),
-//                                new DayParking(241, Day.SATURDAY)
-//                        ),
-//                        Fee.from(2000 + 34000)
-//                ),
-//                Arguments.of(
-//                        new Parking
-//                                (
-//                                        new BaseInformation(),
-//                                        Type.ON_STREET,
-//                                        new Location(),
-//                                        new Space(),
-//                                        new OperatingTime(),
-//                                        new FeePolicy(
-//                                                Fee.from(2000),
-//                                                Fee.from(2000),
-//                                                TimeUnit.from(15),
-//                                                TimeUnit.from(15),
-//                                                Fee.from(200000)),
-//                                        new FreePolicy(false, false, true)
-//                                ),
-//                        List.of(
-//                                new DayParking(15, Day.WEEKDAY),
-//                                new DayParking(241, Day.SATURDAY),
-//                                new DayParking(240, Day.HOLIDAY)
-//                        ),
-//                        Fee.from(2000 + 34000)
-//                ),
-//                Arguments.of(
-//                        new Parking
-//                                (
-//                                        new BaseInformation(),
-//                                        Type.ON_STREET,
-//                                        new Location(),
-//                                        new Space(),
-//                                        new OperatingTime(),
-//                                        new FeePolicy(
-//                                                Fee.from(2000),
-//                                                Fee.from(3000),
-//                                                TimeUnit.from(15),
-//                                                TimeUnit.from(15),
-//                                                Fee.from(200000)),
-//                                        new FreePolicy(false, false, true)
-//                                ),
-//                        List.of(
-//                                new DayParking(181, Day.WEEKDAY)
-//                        ),
-//                        Fee.from(2000 + 36000)
-//                )
-//        );
-//    }
-//}
+package com.example.parking.domain.parking;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
+class ParkingTest {
+
+    @ParameterizedTest
+    @MethodSource("getParking")
+    void 주어진_주차장_정보에_따라_하루_요금_계산을_한다(Parking parking, int payOfChargeMinutes, Fee expected) {
+        // given, when
+        Fee actual = parking.calculateParkingFee(payOfChargeMinutes);
+
+        // then
+        Assertions.assertThat(actual).isEqualTo(expected);
+    }
+
+    static Stream<Arguments> getParking() {
+        return Stream.of(
+                /*
+                                기본 주차 요금 정책 : 30분당 2000원
+                                추가 주차 요금 정책 : 15분당 2000원
+                                하루 최대 주차 요금 : 50000원
+
+                                주차 시간 : 100분
+                                주차 금액 : 2000원 + 10000원 = 12000원
+                         */
+                Arguments.of(
+                        new Parking
+                                (
+                                        new BaseInformation(),
+                                        new Location(),
+                                        new Space(),
+                                        new FreeOperatingTime(),
+                                        new OperatingTime(),
+                                        new FeePolicy(
+                                                Fee.from(2000),
+                                                Fee.from(2000),
+                                                TimeUnit.from(30),
+                                                TimeUnit.from(15),
+                                                Fee.from(50000))
+                                ),
+                        100,
+                        Fee.from(12000)
+                ),
+                 /*
+                                기본 주차 요금 정책 : 30분당 2000원
+                                추가 주차 요금 정책 : 15분당 2000원
+                                하루 최대 주차 요금 : 50000원
+
+                                주차 시간 : 30분
+                                주차 금액 : 2000원
+                         */
+                Arguments.of(
+                        new Parking
+                                (
+                                        new BaseInformation(),
+                                        new Location(),
+                                        new Space(),
+                                        new FreeOperatingTime(),
+                                        new OperatingTime(),
+                                        new FeePolicy(
+                                                Fee.from(2000),
+                                                Fee.from(2000),
+                                                TimeUnit.from(30),
+                                                TimeUnit.from(15),
+                                                Fee.from(50000))
+                                ),
+                        30,
+                        Fee.from(2000)
+                ),
+                /*
+                                기본 주차 요금 정책 : 30분당 2000원
+                                추가 주차 요금 정책 : 15분당 2000원
+                                하루 최대 주차 요금 : 50000원
+
+                                주차 시간 : 31분
+                                주차 금액 : 2000 + 2000원 = 4000원
+                         */
+                Arguments.of(
+                        new Parking
+                                (
+                                        new BaseInformation(),
+                                        new Location(),
+                                        new Space(),
+                                        new FreeOperatingTime(),
+                                        new OperatingTime(),
+                                        new FeePolicy(
+                                                Fee.from(2000),
+                                                Fee.from(2000),
+                                                TimeUnit.from(30),
+                                                TimeUnit.from(15),
+                                                Fee.from(50000))
+                                ),
+                        31,
+                        Fee.from(4000)
+                ),
+                /*
+                                기본 주차 요금 정책 : 30분당 2000원
+                                추가 주차 요금 정책 : 15분당 2000원
+                                하루 최대 주차 요금 : 50000원
+
+                                주차 시간 : 480분
+                                주차 금액 : 2000 + 60000원 = 62000원 -> 하루 최대 요금 50000원 적용
+                         */
+                Arguments.of(
+                        new Parking
+                                (
+                                        new BaseInformation(),
+                                        new Location(),
+                                        new Space(),
+                                        new FreeOperatingTime(),
+                                        new OperatingTime(),
+                                        new FeePolicy(
+                                                Fee.from(2000),
+                                                Fee.from(2000),
+                                                TimeUnit.from(30),
+                                                TimeUnit.from(15),
+                                                Fee.from(50000))
+                                ),
+                        480,
+                        Fee.from(50000)
+                ),
+                /*
+                                기본 주차 요금 정책 : 30분당 2000원
+                                추가 주차 요금 정책 : 15분당 2000원
+                                하루 최대 주차 요금 : 50000원
+
+                                주차 시간 : 374분
+                                주차 금액 : 2000 + 46000원 = 48000원
+                         */
+                Arguments.of(
+                        new Parking
+                                (
+                                        new BaseInformation(),
+                                        new Location(),
+                                        new Space(),
+                                        new FreeOperatingTime(),
+                                        new OperatingTime(),
+                                        new FeePolicy(
+                                                Fee.from(2000),
+                                                Fee.from(2000),
+                                                TimeUnit.from(30),
+                                                TimeUnit.from(15),
+                                                Fee.from(50000))
+                                ),
+                        374,
+                        Fee.from(48000)
+                )
+        );
+    }
+}
