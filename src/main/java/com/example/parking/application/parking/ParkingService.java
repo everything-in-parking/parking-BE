@@ -23,4 +23,5 @@ public class ParkingService {
     public Set<Parking> getParkingLots(Set<String> parkingNames) {
         return parkingRepository.findAllByBaseInformationNameIn(parkingNames);
     }
+    
 }
