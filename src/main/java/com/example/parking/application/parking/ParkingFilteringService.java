@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class ParkingApplicationService {
+public class ParkingFilteringService {
 
     private final ParkingFeeCalculator parkingFeeCalculator;
 

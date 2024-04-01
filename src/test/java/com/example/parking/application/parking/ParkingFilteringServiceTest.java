@@ -20,9 +20,9 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class ParkingApplicationServiceTest {
+class ParkingFilteringServiceTest {
 
-    private final ParkingApplicationService parkingApplicationService = new ParkingApplicationService(
+    private final ParkingFilteringService parkingFilteringService = new ParkingFilteringService(
             new ParkingFeeCalculator());
 
     @Test
@@ -60,7 +60,7 @@ class ParkingApplicationServiceTest {
                 List.of(wantPayType),
                 FeeType.PAID, 3);
 
-        List<Parking> filterList = parkingApplicationService.filterByCondition(
+        List<Parking> filterList = parkingFilteringService.filterByCondition(
                 List.of(wantParking, notWantParking1, notWantParking2),
                 searchingCondition,
                 LocalDateTime.now()
@@ -105,7 +105,7 @@ class ParkingApplicationServiceTest {
                 List.of(wantPayType),
                 FeeType.PAID, 3);
 
-        List<Parking> result = parkingApplicationService.filterByCondition(
+        List<Parking> result = parkingFilteringService.filterByCondition(
                 List.of(wantParking, notWantParking1, notWantParking2),
                 searchingCondition,
                 LocalDateTime.now()
@@ -150,7 +150,7 @@ class ParkingApplicationServiceTest {
         // when - 검색조건이 Free 인 filterCondition 으로 주차장 필터링
         SearchingCondition searchingCondition = new SearchingCondition(List.of(operationType), List.of(parkingType),
                 List.of(PayType.CARD), FeeType.FREE, 3);
-        List<Parking> filteredParkings = parkingApplicationService.filterByCondition(
+        List<Parking> filteredParkings = parkingFilteringService.filterByCondition(
                 List.of(freeParking1, freeParking2, paidParking),
                 searchingCondition,
                 LocalDateTime.now()

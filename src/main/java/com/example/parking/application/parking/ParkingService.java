@@ -34,7 +34,7 @@ public class ParkingService {
     private static final String DISTANCE_ORDER_CONDITION = "가까운 순";
 
     private final ParkingRepository parkingRepository;
-    private final ParkingApplicationService parkingApplicationService;
+    private final ParkingFilteringService parkingFilteringService;
     private final FavoriteRepository favoriteRepository;
     private final SearchConditionMapper searchConditionMapper;
     private final ParkingFeeCalculator parkingFeeCalculator;
@@ -53,7 +53,7 @@ public class ParkingService {
 
         // 조회조건 기반 필터링
         SearchingCondition searchingCondition = toSearchingCondition(parkingSearchConditionRequest);
-        List<Parking> filteredParkingLots = parkingApplicationService.filterByCondition(parkingLots, searchingCondition,
+        List<Parking> filteredParkingLots = parkingFilteringService.filterByCondition(parkingLots, searchingCondition,
                 now);
 
         // 응답 dto 변환
