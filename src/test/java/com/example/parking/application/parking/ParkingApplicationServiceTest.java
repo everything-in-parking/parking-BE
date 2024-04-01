@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.example.parking.domain.parking.BaseInformation;
 import com.example.parking.domain.parking.Fee;
 import com.example.parking.domain.parking.FeePolicy;
-import com.example.parking.domain.parking.FilterCondition;
 import com.example.parking.domain.parking.FreeOperatingTime;
 import com.example.parking.domain.parking.OperationType;
 import com.example.parking.domain.parking.Parking;
@@ -13,6 +12,7 @@ import com.example.parking.domain.parking.ParkingFeeCalculator;
 import com.example.parking.domain.parking.ParkingType;
 import com.example.parking.domain.parking.PayType;
 import com.example.parking.domain.parking.PayTypes;
+import com.example.parking.domain.parking.SearchingCondition;
 import com.example.parking.domain.parking.TimeUnit;
 import com.example.parking.domain.searchcondition.FeeType;
 import java.time.LocalDateTime;
@@ -54,16 +54,15 @@ class ParkingApplicationServiceTest {
                 .build();
 
         // when
-        FilterCondition filterCondition = new FilterCondition(
+        SearchingCondition searchingCondition = new SearchingCondition(
                 List.of(operationTypeCondition),
                 List.of(parkingTypeCondition),
                 List.of(wantPayType),
-                FeeType.PAID);
+                FeeType.PAID, 3);
 
         List<Parking> filterList = parkingApplicationService.filterByCondition(
                 List.of(wantParking, notWantParking1, notWantParking2),
-                filterCondition,
-                3,
+                searchingCondition,
                 LocalDateTime.now()
         );
 
@@ -100,16 +99,15 @@ class ParkingApplicationServiceTest {
                 .build();
 
         // when
-        FilterCondition filterCondition = new FilterCondition(
+        SearchingCondition searchingCondition = new SearchingCondition(
                 List.of(wantOperationTypeCondition),
                 List.of(wantParkingTypeCondition),
                 List.of(wantPayType),
-                FeeType.PAID);
+                FeeType.PAID, 3);
 
         List<Parking> result = parkingApplicationService.filterByCondition(
                 List.of(wantParking, notWantParking1, notWantParking2),
-                filterCondition,
-                3,
+                searchingCondition,
                 LocalDateTime.now()
         );
 
@@ -150,12 +148,11 @@ class ParkingApplicationServiceTest {
                 .build();
 
         // when - 검색조건이 Free 인 filterCondition 으로 주차장 필터링
-        FilterCondition filterCondition = new FilterCondition(List.of(operationType), List.of(parkingType),
-                List.of(PayType.CARD), FeeType.FREE);
+        SearchingCondition searchingCondition = new SearchingCondition(List.of(operationType), List.of(parkingType),
+                List.of(PayType.CARD), FeeType.FREE, 3);
         List<Parking> filteredParkings = parkingApplicationService.filterByCondition(
                 List.of(freeParking1, freeParking2, paidParking),
-                filterCondition,
-                3,
+                searchingCondition,
                 LocalDateTime.now()
         );
 

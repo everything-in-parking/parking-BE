@@ -11,7 +11,7 @@ public class FakeParkingService extends ParkingService {
 
     public FakeParkingService(BasicParkingRepository repository) {
         super(repository, new ParkingApplicationService(new ParkingFeeCalculator()),
-                new FakeFavoriteRepository(), new SearchConditionMapper());
+                new FakeFavoriteRepository(), new SearchConditionMapper(), new ParkingFeeCalculator());
         this.repository = repository;
     }
 
