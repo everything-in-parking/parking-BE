@@ -42,8 +42,8 @@ public class ParkingService {
     @Transactional(readOnly = true)
     public ParkingLotsResponse findParkingLots(ParkingQueryRequest parkingQueryRequest,
                                                ParkingSearchConditionRequest parkingSearchConditionRequest,
-                                               Long memberId,
-                                               LocalDateTime now) {
+                                               Long memberId) {
+        LocalDateTime now = LocalDateTime.now();
         Location destination = Location.of(parkingQueryRequest.getLongitude(), parkingQueryRequest.getLatitude());
 
         // 반경 주차장 조회

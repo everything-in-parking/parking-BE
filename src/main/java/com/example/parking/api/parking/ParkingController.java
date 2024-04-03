@@ -10,7 +10,6 @@ import com.example.parking.config.argumentresolver.parking.ParkingSearchConditio
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +30,7 @@ public class ParkingController {
             @Parameter(hidden = true) @MemberAuth(nullable = true) Long parkingMemberId
     ) {
         ParkingLotsResponse parkingLots = parkingService.findParkingLots(parkingQueryRequest,
-                parkingSearchConditionRequest, parkingMemberId, LocalDateTime.now());
+                parkingSearchConditionRequest, parkingMemberId);
         return ResponseEntity.ok(parkingLots);
     }
 }
