@@ -46,7 +46,9 @@ class ParkingServiceTest extends ContainerTest {
         List<Parking> parkings = List.of(parking);
         parkingService.saveAll(parkings);
 
-        Member member = new Member("하디", "email", "동혁", new Password("qwer1234"));
+
+        Member member = new Member( "email", "하디", new Password("qwer1234"));
+
         memberRepository.save(member);
 
         ReviewCreateRequest reviewCreateRequest = new ReviewCreateRequest(

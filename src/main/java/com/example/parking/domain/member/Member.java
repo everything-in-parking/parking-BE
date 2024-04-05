@@ -19,8 +19,6 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
     @Column(unique = true)
     private String email;
 
@@ -31,8 +29,7 @@ public class Member {
 
     private Boolean deleted = Boolean.FALSE;
 
-    public Member(String name, String email, String nickname, Password password) {
-        this.name = name;
+    public Member(String email, String nickname, Password password) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;

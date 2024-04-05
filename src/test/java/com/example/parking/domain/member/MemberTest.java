@@ -13,7 +13,7 @@ class MemberTest {
         // given
         String plainPassword = "password";
         Password password = new Password(plainPassword);
-        Member member = new Member("name", "email@google.com", "nickname", password);
+        Member member = new Member("email@google.com", "nickname", password);
 
         // when, then
         Assertions.assertThat(member.checkPassword(plainPassword)).isTrue();
@@ -24,7 +24,7 @@ class MemberTest {
         // given
         String plainPassword = "password";
         Password password = new Password(plainPassword);
-        Member member = new Member("name", "email@google.com", "nickname", password);
+        Member member = new Member("email@google.com", "nickname", password);
         String wrongPlainPassword = "wrongPassword";
 
         // when, then
@@ -36,7 +36,7 @@ class MemberTest {
         // given
         String previousPassword = "password";
         Password password = new Password(previousPassword);
-        Member member = new Member("name", "email@google.com", "nickname", password);
+        Member member = new Member("email@google.com", "nickname", password);
         String newPassword = "newPassword";
 
         // when
@@ -51,7 +51,7 @@ class MemberTest {
         // given
         String previousPassword = "password";
         Password password = new Password(previousPassword);
-        Member member = new Member("name", "email@google.com", "nickname", password);
+        Member member = new Member("email@google.com", "nickname", password);
         String newPassword = "newPassword";
 
         String wrongPreviousPassword = "wrongPassword";
