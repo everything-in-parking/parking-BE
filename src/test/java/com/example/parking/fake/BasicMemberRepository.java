@@ -44,7 +44,6 @@ public class BasicMemberRepository implements MemberRepository, BasicRepository<
         LinkedList<Member> result = new LinkedList<>();
         for (int i = 0; i < size; i++) {
             Member member = new Member(
-                    "name" + i,
                     "testEmail" + i + "@email.com",
                     "nickname" + i,
                     new Password("password1234")

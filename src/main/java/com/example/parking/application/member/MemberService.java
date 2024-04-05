@@ -24,7 +24,6 @@ public class MemberService {
     @Transactional
     public Long signup(MemberSignupRequest dto) {
         Member member = new Member(
-                dto.getName(),
                 dto.getEmail(),
                 dto.getNickname(),
                 new Password(dto.getPassword()));
@@ -68,7 +67,7 @@ public class MemberService {
     public MemberInfoResponse findMemberInfo(Long memberId) {
         Member member = memberRepository.getById(memberId);
 
-        return new MemberInfoResponse(member.getName(), member.getEmail());
+        return new MemberInfoResponse(member.getNickname(), member.getEmail());
     }
 
     @Transactional
