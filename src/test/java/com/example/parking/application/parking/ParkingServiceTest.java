@@ -66,7 +66,7 @@ class ParkingServiceTest extends ContainerTest {
                 (
                         new BaseInformation(parkingName, "010", "부산", PayTypes.DEFAULT, ParkingType.MECHANICAL,
                                 OperationType.PRIVATE),
-                        Location.of(140d, 37d),
+                        Location.of(30d, 30d),
                         Space.of(100, 30),
                         new FreeOperatingTime(
                                 new TimeInfo(LocalTime.of(10, 30), LocalTime.of(20, 30)),
