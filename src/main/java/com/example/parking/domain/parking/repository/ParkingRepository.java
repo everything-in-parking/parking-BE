@@ -1,6 +1,8 @@
 package com.example.parking.domain.parking.repository;
 
 import com.example.parking.domain.parking.Parking;
+import com.example.parking.support.exception.DomainException;
+import com.example.parking.support.exception.ExceptionInformation;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -12,7 +14,7 @@ import org.springframework.data.repository.query.Param;
 public interface ParkingRepository extends Repository<Parking, Long> {
 
     default Parking getById(Long id) {
-        return findById(id).orElseThrow(() -> new RuntimeException("익셉션 !!"));
+        return findById(id).orElseThrow(() -> new DomainException(ExceptionInformation.INVALID_PARKING));
     }
 
     Optional<Parking> findById(Long id);

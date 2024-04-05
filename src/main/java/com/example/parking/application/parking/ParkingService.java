@@ -1,10 +1,17 @@
 package com.example.parking.application.parking;
 
 import com.example.parking.application.SearchConditionMapper;
+import com.example.parking.application.parking.dto.ParkingDetailInfoResponse;
+import com.example.parking.application.parking.dto.ParkingDetailInfoResponse.FeeInfo;
+import com.example.parking.application.parking.dto.ParkingDetailInfoResponse.HolidayOperatingTime;
+import com.example.parking.application.parking.dto.ParkingDetailInfoResponse.SaturdayOperatingTime;
+import com.example.parking.application.parking.dto.ParkingDetailInfoResponse.WeekdayOperatingTime;
 import com.example.parking.application.parking.dto.ParkingLotsResponse;
 import com.example.parking.application.parking.dto.ParkingLotsResponse.ParkingResponse;
 import com.example.parking.application.parking.dto.ParkingQueryRequest;
 import com.example.parking.application.parking.dto.ParkingSearchConditionRequest;
+import com.example.parking.application.review.ReviewService;
+import com.example.parking.application.review.dto.ReviewInfoResponse;
 import com.example.parking.domain.favorite.Favorite;
 import com.example.parking.domain.favorite.FavoriteRepository;
 import com.example.parking.domain.parking.Fee;
@@ -38,6 +45,7 @@ public class ParkingService {
     private final FavoriteRepository favoriteRepository;
     private final SearchConditionMapper searchConditionMapper;
     private final ParkingFeeCalculator parkingFeeCalculator;
+    private final ReviewService reviewService;
 
     @Transactional(readOnly = true)
     public ParkingLotsResponse findParkingLots(ParkingQueryRequest parkingQueryRequest,
@@ -136,5 +144,43 @@ public class ParkingService {
     @Transactional(readOnly = true)
     public Set<Parking> getParkingLots(Set<String> parkingNames) {
         return parkingRepository.findAllByBaseInformationNameIn(parkingNames);
+    }
+
+    @Transactional(readOnly = true)
+    public ParkingDetailInfoResponse findParking(Long parkingId) {
+        LocalDateTime now = LocalDateTime.now();
+        Parking parking = parkingRepository.getById(parkingId);
+        ReviewInfoResponse reviews = reviewService.readReviews(parkingId);
+        int diffMinute = parking.calculateUpdatedDiff(now);
+
+        return toParkingResponse(reviews, parking, diffMinute);
+    }
+
+    private ParkingDetailInfoResponse toParkingResponse(ReviewInfoResponse reviews, Parking parking, int diffMinute) {
+        return new ParkingDetailInfoResponse(
+                parking.getBaseInformation().getName(),
+                parking.getBaseInformation().getParkingType().getDescription(),
+                parking.getLocation().getLatitude(),
+                parking.getLocation().getLongitude(),
+                new FeeInfo(
+                        parking.getFeePolicy().getBaseFee().getFee(),
+                        parking.getFeePolicy().getBaseTimeUnit().getTimeUnit()
+                ),
+                parking.getSpace().getCurrentParking(),
+                parking.getSpace().getCapacity(),
+                diffMinute,
+                parking.getBaseInformation().getTel(),
+                parking.getBaseInformation().getPayTypes().getDescription(),
+                new WeekdayOperatingTime(
+                        parking.getOperatingTime().getWeekdayBeginTime(),
+                        parking.getOperatingTime().getWeekdayEndTime()),
+                new SaturdayOperatingTime(
+                        parking.getOperatingTime().getSaturdayBeginTime(),
+                        parking.getOperatingTime().getSaturdayEndTime()),
+                new HolidayOperatingTime(
+                        parking.getOperatingTime().getHolidayBeginTime(),
+                        parking.getOperatingTime().getHolidayEndTime()),
+                reviews
+        );
     }
 }

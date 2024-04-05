@@ -1,11 +1,12 @@
 package com.example.parking.domain.parking;
 
 import jakarta.persistence.Embeddable;
+import java.time.LocalTime;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
-
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class TimeInfo {
@@ -25,7 +26,8 @@ public class TimeInfo {
         if (this.endTime.isBefore(this.beginTime)) {
             TimeInfo today = new TimeInfo(this.beginTime, LocalTime.MAX);
             TimeInfo tomorrow = new TimeInfo(LocalTime.MIN, this.endTime);
-            return today.calculateOverlapMinutes(beginTime, endTime) + tomorrow.calculateOverlapMinutes(beginTime, endTime);
+            return today.calculateOverlapMinutes(beginTime, endTime) + tomorrow.calculateOverlapMinutes(beginTime,
+                    endTime);
         }
         LocalTime overlapBeginTime = decideOverlapBeginTime(beginTime);
         LocalTime overlapEndTime = decideOverlapEndTime(endTime);
