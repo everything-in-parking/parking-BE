@@ -1,5 +1,7 @@
 package com.example.parking.domain.parking;
 
+import com.example.parking.support.exception.DomainException;
+import com.example.parking.support.exception.ExceptionInformation;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -17,7 +19,13 @@ import org.locationtech.jts.geom.PrecisionModel;
 public class Location {
 
     private static final GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
-    private static final Location NO_PROVIDE = Location.of(-1.0, -1.0);
+    private static final Location NO_PROVIDE = new Location(geometryFactory.createPoint(new Coordinate(-1.0, -1.0)));
+
+    private static final Double MAX_LONGITUDE = 180.0;
+    private static final Double MIN_LONGITUDE = -180.0;
+
+    private static final Double MAX_LATITUDE = 90.0;
+    private static final Double MIN_LATITUDE = -90.0;
 
     private Point point;
 
@@ -27,10 +35,18 @@ public class Location {
 
     public static Location of(Double longitude, Double latitude) {
         try {
+            verifyLocation(longitude, latitude);
             Point point = geometryFactory.createPoint(new Coordinate(longitude, latitude));
             return new Location(point);
         } catch (NullPointerException e) {
             return NO_PROVIDE;
+        }
+    }
+
+    private static void verifyLocation(Double longitude, Double latitude) {
+        if (longitude > MAX_LONGITUDE || longitude < MIN_LONGITUDE || latitude > MAX_LATITUDE
+                || latitude < MIN_LATITUDE) {
+            throw new DomainException(ExceptionInformation.INVALID_LOCATION);
         }
     }
 
@@ -42,11 +58,11 @@ public class Location {
         }
     }
 
-    public double getLatitude() {
-        return point.getY();
-    }
-
     public double getLongitude() {
         return point.getX();
+    }
+
+    public double getLatitude() {
+        return point.getY();
     }
 }

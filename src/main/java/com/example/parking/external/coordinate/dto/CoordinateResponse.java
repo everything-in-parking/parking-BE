@@ -25,10 +25,10 @@ public class CoordinateResponse {
     public static class ExactLocation {
 
         @JsonProperty("x")
-        private Double latitude;
+        private Double longitude;
 
         @JsonProperty("y")
-        private Double longitude;
+        private Double latitude;
     }
 
     @Getter

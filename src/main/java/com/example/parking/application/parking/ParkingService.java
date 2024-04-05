@@ -63,16 +63,6 @@ public class ParkingService {
         return new ParkingLotsResponse(parkingResponses);
     }
 
-    private SearchingCondition toSearchingCondition(ParkingSearchConditionRequest request) {
-        List<ParkingType> parkingTypes = searchConditionMapper.toEnums(ParkingType.class, request.getParkingTypes());
-        List<OperationType> operationTypes = searchConditionMapper.toEnums(OperationType.class,
-                request.getOperationTypes());
-        List<PayType> payTypes = searchConditionMapper.toEnums(PayType.class, request.getPayTypes());
-        FeeType feeType = searchConditionMapper.toEnum(FeeType.class, request.getFeeType());
-
-        return new SearchingCondition(operationTypes, parkingTypes, payTypes, feeType, request.getHours());
-    }
-
     private List<Favorite> findMemberFavorites(Long memberId) {
         if (memberId == null) {
             return Collections.emptyList();
@@ -87,6 +77,16 @@ public class ParkingService {
                     parkingQueryRequest.getRadius());
         }
         return parkingRepository.findAroundParkingLots(middleLocation.getPoint(), parkingQueryRequest.getRadius());
+    }
+
+    private SearchingCondition toSearchingCondition(ParkingSearchConditionRequest request) {
+        List<ParkingType> parkingTypes = searchConditionMapper.toEnums(ParkingType.class, request.getParkingTypes());
+        List<OperationType> operationTypes = searchConditionMapper.toEnums(OperationType.class,
+                request.getOperationTypes());
+        List<PayType> payTypes = searchConditionMapper.toEnums(PayType.class, request.getPayTypes());
+        FeeType feeType = searchConditionMapper.toEnum(FeeType.class, request.getFeeType());
+
+        return new SearchingCondition(operationTypes, parkingTypes, payTypes, feeType, request.getHours());
     }
 
     private List<ParkingResponse> collectParkingInfo(List<Parking> parkingLots, int hours,
