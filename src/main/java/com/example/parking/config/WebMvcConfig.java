@@ -36,7 +36,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/swagger-ui/**",
                         "/signup",
                         "/signin",
-                        "/parkings"
+                        "/parkings/**",
+                        "/test"
                 ));
     }
 
