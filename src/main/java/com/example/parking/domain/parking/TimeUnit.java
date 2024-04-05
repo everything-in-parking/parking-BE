@@ -19,12 +19,15 @@ public class TimeUnit {
     }
 
     public static TimeUnit from(int timeUnit) {
+        if (timeUnit == 0) {
+            return NO_INFO;
+        }
         return new TimeUnit(timeUnit);
     }
 
     public static TimeUnit from(String timeUnit) {
         try {
-            return new TimeUnit(Integer.parseInt(timeUnit));
+            return TimeUnit.from(Integer.parseInt(timeUnit));
         } catch (NumberFormatException | NullPointerException e) {
             return NO_INFO;
         }

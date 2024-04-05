@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
-        info = @Info(title = "파킹스컴트루", description = "파킹스컴트루 API 명세서"))
+        info = @Info(title = "주차의 상상은 현실이 된다 aka 주상현", description = "주차의 상상은 현실이 된다 aka 주상현 API 명세서"))
 @Configuration
 public class SwaggerConfig {
 

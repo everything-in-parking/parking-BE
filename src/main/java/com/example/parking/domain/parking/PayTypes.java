@@ -37,6 +37,9 @@ public class PayTypes {
     }
 
     public boolean contains(List<PayType> memberPayTypes) {
+        if (this.description.equals(DEFAULT.description)) {
+            return true;
+        }
         return memberPayTypes.stream()
                 .anyMatch(payType -> this.description.contains(payType.getDescription()));
     }
