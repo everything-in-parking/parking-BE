@@ -26,10 +26,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation group: 'org.hibernate.orm', name: 'hibernate-spatial', version: '6.3.1.Final'
 
-    compileOnly 'org.projectlombok:lombok'
+
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
-    annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
@@ -49,6 +49,36 @@ dependencies {
     // flyway 추가
     implementation 'org.flywaydb:flyway-mysql'
     implementation 'org.flywaydb:flyway-core'
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+subprojects {
+    group = 'com.parkingcomestrue'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '17'
+
+    apply plugin: 'java'
+
+    apply plugin: 'java-library'
+    apply plugin: 'org.springframework.boot'
+
+    apply plugin: 'io.spring.dependency-management'
+
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+    }
 }
 
 tasks.named('test') {
