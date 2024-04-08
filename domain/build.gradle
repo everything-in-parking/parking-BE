@@ -1,0 +1,20 @@
+plugins {
+    id 'java-library'
+    id 'java-test-fixtures'
+    id 'maven-publish'
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+
+    implementation group: 'org.hibernate.orm', name: 'hibernate-spatial', version: '6.3.1.Final'
+
+    testFixturesImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    testFixturesImplementation group: 'org.hibernate.orm', name: 'hibernate-spatial', version: '6.3.1.Final'
+
+    // flyway 추가
+    implementation 'org.flywaydb:flyway-mysql'
+    implementation 'org.flywaydb:flyway-core'
+}
