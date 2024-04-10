@@ -54,4 +54,20 @@ project(':app-scheduler') {
     bootJar { enabled = true }
 }
 
+task collectTestResults(type: Copy) {
+    description = 'Collects test results from all subprojects'
+
+    def resultDirs = [
+            'domain': "$projectDir/domain/build/test-results/test",
+            'app-api': "$projectDir/app-api/build/test-results/test",
+            'app-scheduler': "$projectDir/app-scheduler/build/test-results/test"
+    ]
+
+    from resultDirs.collect { _, dir ->
+        fileTree(dir) {
+            include '**/TEST-*.xml'
+        }
+    }
+    into "build/allTestResults"
+}
 
