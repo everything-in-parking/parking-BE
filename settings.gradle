@@ -1,3 +1,4 @@
 rootProject.name = 'parking'
 include 'domain'
-
+include 'app-api'
+include 'app-scheduler'
