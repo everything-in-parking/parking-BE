@@ -55,9 +55,8 @@ jobs:
       run: |
         case "${{ steps.check_changes.outputs.changes }}" in
               domain_changed)
-                  echo "도메인을 의존하는 모듈을 빌드합니다."
-                  ./gradlew :app-api:build
-                  ./gradlew :app-scheduler:build
+                  echo "전체 모듈을 빌드합니다."
+                  ./gradlew build --parallel
                   ;;
               api_changed)
                   echo "api 모듈을 빌드합니다."
