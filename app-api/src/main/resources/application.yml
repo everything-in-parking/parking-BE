@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    active: ${PROFILE:dev}
+# MAIL
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:mail@gmail.com}
+    password: ${MAIL_PASSWORD:password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+# REDIS
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+# AUTH CODE
+authcode:
+  expired-time: 300
+
+# Allow origin
+cors:
+  allowedOrigins: ${ORIGIN:http://localhost:3000}
