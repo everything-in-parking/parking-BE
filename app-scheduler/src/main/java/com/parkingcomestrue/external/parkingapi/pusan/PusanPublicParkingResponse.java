@@ -43,12 +43,11 @@ public class PusanPublicParkingResponse {
             @JsonProperty("jibunAddr")
             private String oldAddress;
 
-            @JsonProperty("xCdnt")
+            @JsonProperty("yCdnt")
             private String latitude;
 
-            @JsonProperty("yCdnt")
+            @JsonProperty("xCdnt")
             private String longitude;
-
 
             @JsonProperty("pkCnt")
             private String capacity;
