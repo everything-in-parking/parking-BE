@@ -1,6 +1,6 @@
 package com.parkingcomestrue.parking.domain.searchcondition;
 
-import static com.parkingcomestrue.parking.support.exception.ExceptionInformation.INVALID_HOURS;
+import static com.parkingcomestrue.parking.support.exception.DomainExceptionInformation.INVALID_HOURS;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.parkingcomestrue.parking.support.exception.DomainException;

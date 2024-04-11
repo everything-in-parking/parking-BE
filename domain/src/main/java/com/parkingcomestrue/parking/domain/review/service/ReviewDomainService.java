@@ -7,7 +7,7 @@ import com.parkingcomestrue.parking.domain.review.Review;
 import com.parkingcomestrue.parking.domain.review.repository.ReviewRepository;
 import com.parkingcomestrue.parking.support.Association;
 import com.parkingcomestrue.parking.support.exception.DomainException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
+import com.parkingcomestrue.parking.support.exception.DomainExceptionInformation;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class ReviewDomainService {
 
     public void validateDuplicateReview(Association<Parking> parkingId, Association<Member> reviewerId) {
         if (reviewRepository.existsByParkingIdAndReviewerId(parkingId, reviewerId)) {
-            throw new DomainException(ExceptionInformation.DUPLICATE_REVIEW);
+            throw new DomainException(DomainExceptionInformation.DUPLICATE_REVIEW);
         }
     }
 

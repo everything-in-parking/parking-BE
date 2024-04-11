@@ -7,8 +7,8 @@ import com.parkingcomestrue.parking.application.member.dto.PasswordChangeRequest
 import com.parkingcomestrue.parking.domain.member.Member;
 import com.parkingcomestrue.parking.domain.member.repository.MemberRepository;
 import com.parkingcomestrue.parking.domain.member.Password;
-import com.parkingcomestrue.parking.support.exception.ClientException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
+import com.parkingcomestrue.parking.application.exception.ClientException;
+import com.parkingcomestrue.parking.application.exception.ClientExceptionInformation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,26 +35,20 @@ public class MemberService {
 
     private void validateDuplicatedEmail(Member member) {
         if (memberRepository.existsByEmail(member.getEmail())) {
-            throw new ClientException(ExceptionInformation.DUPLICATE_MAIL);
+            throw new ClientException(ClientExceptionInformation.DUPLICATE_MAIL);
         }
     }
 
     @Transactional(readOnly = true)
     public Long login(MemberLoginRequest dto) {
         Member member = findMemberByEmail(dto.getEmail());
-        validatePassword(member, dto.getPassword());
+        member.validatePassword(dto.getPassword());
         return member.getId();
     }
 
     private Member findMemberByEmail(String email) {
         return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new ClientException(ExceptionInformation.INVALID_EMAIL));
-    }
-
-    private void validatePassword(Member member, String password) {
-        if (!member.checkPassword(password)) {
-            throw new ClientException(ExceptionInformation.INVALID_PASSWORD);
-        }
+                .orElseThrow(() -> new ClientException(ClientExceptionInformation.INVALID_EMAIL));
     }
 
     @Transactional

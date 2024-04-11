@@ -1,9 +1,9 @@
 package com.parkingcomestrue.fake;
 
+import com.parkingcomestrue.external.exception.SchedulerException;
+import com.parkingcomestrue.external.exception.SchedulerExceptionInformation;
 import com.parkingcomestrue.external.parkingapi.ParkingApiService;
 import com.parkingcomestrue.parking.domain.parking.Parking;
-import com.parkingcomestrue.parking.support.exception.ClientException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
 import java.util.List;
 
 public class ExceptionParkingApiService implements ParkingApiService {
@@ -15,6 +15,6 @@ public class ExceptionParkingApiService implements ParkingApiService {
 
     @Override
     public List<Parking> read() {
-        throw new ClientException(ExceptionInformation.INVALID_CONNECT);
+        throw new SchedulerException(SchedulerExceptionInformation.INVALID_CONNECT);
     }
 }

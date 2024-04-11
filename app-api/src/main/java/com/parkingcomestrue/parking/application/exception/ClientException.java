@@ -1,13 +1,13 @@
-package com.parkingcomestrue.parking.support.exception;
+package com.parkingcomestrue.parking.application.exception;
 
 import lombok.Getter;
 
 @Getter
 public class ClientException extends RuntimeException {
 
-    private final ExceptionInformation exceptionInformation;
+    private final ClientExceptionInformation exceptionInformation;
 
-    public ClientException(ExceptionInformation exceptionInformation) {
+    public ClientException(ClientExceptionInformation exceptionInformation) {
         super();
         this.exceptionInformation = exceptionInformation;
     }

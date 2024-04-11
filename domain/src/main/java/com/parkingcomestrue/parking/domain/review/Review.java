@@ -5,7 +5,7 @@ import com.parkingcomestrue.parking.domain.parking.Parking;
 import com.parkingcomestrue.parking.infra.converter.ContentConverter;
 import com.parkingcomestrue.parking.support.Association;
 import com.parkingcomestrue.parking.support.exception.DomainException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
+import com.parkingcomestrue.parking.support.exception.DomainExceptionInformation;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -55,7 +55,7 @@ public class Review {
 
     private static void validate(List<Content> contents) {
         if (contents == null || contents.isEmpty() || contents.size() > MAX_CONTENTS_SIZE) {
-            throw new DomainException(ExceptionInformation.INVALID_CONTENTS_SIZE);
+            throw new DomainException(DomainExceptionInformation.INVALID_CONTENTS_SIZE);
         }
     }
 }

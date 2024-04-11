@@ -10,8 +10,8 @@ import com.parkingcomestrue.parking.application.auth.authcode.util.AuthCodeGener
 import com.parkingcomestrue.parking.application.auth.authcode.util.AuthCodeKeyConverter;
 import com.parkingcomestrue.parking.domain.session.MemberSession;
 import com.parkingcomestrue.parking.domain.session.repository.MemberSessionRepository;
-import com.parkingcomestrue.parking.support.exception.ClientException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
+import com.parkingcomestrue.parking.application.exception.ClientException;
+import com.parkingcomestrue.parking.application.exception.ClientExceptionInformation;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +47,7 @@ public class AuthService {
     public MemberSession findSession(String sessionId) {
         return memberSessionRepository.findBySessionIdAndExpiredAtIsGreaterThanEqual(sessionId,
                         LocalDateTime.now())
-                .orElseThrow(() -> new ClientException(ExceptionInformation.UNAUTHORIZED));
+                .orElseThrow(() -> new ClientException(ClientExceptionInformation.UNAUTHORIZED));
     }
 
     @Transactional
@@ -95,7 +95,7 @@ public class AuthService {
                 authCodeCategory.getCategoryName());
         String findResult = redisTemplate.opsForValue().getAndDelete(authCodeKey);
         if (findResult == null) {
-            throw new ClientException(ExceptionInformation.INVALID_AUTH_CODE);
+            throw new ClientException(ClientExceptionInformation.INVALID_AUTH_CODE);
         }
     }
 }

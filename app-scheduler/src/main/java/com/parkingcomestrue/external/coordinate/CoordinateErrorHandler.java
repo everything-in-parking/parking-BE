@@ -1,7 +1,7 @@
 package com.parkingcomestrue.external.coordinate;
 
-import com.parkingcomestrue.parking.support.exception.ClientException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
+import com.parkingcomestrue.external.exception.SchedulerException;
+import com.parkingcomestrue.external.exception.SchedulerExceptionInformation;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.client.ClientHttpResponse;
@@ -18,6 +18,6 @@ public class CoordinateErrorHandler implements ResponseErrorHandler {
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
         log.warn("fail while extracting coordinate by address code: {}", response.getStatusCode());
-        throw new ClientException(ExceptionInformation.COORDINATE_EXCEPTION);
+        throw new SchedulerException(SchedulerExceptionInformation.COORDINATE_EXCEPTION);
     }
 }

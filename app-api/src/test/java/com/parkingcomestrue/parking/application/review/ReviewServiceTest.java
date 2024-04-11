@@ -1,6 +1,6 @@
 package com.parkingcomestrue.parking.application.review;
 
-import static com.parkingcomestrue.parking.support.exception.ExceptionInformation.DUPLICATE_REVIEW;
+import static com.parkingcomestrue.parking.support.exception.DomainExceptionInformation.DUPLICATE_REVIEW;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;

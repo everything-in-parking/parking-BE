@@ -2,9 +2,9 @@ package com.parkingcomestrue.parking.support.exception;
 
 public class DomainException extends RuntimeException {
 
-    private final ExceptionInformation exceptionInformation;
+    private final DomainExceptionInformation exceptionInformation;
 
-    public DomainException(ExceptionInformation exceptionInformation) {
+    public DomainException(DomainExceptionInformation exceptionInformation) {
         super();
         this.exceptionInformation = exceptionInformation;
     }

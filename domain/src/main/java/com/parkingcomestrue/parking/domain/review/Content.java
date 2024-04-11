@@ -1,7 +1,7 @@
 package com.parkingcomestrue.parking.domain.review;
 
 import com.parkingcomestrue.parking.support.exception.DomainException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
+import com.parkingcomestrue.parking.support.exception.DomainExceptionInformation;
 import java.util.Arrays;
 import lombok.Getter;
 
@@ -29,6 +29,6 @@ public enum Content {
         return Arrays.stream(values())
                 .filter(content -> content.getDescription().startsWith(description))
                 .findAny()
-                .orElseThrow(() -> new DomainException(ExceptionInformation.INVALID_CONTENT));
+                .orElseThrow(() -> new DomainException(DomainExceptionInformation.INVALID_CONTENT));
     }
 }

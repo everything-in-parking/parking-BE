@@ -4,14 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import com.parkingcomestrue.parking.application.exception.ClientException;
+import com.parkingcomestrue.parking.application.exception.ClientExceptionInformation;
 import com.parkingcomestrue.parking.domain.parking.OperationType;
 import com.parkingcomestrue.parking.domain.parking.ParkingType;
 import com.parkingcomestrue.parking.domain.parking.PayType;
 import com.parkingcomestrue.parking.domain.searchcondition.FeeType;
 import com.parkingcomestrue.parking.domain.searchcondition.Priority;
 import com.parkingcomestrue.parking.domain.searchcondition.SearchConditionAvailable;
-import com.parkingcomestrue.parking.support.exception.ClientException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
+
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.Test;
@@ -53,7 +54,7 @@ class SearchConditionMapperTest {
         //given, when, then
         assertThatThrownBy(() -> searchConditionMapper.toEnum(PayType.class, "아무거나 입력"))
                 .isInstanceOf(ClientException.class)
-                .hasMessage(ExceptionInformation.INVALID_DESCRIPTION.getMessage());
+                .hasMessage(ClientExceptionInformation.INVALID_DESCRIPTION.getMessage());
     }
 
     @ParameterizedTest

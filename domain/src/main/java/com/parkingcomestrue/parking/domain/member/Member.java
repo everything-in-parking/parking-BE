@@ -1,7 +1,7 @@
 package com.parkingcomestrue.parking.domain.member;
 
 import com.parkingcomestrue.parking.support.exception.DomainException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
+import com.parkingcomestrue.parking.support.exception.DomainExceptionInformation;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -39,6 +39,13 @@ public class Member {
         this.password = password;
     }
 
+    public void validatePassword(String password) {
+        if (checkPassword(password)) {
+            return;
+        }
+        throw new DomainException(DomainExceptionInformation.INVALID_PASSWORD);
+    }
+
     public boolean checkPassword(String password) {
         return this.password.isMatch(password);
     }
@@ -48,11 +55,8 @@ public class Member {
     }
 
     public void changePassword(String previousPassword, String newPassword) {
-        if (checkPassword(previousPassword)) {
-            this.password = new Password(newPassword);
-            return;
-        }
-        throw new DomainException(ExceptionInformation.INVALID_PASSWORD);
+        validatePassword(previousPassword);
+        this.password = new Password(newPassword);
     }
 
     @Override

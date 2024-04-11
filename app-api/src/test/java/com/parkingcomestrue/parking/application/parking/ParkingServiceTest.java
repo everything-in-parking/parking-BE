@@ -22,7 +22,8 @@ import com.parkingcomestrue.parking.domain.parking.TimeInfo;
 import com.parkingcomestrue.parking.domain.parking.TimeUnit;
 import com.parkingcomestrue.parking.domain.review.Content;
 import com.parkingcomestrue.parking.support.exception.DomainException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
+import com.parkingcomestrue.parking.application.exception.ClientExceptionInformation;
+import com.parkingcomestrue.parking.support.exception.DomainExceptionInformation;
 import java.time.LocalTime;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -35,7 +36,7 @@ class ParkingServiceTest extends ContainerTest {
         //given
         Assertions.assertThatThrownBy(() -> parkingService.findParking(1L))
                 .isInstanceOf(DomainException.class)
-                .hasMessage(ExceptionInformation.INVALID_PARKING.getMessage());
+                .hasMessage(DomainExceptionInformation.INVALID_PARKING.getMessage());
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.parkingcomestrue.parking.domain.searchcondition;
 
 import com.parkingcomestrue.parking.support.exception.DomainException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
+import com.parkingcomestrue.parking.support.exception.DomainExceptionInformation;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,6 +22,6 @@ public class Hours {
         if ((hours >= 1 && hours <= 12) || hours == 24) {
             return new Hours(hours);
         }
-        throw new DomainException(ExceptionInformation.INVALID_HOURS);
+        throw new DomainException(DomainExceptionInformation.INVALID_HOURS);
     }
 }

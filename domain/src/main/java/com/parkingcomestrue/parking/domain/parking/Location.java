@@ -1,7 +1,7 @@
 package com.parkingcomestrue.parking.domain.parking;
 
 import com.parkingcomestrue.parking.support.exception.DomainException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
+import com.parkingcomestrue.parking.support.exception.DomainExceptionInformation;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -46,7 +46,7 @@ public class Location {
     private static void verifyLocation(Double longitude, Double latitude) {
         if (longitude > MAX_LONGITUDE || longitude < MIN_LONGITUDE || latitude > MAX_LATITUDE
                 || latitude < MIN_LATITUDE) {
-            throw new DomainException(ExceptionInformation.INVALID_LOCATION);
+            throw new DomainException(DomainExceptionInformation.INVALID_LOCATION);
         }
     }
 

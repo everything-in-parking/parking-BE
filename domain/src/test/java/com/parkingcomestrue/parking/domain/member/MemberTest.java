@@ -1,6 +1,6 @@
 package com.parkingcomestrue.parking.domain.member;
 
-import static com.parkingcomestrue.parking.support.exception.ExceptionInformation.INVALID_PASSWORD;
+import static com.parkingcomestrue.parking.support.exception.DomainExceptionInformation.INVALID_PASSWORD;
 
 import com.parkingcomestrue.parking.support.exception.DomainException;
 import org.assertj.core.api.Assertions;

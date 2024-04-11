@@ -1,7 +1,7 @@
 package com.parkingcomestrue.parking.application.member;
 
-import static com.parkingcomestrue.parking.support.exception.ExceptionInformation.INVALID_MEMBER;
-import static com.parkingcomestrue.parking.support.exception.ExceptionInformation.INVALID_PASSWORD;
+import static com.parkingcomestrue.parking.support.exception.DomainExceptionInformation.INVALID_MEMBER;
+import static com.parkingcomestrue.parking.support.exception.DomainExceptionInformation.INVALID_PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.parkingcomestrue.parking.application.member.dto.MemberLoginRequest;
@@ -9,7 +9,6 @@ import com.parkingcomestrue.parking.application.member.dto.MemberSignupRequest;
 import com.parkingcomestrue.parking.application.member.dto.PasswordChangeRequest;
 import com.parkingcomestrue.parking.domain.member.Member;
 import com.parkingcomestrue.parking.domain.member.repository.MemberRepository;
-import com.parkingcomestrue.parking.support.exception.ClientException;
 import com.parkingcomestrue.parking.support.exception.DomainException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -69,7 +68,7 @@ class MemberServiceTest {
 
         // then
         Assertions.assertThatThrownBy(() -> memberService.login(new MemberLoginRequest(email, previousPassword)))
-                .isInstanceOf(ClientException.class)
+                .isInstanceOf(DomainException.class)
                 .hasMessage(INVALID_PASSWORD.getMessage());
     }
 

@@ -4,9 +4,9 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.parkingcomestrue.parking.controlleradvice.dto.ExceptionResponse;
-import com.parkingcomestrue.parking.support.exception.ClientException;
+import com.parkingcomestrue.parking.application.exception.ClientException;
 import com.parkingcomestrue.parking.support.exception.DomainException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
+import com.parkingcomestrue.parking.application.exception.ClientExceptionInformation;
 import java.util.EnumMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private final EnumMap<ExceptionInformation, HttpStatus> exceptionInfoToHttpStatus = new EnumMap<>(
-            ExceptionInformation.class);
+    private final EnumMap<ClientExceptionInformation, HttpStatus> exceptionInfoToHttpStatus = new EnumMap<>(
+            ClientExceptionInformation.class);
 
     public GlobalExceptionHandler() {
-        exceptionInfoToHttpStatus.put(ExceptionInformation.UNAUTHORIZED, UNAUTHORIZED);
+        exceptionInfoToHttpStatus.put(ClientExceptionInformation.UNAUTHORIZED, UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)

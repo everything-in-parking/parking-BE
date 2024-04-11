@@ -1,8 +1,8 @@
 package com.parkingcomestrue.parking.application;
 
 import com.parkingcomestrue.parking.domain.searchcondition.SearchConditionAvailable;
-import com.parkingcomestrue.parking.support.exception.ClientException;
-import com.parkingcomestrue.parking.support.exception.ExceptionInformation;
+import com.parkingcomestrue.parking.application.exception.ClientException;
+import com.parkingcomestrue.parking.application.exception.ClientExceptionInformation;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class SearchConditionMapper {
         return Arrays.stream(conditions)
                 .filter(condition -> description.startsWith(condition.getDescription()))
                 .findAny()
-                .orElseThrow(() -> new ClientException(ExceptionInformation.INVALID_DESCRIPTION));
+                .orElseThrow(() -> new ClientException(ClientExceptionInformation.INVALID_DESCRIPTION));
     }
 
     public <E extends Enum<E> & SearchConditionAvailable> List<String> getValues(

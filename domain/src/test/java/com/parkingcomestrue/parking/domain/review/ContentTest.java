@@ -1,6 +1,6 @@
 package com.parkingcomestrue.parking.domain.review;
 
-import static com.parkingcomestrue.parking.support.exception.ExceptionInformation.INVALID_CONTENT;
+import static com.parkingcomestrue.parking.support.exception.DomainExceptionInformation.INVALID_CONTENT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
