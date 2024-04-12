@@ -1,7 +1,7 @@
-package com.parkingcomestrue.parking.application.container;
+package com.parkingcomestrue.parking.application;
 
 import com.parkingcomestrue.parking.application.auth.AuthService;
-import com.parkingcomestrue.parking.application.config.TestConfig;
+import com.parkingcomestrue.parking.application.container.MySQLDataCleaner;
 import com.parkingcomestrue.parking.application.parking.ParkingService;
 import com.parkingcomestrue.parking.application.review.ReviewService;
 import com.parkingcomestrue.parking.domain.member.repository.MemberRepository;

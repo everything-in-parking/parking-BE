@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.parkingcomestrue.parking.application.container.ContainerTest;
+import com.parkingcomestrue.parking.application.ContainerTest;
 import com.parkingcomestrue.parking.application.auth.authcode.AuthCodeCategory;
 import com.parkingcomestrue.parking.application.auth.authcode.AuthCodePlatform;
 import com.parkingcomestrue.parking.application.auth.authcode.dto.AuthCodeCertificateRequest;
@@ -18,9 +18,6 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 class AuthServiceTest extends ContainerTest {
-
-    private static final String AUTH_CODE = "111111";
-
 
     @Test
     void 세션_아이디에_해당하는_세션을_찾는다() {

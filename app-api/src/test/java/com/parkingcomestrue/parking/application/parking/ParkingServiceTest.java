@@ -2,7 +2,7 @@ package com.parkingcomestrue.parking.application.parking;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.parkingcomestrue.parking.application.container.ContainerTest;
+import com.parkingcomestrue.parking.application.ContainerTest;
 import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse;
 import com.parkingcomestrue.parking.application.review.dto.ReviewCreateRequest;
 import com.parkingcomestrue.parking.domain.member.Member;

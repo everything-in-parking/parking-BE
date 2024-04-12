@@ -1,4 +1,4 @@
-package com.parkingcomestrue.parking.application.config;
+package com.parkingcomestrue.parking.application;
 
 import com.parkingcomestrue.parking.application.auth.authcode.infrastructure.AuthCodeSender;
 import org.springframework.boot.test.context.TestConfiguration;
