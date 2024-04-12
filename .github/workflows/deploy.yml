@@ -89,7 +89,7 @@ jobs:
         context: .
         file: app-api/Dockerfile
         push: true  
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/pct-api:${{ github.sha }}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.API_IMAGE }}:${{ github.sha }}
         platforms: linux/amd64
 
     - name: 도커 이미지 build 후 push
@@ -101,7 +101,7 @@ jobs:
         context: .
         file: app-scheduler/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/pct-scheduler:${{ github.sha }}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.SCHEDULER_IMAGE }}:${{ github.sha }}
         platforms: linux/amd64
     
   deploy-to-ec2:
