@@ -7,7 +7,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import com.parkingcomestrue.external.coordinate.dto.CoordinateResponse;
-import com.parkingcomestrue.parking.domain.parking.Location;
+import com.parkingcomestrue.common.domain.parking.Location;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

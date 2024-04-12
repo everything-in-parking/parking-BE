@@ -1,6 +1,6 @@
 package com.parkingcomestrue.external.coordinate;
 
-import com.parkingcomestrue.parking.domain.parking.Location;
+import com.parkingcomestrue.common.domain.parking.Location;
 import com.parkingcomestrue.external.coordinate.dto.CoordinateResponse;
 import com.parkingcomestrue.external.coordinate.dto.CoordinateResponse.ExactLocation;
 import java.util.List;

@@ -1,8 +1,8 @@
 package repository;
 
-import com.parkingcomestrue.parking.domain.review.Review;
-import com.parkingcomestrue.parking.domain.review.repository.ReviewRepository;
-import com.parkingcomestrue.parking.support.Association;
+import com.parkingcomestrue.common.domain.review.Review;
+import com.parkingcomestrue.common.domain.review.repository.ReviewRepository;
+import com.parkingcomestrue.common.support.Association;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

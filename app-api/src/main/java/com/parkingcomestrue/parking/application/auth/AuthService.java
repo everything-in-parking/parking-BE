@@ -8,8 +8,8 @@ import com.parkingcomestrue.parking.application.auth.authcode.dto.AuthCodeReques
 import com.parkingcomestrue.parking.application.auth.authcode.dto.AuthCodeCreateEvent;
 import com.parkingcomestrue.parking.application.auth.authcode.util.AuthCodeGenerator;
 import com.parkingcomestrue.parking.application.auth.authcode.util.AuthCodeKeyConverter;
-import com.parkingcomestrue.parking.domain.session.MemberSession;
-import com.parkingcomestrue.parking.domain.session.repository.MemberSessionRepository;
+import com.parkingcomestrue.common.domain.session.MemberSession;
+import com.parkingcomestrue.common.domain.session.repository.MemberSessionRepository;
 import com.parkingcomestrue.parking.support.exception.ClientException;
 import com.parkingcomestrue.parking.support.exception.ClientExceptionInformation;
 import java.time.LocalDateTime;

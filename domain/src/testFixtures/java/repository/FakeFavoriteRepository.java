@@ -1,10 +1,10 @@
 package repository;
 
-import com.parkingcomestrue.parking.domain.favorite.Favorite;
-import com.parkingcomestrue.parking.domain.favorite.repository.FavoriteRepository;
-import com.parkingcomestrue.parking.domain.member.Member;
-import com.parkingcomestrue.parking.domain.parking.Parking;
-import com.parkingcomestrue.parking.support.Association;
+import com.parkingcomestrue.common.domain.favorite.Favorite;
+import com.parkingcomestrue.common.domain.favorite.repository.FavoriteRepository;
+import com.parkingcomestrue.common.domain.member.Member;
+import com.parkingcomestrue.common.domain.parking.Parking;
+import com.parkingcomestrue.common.support.Association;
 import java.util.List;
 
 public class FakeFavoriteRepository implements FavoriteRepository {

@@ -12,7 +12,7 @@ import com.parkingcomestrue.parking.application.auth.authcode.AuthCodeCategory;
 import com.parkingcomestrue.parking.application.auth.authcode.AuthCodePlatform;
 import com.parkingcomestrue.parking.application.auth.authcode.dto.AuthCodeCertificateRequest;
 import com.parkingcomestrue.parking.application.auth.authcode.dto.AuthCodeRequest;
-import com.parkingcomestrue.parking.domain.session.MemberSession;
+import com.parkingcomestrue.common.domain.session.MemberSession;
 import com.parkingcomestrue.parking.support.exception.ClientException;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;

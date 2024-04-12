@@ -1,7 +1,7 @@
 package com.parkingcomestrue.external.parkingapi.seoul;
 
 import com.parkingcomestrue.external.parkingapi.ParkingApiService;
-import com.parkingcomestrue.parking.domain.parking.Parking;
+import com.parkingcomestrue.common.domain.parking.Parking;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;

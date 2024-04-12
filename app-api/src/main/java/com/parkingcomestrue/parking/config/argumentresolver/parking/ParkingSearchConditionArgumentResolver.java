@@ -2,9 +2,9 @@ package com.parkingcomestrue.parking.config.argumentresolver.parking;
 
 import com.parkingcomestrue.parking.application.SearchConditionMapper;
 import com.parkingcomestrue.parking.application.parking.dto.ParkingSearchConditionRequest;
-import com.parkingcomestrue.parking.domain.parking.OperationType;
-import com.parkingcomestrue.parking.domain.parking.ParkingType;
-import com.parkingcomestrue.parking.domain.parking.PayType;
+import com.parkingcomestrue.common.domain.parking.OperationType;
+import com.parkingcomestrue.common.domain.parking.ParkingType;
+import com.parkingcomestrue.common.domain.parking.PayType;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

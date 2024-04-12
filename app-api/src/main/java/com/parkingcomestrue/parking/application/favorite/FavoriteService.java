@@ -2,9 +2,9 @@ package com.parkingcomestrue.parking.application.favorite;
 
 import com.parkingcomestrue.parking.application.favorite.dto.FavoriteCreateRequest;
 import com.parkingcomestrue.parking.application.favorite.dto.FavoriteDeleteRequest;
-import com.parkingcomestrue.parking.domain.favorite.Favorite;
-import com.parkingcomestrue.parking.domain.favorite.repository.FavoriteRepository;
-import com.parkingcomestrue.parking.support.Association;
+import com.parkingcomestrue.common.domain.favorite.Favorite;
+import com.parkingcomestrue.common.domain.favorite.repository.FavoriteRepository;
+import com.parkingcomestrue.common.support.Association;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;

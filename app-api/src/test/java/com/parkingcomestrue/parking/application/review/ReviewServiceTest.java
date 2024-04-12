@@ -1,19 +1,19 @@
 package com.parkingcomestrue.parking.application.review;
 
-import static com.parkingcomestrue.parking.support.exception.DomainExceptionInformation.DUPLICATE_REVIEW;
+import static com.parkingcomestrue.common.support.exception.DomainExceptionInformation.DUPLICATE_REVIEW;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import com.parkingcomestrue.parking.application.review.dto.ReviewCreateRequest;
 import com.parkingcomestrue.parking.application.review.dto.ReviewInfoResponse;
-import com.parkingcomestrue.parking.domain.member.Member;
-import com.parkingcomestrue.parking.domain.parking.Parking;
-import com.parkingcomestrue.parking.domain.review.Content;
-import com.parkingcomestrue.parking.domain.review.Review;
-import com.parkingcomestrue.parking.domain.review.service.ReviewDomainService;
-import com.parkingcomestrue.parking.support.Association;
-import com.parkingcomestrue.parking.support.exception.DomainException;
+import com.parkingcomestrue.common.domain.member.Member;
+import com.parkingcomestrue.common.domain.parking.Parking;
+import com.parkingcomestrue.common.domain.review.Content;
+import com.parkingcomestrue.common.domain.review.Review;
+import com.parkingcomestrue.common.domain.review.service.ReviewDomainService;
+import com.parkingcomestrue.common.support.Association;
+import com.parkingcomestrue.common.support.exception.DomainException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import repository.BasicMemberRepository;

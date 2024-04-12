@@ -1,6 +1,6 @@
 package com.parkingcomestrue.parking.application.review.dto;
 
-import com.parkingcomestrue.parking.domain.review.Content;
+import com.parkingcomestrue.common.domain.review.Content;
 import java.util.List;
 
 public record ReviewCreateRequest(List<String> contents) {

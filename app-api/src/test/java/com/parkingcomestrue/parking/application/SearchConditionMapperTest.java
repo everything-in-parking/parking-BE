@@ -6,12 +6,12 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import com.parkingcomestrue.parking.support.exception.ClientException;
 import com.parkingcomestrue.parking.support.exception.ClientExceptionInformation;
-import com.parkingcomestrue.parking.domain.parking.OperationType;
-import com.parkingcomestrue.parking.domain.parking.ParkingType;
-import com.parkingcomestrue.parking.domain.parking.PayType;
-import com.parkingcomestrue.parking.domain.searchcondition.FeeType;
-import com.parkingcomestrue.parking.domain.searchcondition.Priority;
-import com.parkingcomestrue.parking.domain.searchcondition.SearchConditionAvailable;
+import com.parkingcomestrue.common.domain.parking.OperationType;
+import com.parkingcomestrue.common.domain.parking.ParkingType;
+import com.parkingcomestrue.common.domain.parking.PayType;
+import com.parkingcomestrue.common.domain.searchcondition.FeeType;
+import com.parkingcomestrue.common.domain.searchcondition.Priority;
+import com.parkingcomestrue.common.domain.searchcondition.SearchConditionAvailable;
 
 import java.util.List;
 import java.util.stream.Stream;

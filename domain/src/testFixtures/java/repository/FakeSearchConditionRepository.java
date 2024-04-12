@@ -1,7 +1,7 @@
 package repository;
 
-import com.parkingcomestrue.parking.domain.searchcondition.SearchCondition;
-import com.parkingcomestrue.parking.domain.searchcondition.repository.SearchConditionRepository;
+import com.parkingcomestrue.common.domain.searchcondition.SearchCondition;
+import com.parkingcomestrue.common.domain.searchcondition.repository.SearchConditionRepository;
 import java.util.Optional;
 
 public class FakeSearchConditionRepository implements SearchConditionRepository {

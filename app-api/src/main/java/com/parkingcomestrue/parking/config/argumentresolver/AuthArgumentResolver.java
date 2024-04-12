@@ -1,7 +1,7 @@
 package com.parkingcomestrue.parking.config.argumentresolver;
 
 import com.parkingcomestrue.parking.application.auth.AuthService;
-import com.parkingcomestrue.parking.domain.session.MemberSession;
+import com.parkingcomestrue.common.domain.session.MemberSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

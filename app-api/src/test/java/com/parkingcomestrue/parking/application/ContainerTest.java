@@ -4,7 +4,7 @@ import com.parkingcomestrue.parking.application.auth.AuthService;
 import com.parkingcomestrue.parking.application.container.MySQLDataCleaner;
 import com.parkingcomestrue.parking.application.parking.ParkingService;
 import com.parkingcomestrue.parking.application.review.ReviewService;
-import com.parkingcomestrue.parking.domain.member.repository.MemberRepository;
+import com.parkingcomestrue.common.domain.member.repository.MemberRepository;
 import com.redis.testcontainers.RedisContainer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;

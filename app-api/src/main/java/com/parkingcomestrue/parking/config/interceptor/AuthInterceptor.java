@@ -1,7 +1,7 @@
 package com.parkingcomestrue.parking.config.interceptor;
 
 import com.parkingcomestrue.parking.application.auth.AuthService;
-import com.parkingcomestrue.parking.domain.session.MemberSession;
+import com.parkingcomestrue.common.domain.session.MemberSession;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,8 @@
 package repository;
 
-import com.parkingcomestrue.parking.domain.member.Member;
-import com.parkingcomestrue.parking.domain.member.Password;
-import com.parkingcomestrue.parking.domain.member.repository.MemberRepository;
+import com.parkingcomestrue.common.domain.member.Member;
+import com.parkingcomestrue.common.domain.member.Password;
+import com.parkingcomestrue.common.domain.member.repository.MemberRepository;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;

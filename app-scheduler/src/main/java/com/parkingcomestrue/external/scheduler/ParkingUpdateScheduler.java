@@ -2,9 +2,9 @@ package com.parkingcomestrue.external.scheduler;
 
 import com.parkingcomestrue.external.coordinate.CoordinateApiService;
 import com.parkingcomestrue.external.parkingapi.ParkingApiService;
-import com.parkingcomestrue.parking.domain.parking.Location;
-import com.parkingcomestrue.parking.domain.parking.Parking;
-import com.parkingcomestrue.parking.domain.parking.repository.ParkingRepository;
+import com.parkingcomestrue.common.domain.parking.Location;
+import com.parkingcomestrue.common.domain.parking.Parking;
+import com.parkingcomestrue.common.domain.parking.repository.ParkingRepository;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

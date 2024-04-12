@@ -5,7 +5,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.parkingcomestrue.parking.controlleradvice.dto.ExceptionResponse;
 import com.parkingcomestrue.parking.support.exception.ClientException;
-import com.parkingcomestrue.parking.support.exception.DomainException;
+import com.parkingcomestrue.common.support.exception.DomainException;
 import com.parkingcomestrue.parking.support.exception.ClientExceptionInformation;
 import java.util.EnumMap;
 import lombok.extern.slf4j.Slf4j;

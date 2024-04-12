@@ -1,6 +1,6 @@
 package com.parkingcomestrue.parking.application;
 
-import com.parkingcomestrue.parking.domain.searchcondition.SearchConditionAvailable;
+import com.parkingcomestrue.common.domain.searchcondition.SearchConditionAvailable;
 import com.parkingcomestrue.parking.support.exception.ClientException;
 import com.parkingcomestrue.parking.support.exception.ClientExceptionInformation;
 import java.util.Arrays;

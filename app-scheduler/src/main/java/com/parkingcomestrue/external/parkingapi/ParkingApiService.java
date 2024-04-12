@@ -1,6 +1,6 @@
 package com.parkingcomestrue.external.parkingapi;
 
-import com.parkingcomestrue.parking.domain.parking.Parking;
+import com.parkingcomestrue.common.domain.parking.Parking;
 import java.util.List;
 
 public interface ParkingApiService {
