@@ -1,7 +1,7 @@
 package com.parkingcomestrue.external.coordinate;
 
-import com.parkingcomestrue.external.exception.SchedulerException;
-import com.parkingcomestrue.external.exception.SchedulerExceptionInformation;
+import com.parkingcomestrue.external.support.exception.SchedulerException;
+import com.parkingcomestrue.external.support.exception.SchedulerExceptionInformation;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.client.ClientHttpResponse;

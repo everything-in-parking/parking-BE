@@ -1,4 +1,4 @@
-package com.parkingcomestrue.parking.application.exception;
+package com.parkingcomestrue.parking.support.exception;
 
 import lombok.Getter;
 

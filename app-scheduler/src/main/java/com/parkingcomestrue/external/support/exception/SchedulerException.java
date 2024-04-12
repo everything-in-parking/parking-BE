@@ -1,4 +1,4 @@
-package com.parkingcomestrue.external.exception;
+package com.parkingcomestrue.external.support.exception;
 
 public class SchedulerException extends RuntimeException {
 

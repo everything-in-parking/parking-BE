@@ -7,8 +7,8 @@ import com.parkingcomestrue.parking.application.member.dto.PasswordChangeRequest
 import com.parkingcomestrue.parking.domain.member.Member;
 import com.parkingcomestrue.parking.domain.member.repository.MemberRepository;
 import com.parkingcomestrue.parking.domain.member.Password;
-import com.parkingcomestrue.parking.application.exception.ClientException;
-import com.parkingcomestrue.parking.application.exception.ClientExceptionInformation;
+import com.parkingcomestrue.parking.support.exception.ClientException;
+import com.parkingcomestrue.parking.support.exception.ClientExceptionInformation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

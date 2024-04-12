@@ -22,7 +22,6 @@ import com.parkingcomestrue.parking.domain.parking.TimeInfo;
 import com.parkingcomestrue.parking.domain.parking.TimeUnit;
 import com.parkingcomestrue.parking.domain.review.Content;
 import com.parkingcomestrue.parking.support.exception.DomainException;
-import com.parkingcomestrue.parking.application.exception.ClientExceptionInformation;
 import com.parkingcomestrue.parking.support.exception.DomainExceptionInformation;
 import java.time.LocalTime;
 import java.util.List;

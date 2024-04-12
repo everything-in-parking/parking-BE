@@ -1,7 +1,7 @@
 package com.parkingcomestrue.parking.application.auth;
 
-import static com.parkingcomestrue.parking.application.exception.ClientExceptionInformation.INVALID_AUTH_CODE;
-import static com.parkingcomestrue.parking.application.exception.ClientExceptionInformation.UNAUTHORIZED;
+import static com.parkingcomestrue.parking.support.exception.ClientExceptionInformation.INVALID_AUTH_CODE;
+import static com.parkingcomestrue.parking.support.exception.ClientExceptionInformation.UNAUTHORIZED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -13,7 +13,7 @@ import com.parkingcomestrue.parking.application.auth.authcode.AuthCodePlatform;
 import com.parkingcomestrue.parking.application.auth.authcode.dto.AuthCodeCertificateRequest;
 import com.parkingcomestrue.parking.application.auth.authcode.dto.AuthCodeRequest;
 import com.parkingcomestrue.parking.domain.session.MemberSession;
-import com.parkingcomestrue.parking.application.exception.ClientException;
+import com.parkingcomestrue.parking.support.exception.ClientException;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 

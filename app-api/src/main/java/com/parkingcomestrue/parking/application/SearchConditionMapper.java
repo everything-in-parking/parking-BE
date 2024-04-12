@@ -1,8 +1,8 @@
 package com.parkingcomestrue.parking.application;
 
 import com.parkingcomestrue.parking.domain.searchcondition.SearchConditionAvailable;
-import com.parkingcomestrue.parking.application.exception.ClientException;
-import com.parkingcomestrue.parking.application.exception.ClientExceptionInformation;
+import com.parkingcomestrue.parking.support.exception.ClientException;
+import com.parkingcomestrue.parking.support.exception.ClientExceptionInformation;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.stereotype.Component;
