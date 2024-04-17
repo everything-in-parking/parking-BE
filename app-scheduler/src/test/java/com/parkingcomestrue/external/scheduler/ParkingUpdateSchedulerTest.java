@@ -2,6 +2,7 @@ package com.parkingcomestrue.external.scheduler;
 
 
 import com.parkingcomestrue.external.coordinate.CoordinateApiService;
+import com.parkingcomestrue.external.service.ParkingService;
 import com.parkingcomestrue.fake.ExceptionParkingApiService;
 import com.parkingcomestrue.fake.FakeCoordinateApiService;
 import com.parkingcomestrue.fake.NotOfferCurrentParkingApiService;
@@ -29,7 +30,8 @@ class ParkingUpdateSchedulerTest {
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(offerCurrentParkingApiService),
                 coordinateService,
-                parkingRepository
+                parkingRepository,
+                new ParkingService(parkingRepository)
         );
 
         //when
@@ -52,7 +54,8 @@ class ParkingUpdateSchedulerTest {
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(notOfferCurrentParkingApiService),
                 coordinateService,
-                parkingRepository
+                parkingRepository,
+                new ParkingService(parkingRepository)
         );
 
         //when
@@ -76,7 +79,8 @@ class ParkingUpdateSchedulerTest {
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(offerCurrentParkingApiService, notOfferCurrentParkingApiService),
                 coordinateService,
-                parkingRepository
+                parkingRepository,
+                new ParkingService(parkingRepository)
         );
 
         //when
@@ -93,7 +97,8 @@ class ParkingUpdateSchedulerTest {
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(new OfferCurrentParkingApiService(5), new ExceptionParkingApiService()),
                 coordinateService,
-                parkingRepository
+                parkingRepository,
+                new ParkingService(parkingRepository)
         );
 
         //when
