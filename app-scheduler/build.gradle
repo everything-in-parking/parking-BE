@@ -5,4 +5,9 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
     testImplementation(testFixtures(project(":domain")))
+
+    // actuator 추가
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    // 프로메테우스 추가
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }
