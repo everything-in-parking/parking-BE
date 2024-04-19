@@ -86,26 +86,26 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}  
         password: ${{ secrets.DOCKERHUB_TOKEN }}     
 
-    - name: 도커 이미지 build 후 push
+    - name: 도커 이미지 build 후 push (API)
       uses: docker/build-push-action@v2
       if: |
         steps.check_changes.outputs.domain_changed == 'true' || 
         steps.check_changes.outputs.api_changed == 'true'
       with:
-        context: .
-        file: app-api/Dockerfile
+        context: ./app-api
+        file: Dockerfile
         push: true  
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.API_IMAGE }}:${{ github.sha }}
         platforms: linux/amd64
 
-    - name: 도커 이미지 build 후 push
+    - name: 도커 이미지 build 후 push (Scheduler)
       uses: docker/build-push-action@v2
       if: |
         steps.check_changes.outputs.domain_changed == 'true' || 
         steps.check_changes.outputs.scheduler_changed == 'true'
       with:
-        context: .
-        file: app-scheduler/Dockerfile
+        context: ./app-scheduler
+        file: Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.SCHEDULER_IMAGE }}:${{ github.sha }}
         platforms: linux/amd64
