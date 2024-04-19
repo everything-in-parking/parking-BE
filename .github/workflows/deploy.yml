@@ -93,7 +93,7 @@ jobs:
         steps.check_changes.outputs.api_changed == 'true'
       with:
         context: ./app-api
-        file: Dockerfile
+        file: ./app-api/Dockerfile
         push: true  
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.API_IMAGE }}:${{ github.sha }}
         platforms: linux/amd64
@@ -105,7 +105,7 @@ jobs:
         steps.check_changes.outputs.scheduler_changed == 'true'
       with:
         context: ./app-scheduler
-        file: Dockerfile
+        file: ./app-scheduler/Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.SCHEDULER_IMAGE }}:${{ github.sha }}
         platforms: linux/amd64
