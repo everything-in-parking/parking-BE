@@ -9,7 +9,7 @@ import com.parkingcomestrue.common.domain.parking.OperatingTime;
 import com.parkingcomestrue.common.domain.parking.OperationType;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
-import com.parkingcomestrue.common.domain.parking.PayTypes;
+import com.parkingcomestrue.common.domain.parking.PayType;
 import com.parkingcomestrue.common.domain.parking.Space;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;
 import com.parkingcomestrue.common.domain.parking.repository.ParkingRepository;
@@ -67,10 +67,11 @@ public class BasicParkingRepository implements ParkingRepository, BasicRepositor
         LinkedList<Parking> result = new LinkedList<>();
         for (int i = 0; i < size; i++) {
             Parking parking = new Parking(
-                    new BaseInformation("not offer parking" + i, "051-000" + i, "부산시 어딘가 " + i, PayTypes.DEFAULT,
+                    new BaseInformation("not offer parking" + i, "051-000" + i, "부산시 어딘가 " + i,
+                            List.of(PayType.NO_INFO),
                             ParkingType.NO_INFO,
                             OperationType.PUBLIC),
-                    Location.of("33.333" + i, "44.444" + i),
+                    Location.of("133.333" + i, "44.444" + i),
                     Space.of(-1, -1),
                     FreeOperatingTime.ALWAYS_FREE,
                     OperatingTime.ALWAYS_OPEN,

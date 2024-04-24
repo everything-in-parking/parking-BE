@@ -11,10 +11,8 @@ import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.ParkingFeeCalculator;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
 import com.parkingcomestrue.common.domain.parking.PayType;
-import com.parkingcomestrue.common.domain.parking.PayTypes;
 import com.parkingcomestrue.common.domain.parking.SearchingCondition;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;
-import com.parkingcomestrue.common.domain.parking.service.ParkingFilteringService;
 import com.parkingcomestrue.common.domain.searchcondition.FeeType;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,25 +29,24 @@ class ParkingFilteringServiceTest {
         // given
         ParkingType parkingTypeCondition = ParkingType.MECHANICAL;
         OperationType operationTypeCondition = OperationType.PUBLIC;
-        PayType wantPayType = PayType.CASH;
 
         Parking wantParking = Parking.builder()
                 .baseInformation(new BaseInformation("name", "tell", "address",
-                        PayTypes.from(List.of(wantPayType)),
+                        List.of(PayType.CASH),
                         parkingTypeCondition,
                         operationTypeCondition))
                 .build();
 
         Parking notWantParking1 = Parking.builder()
                 .baseInformation(new BaseInformation("name", "tell", "address",
-                        PayTypes.DEFAULT,
+                        List.of(PayType.NO_INFO),
                         parkingTypeCondition,
                         OperationType.NO_INFO))
                 .build();
 
         Parking notWantParking2 = Parking.builder()
                 .baseInformation(new BaseInformation("name", "tell", "address",
-                        PayTypes.DEFAULT,
+                        List.of(PayType.NO_INFO),
                         ParkingType.OFF_STREET,
                         operationTypeCondition))
                 .build();
@@ -58,7 +55,7 @@ class ParkingFilteringServiceTest {
         SearchingCondition searchingCondition = new SearchingCondition(
                 List.of(operationTypeCondition),
                 List.of(parkingTypeCondition),
-                List.of(wantPayType),
+                List.of(PayType.CASH),
                 FeeType.PAID, 3);
 
         List<Parking> filterList = parkingFilteringService.filterByCondition(
@@ -76,25 +73,24 @@ class ParkingFilteringServiceTest {
         // given
         ParkingType wantParkingTypeCondition = ParkingType.ON_STREET;
         OperationType wantOperationTypeCondition = OperationType.PUBLIC;
-        PayType wantPayType = PayType.CARD;
 
         Parking wantParking = Parking.builder()
                 .baseInformation(new BaseInformation("name", "tel", "address",
-                        PayTypes.from(List.of(wantPayType)),
+                        List.of(PayType.CARD),
                         wantParkingTypeCondition,
                         wantOperationTypeCondition))
                 .build();
 
         Parking notWantParking1 = Parking.builder()
                 .baseInformation(new BaseInformation("name", "tel", "address",
-                        PayTypes.DEFAULT,
+                        List.of(PayType.NO_INFO),
                         ParkingType.MECHANICAL,
                         wantOperationTypeCondition))
                 .build();
 
         Parking notWantParking2 = Parking.builder()
                 .baseInformation(new BaseInformation("name", "tel", "address",
-                        PayTypes.DEFAULT,
+                        List.of(PayType.NO_INFO),
                         ParkingType.NO_INFO,
                         wantOperationTypeCondition))
                 .build();
@@ -103,7 +99,7 @@ class ParkingFilteringServiceTest {
         SearchingCondition searchingCondition = new SearchingCondition(
                 List.of(wantOperationTypeCondition),
                 List.of(wantParkingTypeCondition),
-                List.of(wantPayType),
+                List.of(PayType.CARD),
                 FeeType.PAID, 3);
 
         List<Parking> result = parkingFilteringService.filterByCondition(
@@ -124,7 +120,7 @@ class ParkingFilteringServiceTest {
         OperationType operationType = OperationType.PUBLIC;
         ParkingType parkingType = ParkingType.MECHANICAL;
         BaseInformation baseInformation = new BaseInformation("name", "tel", "address",
-                PayTypes.from(List.of(PayType.CARD)),
+                List.of(PayType.CARD),
                 parkingType,
                 operationType
         );
