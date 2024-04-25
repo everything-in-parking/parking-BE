@@ -156,4 +156,68 @@ class ParkingFilteringServiceTest {
         // then
         Assertions.assertThat(filteredParkings).hasSize(2);
     }
+
+    @Test
+    void 결제방식을_기본값으로_조회시_모든_결제방식의_주차장이_조회된다() {
+        // given
+        OperationType operationType = OperationType.PUBLIC;
+        ParkingType parkingType = ParkingType.MECHANICAL;
+        BaseInformation onlyCard = new BaseInformation("name", "tel", "address",
+                List.of(PayType.CARD),
+                parkingType,
+                operationType
+        );
+
+        BaseInformation cardAndCash = new BaseInformation("name", "tel", "address",
+                List.of(PayType.CARD, PayType.CASH),
+                parkingType,
+                operationType
+        );
+
+        BaseInformation bankTransfer = new BaseInformation("name", "tel", "address",
+                List.of(PayType.BANK_TRANSFER),
+                parkingType,
+                operationType
+        );
+
+        BaseInformation noInfo = new BaseInformation("name", "tel", "address",
+                List.of(PayType.NO_INFO),
+                parkingType,
+                operationType
+        );
+
+        Parking parking1 = Parking.builder()
+                .baseInformation(onlyCard)
+                .build();
+
+        Parking parking2 = Parking.builder()
+                .baseInformation(cardAndCash)
+                .build();
+
+        Parking parking3 = Parking.builder()
+                .baseInformation(cardAndCash)
+                .build();
+
+        Parking parking4 = Parking.builder()
+                .baseInformation(bankTransfer)
+                .build();
+
+        Parking parking5 = Parking.builder()
+                .baseInformation(noInfo)
+                .build();
+
+
+
+        // when - 결제 방식을 기본 값(NO_INFO)으로 주차장 필터링
+        SearchingCondition searchingCondition = new SearchingCondition(List.of(operationType), List.of(parkingType),
+                List.of(PayType.NO_INFO), FeeType.PAID, 3);
+        List<Parking> filteredParkings = parkingFilteringService.filterByCondition(
+                List.of(parking1, parking2, parking3, parking4, parking5),
+                searchingCondition,
+                LocalDateTime.now()
+        );
+
+        // then
+        Assertions.assertThat(filteredParkings).hasSize(5);
+    }
 }

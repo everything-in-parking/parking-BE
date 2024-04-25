@@ -53,6 +53,9 @@ public class BaseInformation {
     }
 
     public boolean containsPayType(List<PayType> memberPayTypes) {
+        if (memberPayTypes.contains(PayType.NO_INFO)) {
+            return true;
+        }
         return memberPayTypes.stream()
                 .anyMatch(payType -> this.payTypes.contains(payType));
     }
