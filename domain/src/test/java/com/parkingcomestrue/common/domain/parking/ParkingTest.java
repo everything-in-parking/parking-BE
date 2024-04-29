@@ -1,14 +1,5 @@
 package com.parkingcomestrue.common.domain.parking;
 
-import com.parkingcomestrue.common.domain.parking.BaseInformation;
-import com.parkingcomestrue.common.domain.parking.Fee;
-import com.parkingcomestrue.common.domain.parking.FeePolicy;
-import com.parkingcomestrue.common.domain.parking.FreeOperatingTime;
-import com.parkingcomestrue.common.domain.parking.Location;
-import com.parkingcomestrue.common.domain.parking.OperatingTime;
-import com.parkingcomestrue.common.domain.parking.Parking;
-import com.parkingcomestrue.common.domain.parking.Space;
-import com.parkingcomestrue.common.domain.parking.TimeUnit;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,7 +12,8 @@ class ParkingTest {
     @Test
     void 목적지와_68미터_떨어진_주차장_도보_예상시간_계산() {
         // given (parking 과 destination 거리 68m)
-        int expectedTime = (int) Math.ceil(0.068 / 5);
+        // 0.068 / 5 * 60
+        int expectedTime = 1;
         Parking parking = Parking.builder()
                 .location(Location.of(127.1215865, 37.4811181))
                 .build();
@@ -36,8 +28,9 @@ class ParkingTest {
 
     @Test
     void 목적지와_333미터_떨어진_주차장_도보_예상시간_계산() {
-        // given (parking 과 destination 거리 68m)
-        int expectedTime = (int) Math.ceil(0.333 / 5);
+        // given (parking 과 destination 거리 333m)
+        // 0.333 / 5 * 60
+        int expectedTime = 5;
         Parking parking = Parking.builder()
                 .location(Location.of(127.1215865, 37.4811181))
                 .build();
