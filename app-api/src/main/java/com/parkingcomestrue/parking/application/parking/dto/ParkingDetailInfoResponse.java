@@ -12,6 +12,7 @@ public class ParkingDetailInfoResponse {
 
     private String parkingName;
     private String parkingType;
+    private String address;
     private Double latitude;
     private Double longitude;
     private FeeInfo feeInfo;
@@ -25,7 +26,8 @@ public class ParkingDetailInfoResponse {
     private HolidayOperatingTime holidayOperatingTime;
     private ReviewInfoResponse reviewInfo;
 
-    public ParkingDetailInfoResponse(String parkingName, String parkingType, Double latitude, Double longitude,
+    public ParkingDetailInfoResponse(String parkingName, String parkingType, String address, Double latitude,
+                                     Double longitude,
                                      FeeInfo feeInfo,
                                      Integer currentParkingCount, Integer capacity, Integer lastUpdated, String tel,
                                      String paymentType, WeekdayOperatingTime weekdayOperatingTime,
@@ -33,6 +35,7 @@ public class ParkingDetailInfoResponse {
                                      HolidayOperatingTime holidayOperatingTime, ReviewInfoResponse reviewInfo) {
         this.parkingName = parkingName;
         this.parkingType = parkingType;
+        this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.feeInfo = feeInfo;
