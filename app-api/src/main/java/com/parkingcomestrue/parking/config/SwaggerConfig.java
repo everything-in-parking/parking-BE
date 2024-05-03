@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.security.SecurityScheme.In;
 import io.swagger.v3.oas.models.security.SecurityScheme.Type;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,13 +20,16 @@ public class SwaggerConfig {
 
     private static final String JSESSIONID = "JSESSIONID";
 
+    @Value("${api-prefix}")
+    private String API_PREFIX;
+
     @Bean
     public OpenAPI openAPI() {
         SecurityScheme auth = new SecurityScheme()
                 .type(Type.APIKEY).in(In.COOKIE).name(JSESSIONID);
         SecurityRequirement securityRequirement = new SecurityRequirement().addList(JSESSIONID);
 
-        return new OpenAPI().addServersItem(new Server().url("/"))
+        return new OpenAPI().addServersItem(new Server().url(API_PREFIX))
                 .components(new Components().addSecuritySchemes("JSESSIONID", auth))
                 .addSecurityItem(securityRequirement);
     }
