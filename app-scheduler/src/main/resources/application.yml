@@ -6,3 +6,4 @@ kakao:
   key: ${KAKAO_API_KEY:kakao}
 seoul-public-parking-key: ${SEOUL_API_KEY:seoul}
 pusan-public-parking-key: ${PUSAN_API_KEY:pusan}
+korea-parking-key: ${KOREA_API_KEY:korea}
