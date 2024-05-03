@@ -25,7 +25,7 @@ public class PayTypes {
     }
 
     public static PayTypes from(Collection<PayType> payTypes) {
-        if (payTypes.contains(PayType.NO_INFO)) {
+        if (payTypes.contains(PayType.NO_INFO) || payTypes.isEmpty()) {
             return DEFAULT;
         }
 

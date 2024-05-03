@@ -2,15 +2,17 @@ package com.parkingcomestrue.common.domain.parking;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(of = "timeUnit")
 @Getter
 public class TimeUnit {
 
-    private static final TimeUnit NO_INFO = new TimeUnit(-1);
+    public static final TimeUnit NO_INFO = new TimeUnit(-1);
 
     private int timeUnit;
 

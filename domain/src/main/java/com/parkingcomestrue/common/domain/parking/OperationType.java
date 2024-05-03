@@ -1,6 +1,7 @@
 package com.parkingcomestrue.common.domain.parking;
 
 import com.parkingcomestrue.common.domain.searchcondition.SearchConditionAvailable;
+import java.util.Arrays;
 import lombok.Getter;
 
 @Getter
@@ -14,6 +15,13 @@ public enum OperationType implements SearchConditionAvailable {
 
     OperationType(String description) {
         this.description = description;
+    }
+
+    public static OperationType find(String description) {
+        return Arrays.stream(values())
+                .filter(e -> description.contains(e.getDescription()))
+                .findAny()
+                .orElse(NO_INFO);
     }
 
     @Override
