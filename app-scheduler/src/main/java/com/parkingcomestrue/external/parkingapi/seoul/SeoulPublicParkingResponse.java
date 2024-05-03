@@ -1,5 +1,6 @@
 package com.parkingcomestrue.external.parkingapi.seoul;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -13,6 +14,7 @@ public class SeoulPublicParkingResponse {
     private ParkingInfo parkingInfo;
 
     @Getter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ParkingInfo {
 
         @JsonProperty("row")
@@ -20,6 +22,7 @@ public class SeoulPublicParkingResponse {
 
         @Getter
         @JsonNaming(value = PropertyNamingStrategies.UpperSnakeCaseStrategy.class)
+        @JsonIgnoreProperties(ignoreUnknown = true)
         public static class SeoulCityParking {
 
             private String parkingCode;
