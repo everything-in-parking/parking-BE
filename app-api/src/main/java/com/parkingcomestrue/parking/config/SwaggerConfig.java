@@ -30,7 +30,7 @@ public class SwaggerConfig {
         SecurityRequirement securityRequirement = new SecurityRequirement().addList(JSESSIONID);
 
         return new OpenAPI().addServersItem(new Server().url(API_PREFIX))
-                .components(new Components().addSecuritySchemes("JSESSIONID", auth))
+                .components(new Components().addSecuritySchemes(JSESSIONID, auth))
                 .addSecurityItem(securityRequirement);
     }
 }
