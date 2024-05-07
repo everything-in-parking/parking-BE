@@ -3,14 +3,13 @@ package com.parkingcomestrue.external.parkingapi.pusan;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.external.parkingapi.ParkingApiService;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 @Component
 public class PusanPublicParkingApiService implements ParkingApiService {
@@ -45,15 +44,14 @@ public class PusanPublicParkingApiService implements ParkingApiService {
     }
 
     private URI makeUri(int startIndex, int size) {
-        return UriComponentsBuilder
-                .fromHttpUrl(URL)
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(URL);
+        factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
+        return factory.builder()
                 .queryParam("ServiceKey", API_KEY)
                 .queryParam("pageNo", startIndex)
                 .queryParam("numOfRows", size)
                 .queryParam("resultType", RESULT_TYPE)
-                .encode(StandardCharsets.UTF_8)
-                .build()
-                .toUri();
+                .build();
     }
 
     @Override
