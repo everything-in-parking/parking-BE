@@ -88,6 +88,9 @@ public class ParkingUpdateScheduler {
 
     private void updateLocation(List<Parking> newParkingLots) {
         for (Parking parking : newParkingLots) {
+            if (!parking.getLocation().equals(Location.NO_PROVIDE)) {
+                continue;
+            }
             Location locationByAddress = coordinateApiService.extractLocationByAddress(
                     parking.getBaseInformation().getAddress(),
                     parking.getLocation());
