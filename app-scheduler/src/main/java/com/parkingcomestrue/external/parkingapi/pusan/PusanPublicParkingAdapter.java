@@ -9,7 +9,7 @@ import com.parkingcomestrue.common.domain.parking.OperatingTime;
 import com.parkingcomestrue.common.domain.parking.OperationType;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
-import com.parkingcomestrue.common.domain.parking.PayTypes;
+import com.parkingcomestrue.common.domain.parking.PayType;
 import com.parkingcomestrue.common.domain.parking.Space;
 import com.parkingcomestrue.common.domain.parking.TimeInfo;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;
@@ -48,7 +48,7 @@ public class PusanPublicParkingAdapter {
                 response.getParkingName(),
                 response.getTelephoneNumber(),
                 filterAddress(response),
-                PayTypes.DEFAULT,
+                List.of(PayType.NO_INFO),
                 ParkingType.find(response.getParkingTypeNM()),
                 OperationType.PUBLIC
         );

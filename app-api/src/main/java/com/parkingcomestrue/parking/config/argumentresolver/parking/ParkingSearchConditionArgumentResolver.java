@@ -65,7 +65,7 @@ public class ParkingSearchConditionArgumentResolver implements HandlerMethodArgu
                 searchConditionMapper.getValues(OperationType.class),
                 searchConditionMapper.getValues(ParkingType.class),
                 NOT_FREE,
-                searchConditionMapper.getValues(PayType.class),
+                List.of(PayType.NO_INFO.getDescription()),
                 BASE_HOURS,
                 RECOMMEND_ORDER_CONDITION
         );

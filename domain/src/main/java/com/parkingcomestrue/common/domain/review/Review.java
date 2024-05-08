@@ -1,15 +1,14 @@
 package com.parkingcomestrue.common.domain.review;
 
-import com.parkingcomestrue.common.domain.parking.Parking;
-import com.parkingcomestrue.common.infra.converter.ContentConverter;
 import com.parkingcomestrue.common.domain.member.Member;
+import com.parkingcomestrue.common.domain.parking.Parking;
+import com.parkingcomestrue.common.infra.converter.AssociationConverter;
+import com.parkingcomestrue.common.infra.converter.ContentConverter;
 import com.parkingcomestrue.common.support.Association;
 import com.parkingcomestrue.common.support.exception.DomainException;
 import com.parkingcomestrue.common.support.exception.DomainExceptionInformation;
-import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,12 +30,10 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Embedded
-    @AttributeOverride(name = "id", column = @Column(name = "parking_id"))
+    @Convert(converter = AssociationConverter.class)
     private Association<Parking> parkingId;
 
-    @Embedded
-    @AttributeOverride(name = "id", column = @Column(name = "reviewer_id"))
+    @Convert(converter = AssociationConverter.class)
     private Association<Member> reviewerId;
 
     @Convert(converter = ContentConverter.class)
