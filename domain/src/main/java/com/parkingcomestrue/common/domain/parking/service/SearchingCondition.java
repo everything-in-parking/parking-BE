@@ -1,5 +1,8 @@
-package com.parkingcomestrue.common.domain.parking;
+package com.parkingcomestrue.common.domain.parking.service;
 
+import com.parkingcomestrue.common.domain.parking.OperationType;
+import com.parkingcomestrue.common.domain.parking.ParkingType;
+import com.parkingcomestrue.common.domain.parking.PayType;
 import com.parkingcomestrue.common.domain.searchcondition.FeeType;
 import java.util.List;
 import lombok.Getter;

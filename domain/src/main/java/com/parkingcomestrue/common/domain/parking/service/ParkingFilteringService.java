@@ -3,7 +3,6 @@ package com.parkingcomestrue.common.domain.parking.service;
 import com.parkingcomestrue.common.domain.searchcondition.FeeType;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.ParkingFeeCalculator;
-import com.parkingcomestrue.common.domain.parking.SearchingCondition;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

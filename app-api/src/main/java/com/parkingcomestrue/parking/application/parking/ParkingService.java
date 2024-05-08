@@ -9,7 +9,7 @@ import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.ParkingFeeCalculator;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
 import com.parkingcomestrue.common.domain.parking.PayType;
-import com.parkingcomestrue.common.domain.parking.SearchingCondition;
+import com.parkingcomestrue.common.domain.parking.service.SearchingCondition;
 import com.parkingcomestrue.common.domain.parking.repository.ParkingRepository;
 import com.parkingcomestrue.common.domain.parking.service.ParkingFilteringService;
 import com.parkingcomestrue.common.domain.searchcondition.FeeType;
