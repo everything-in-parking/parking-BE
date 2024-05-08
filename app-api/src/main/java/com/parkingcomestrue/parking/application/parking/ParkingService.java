@@ -1,17 +1,5 @@
 package com.parkingcomestrue.parking.application.parking;
 
-import com.parkingcomestrue.parking.application.SearchConditionMapper;
-import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse;
-import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse.FeeInfo;
-import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse.HolidayOperatingTime;
-import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse.SaturdayOperatingTime;
-import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse.WeekdayOperatingTime;
-import com.parkingcomestrue.parking.application.parking.dto.ParkingLotsResponse;
-import com.parkingcomestrue.parking.application.parking.dto.ParkingLotsResponse.ParkingResponse;
-import com.parkingcomestrue.parking.application.parking.dto.ParkingQueryRequest;
-import com.parkingcomestrue.parking.application.parking.dto.ParkingSearchConditionRequest;
-import com.parkingcomestrue.parking.application.review.ReviewService;
-import com.parkingcomestrue.parking.application.review.dto.ReviewInfoResponse;
 import com.parkingcomestrue.common.domain.favorite.Favorite;
 import com.parkingcomestrue.common.domain.favorite.repository.FavoriteRepository;
 import com.parkingcomestrue.common.domain.parking.Fee;
@@ -26,6 +14,18 @@ import com.parkingcomestrue.common.domain.parking.repository.ParkingRepository;
 import com.parkingcomestrue.common.domain.parking.service.ParkingFilteringService;
 import com.parkingcomestrue.common.domain.searchcondition.FeeType;
 import com.parkingcomestrue.common.support.Association;
+import com.parkingcomestrue.parking.application.SearchConditionMapper;
+import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse;
+import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse.FeeInfo;
+import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse.HolidayOperatingTime;
+import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse.SaturdayOperatingTime;
+import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse.WeekdayOperatingTime;
+import com.parkingcomestrue.parking.application.parking.dto.ParkingLotsResponse;
+import com.parkingcomestrue.parking.application.parking.dto.ParkingLotsResponse.ParkingResponse;
+import com.parkingcomestrue.parking.application.parking.dto.ParkingQueryRequest;
+import com.parkingcomestrue.parking.application.parking.dto.ParkingSearchConditionRequest;
+import com.parkingcomestrue.parking.application.review.ReviewService;
+import com.parkingcomestrue.parking.application.review.dto.ReviewInfoResponse;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -82,10 +82,10 @@ public class ParkingService {
     private List<Parking> findParkingLotsByOrderCondition(String priority, ParkingQueryRequest parkingQueryRequest,
                                                           Location middleLocation) {
         if (priority.equals(DISTANCE_ORDER_CONDITION)) {
-            return parkingRepository.findAroundParkingLotsOrderByDistance(middleLocation.getPoint(),
+            return parkingRepository.findAroundParkingLotsOrderByDistance(middleLocation.toPoint(),
                     parkingQueryRequest.getRadius());
         }
-        return parkingRepository.findAroundParkingLots(middleLocation.getPoint(), parkingQueryRequest.getRadius());
+        return parkingRepository.findAroundParkingLots(middleLocation.toPoint(), parkingQueryRequest.getRadius());
     }
 
     private SearchingCondition toSearchingCondition(ParkingSearchConditionRequest request) {
@@ -166,7 +166,7 @@ public class ParkingService {
                 parking.getSpace().getCapacity(),
                 diffMinute,
                 parking.getBaseInformation().getTel(),
-                parking.getBaseInformation().getPayTypes().getDescription(),
+                parking.getBaseInformation().getPayTypesDescription(),
                 new WeekdayOperatingTime(
                         parking.getOperatingTime().getWeekdayBeginTime(),
                         parking.getOperatingTime().getWeekdayEndTime()),

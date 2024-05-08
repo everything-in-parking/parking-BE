@@ -1,9 +1,9 @@
 package com.parkingcomestrue.common.domain.parking;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
+import com.parkingcomestrue.common.infra.converter.FeeConverter;
+import com.parkingcomestrue.common.infra.converter.TimeUnitConverter;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,31 +13,26 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class FeePolicy {
 
-    @AttributeOverride(name = "fee", column = @Column(name = "base_fee"))
-    @Embedded
+    @Convert(converter = FeeConverter.class)
     private Fee baseFee;
 
-    @AttributeOverride(name = "fee", column = @Column(name = "extra_fee"))
-    @Embedded
+    @Convert(converter = FeeConverter.class)
     private Fee extraFee;
 
-    @AttributeOverride(name = "timeUnit", column = @Column(name = "base_time_unit"))
-    @Embedded
+    @Convert(converter = TimeUnitConverter.class)
     private TimeUnit baseTimeUnit;
 
-    @AttributeOverride(name = "timeUnit", column = @Column(name = "extra_time_unit"))
-    @Embedded
-    private TimeUnit extraTimUnit;
+    @Convert(converter = TimeUnitConverter.class)
+    private TimeUnit extraTimeUnit;
 
-    @AttributeOverride(name = "fee", column = @Column(name = "day_maximum_fee"))
-    @Embedded
+    @Convert(converter = FeeConverter.class)
     private Fee dayMaximumFee;
 
-    public FeePolicy(Fee baseFee, Fee extraFee, TimeUnit baseTimeUnit, TimeUnit extraTimUnit, Fee dayMaximumFee) {
+    public FeePolicy(Fee baseFee, Fee extraFee, TimeUnit baseTimeUnit, TimeUnit extraTimeUnit, Fee dayMaximumFee) {
         this.baseFee = baseFee;
         this.extraFee = extraFee;
         this.baseTimeUnit = baseTimeUnit;
-        this.extraTimUnit = extraTimUnit;
+        this.extraTimeUnit = extraTimeUnit;
         this.dayMaximumFee = dayMaximumFee;
     }
 
@@ -53,7 +48,7 @@ public class FeePolicy {
     }
 
     public boolean supportExtra() {
-        return extraFee.isValidFee() && extraTimUnit.isValidTimeUnit();
+        return extraFee.isValidFee() && extraTimeUnit.isValidTimeUnit();
     }
 
     private Fee calculateFeeWithBase(int minutes) {
@@ -64,7 +59,7 @@ public class FeePolicy {
             return baseFee;
         }
         minutes = minutes - baseTimeUnit.getTimeUnit();
-        int time = extraTimUnit.calculateQuotient(minutes);
+        int time = extraTimeUnit.calculateQuotient(minutes);
         return Fee.min(extraFee.multiply(time).plus(baseFee), dayMaximumFee);
     }
 
@@ -73,7 +68,7 @@ public class FeePolicy {
             return Fee.ZERO;
         }
         if (supportExtra()) {
-            int time = extraTimUnit.calculateQuotient(minutes);
+            int time = extraTimeUnit.calculateQuotient(minutes);
             return Fee.min(extraFee.multiply(time), dayMaximumFee);
         }
         return Fee.NO_INFO;

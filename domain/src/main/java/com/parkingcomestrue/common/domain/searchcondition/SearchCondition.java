@@ -4,13 +4,12 @@ import com.parkingcomestrue.common.domain.member.Member;
 import com.parkingcomestrue.common.domain.parking.OperationType;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
 import com.parkingcomestrue.common.domain.parking.PayType;
+import com.parkingcomestrue.common.infra.converter.AssociationConverter;
 import com.parkingcomestrue.common.infra.converter.FeeTypeConverter;
 import com.parkingcomestrue.common.infra.converter.OperationTypeConverter;
 import com.parkingcomestrue.common.infra.converter.ParkingTypeConverter;
 import com.parkingcomestrue.common.infra.converter.PayTypeConverter;
 import com.parkingcomestrue.common.support.Association;
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -33,8 +32,7 @@ public class SearchCondition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Embedded
-    @AttributeOverride(name = "id", column = @Column(name = "member_id"))
+    @Convert(converter = AssociationConverter.class)
     private Association<Member> memberId;
 
     @Convert(converter = OperationTypeConverter.class)

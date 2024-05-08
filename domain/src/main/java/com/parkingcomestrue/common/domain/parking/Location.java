@@ -19,7 +19,7 @@ import org.locationtech.jts.geom.PrecisionModel;
 public class Location {
 
     private static final GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
-    public static final Location NO_PROVIDE = new Location(geometryFactory.createPoint(new Coordinate(-1.0, -1.0)));
+    private static final Location NO_PROVIDE = new Location(-1.0, -1.0);
 
     private static final Double MAX_LONGITUDE = 180.0;
     private static final Double MIN_LONGITUDE = -180.0;
@@ -27,17 +27,18 @@ public class Location {
     private static final Double MAX_LATITUDE = 90.0;
     private static final Double MIN_LATITUDE = -90.0;
 
-    private Point point;
+    private Double longitude;
+    private Double latitude;
 
-    private Location(Point point) {
-        this.point = point;
+    private Location(Double longitude, Double latitude) {
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public static Location of(Double longitude, Double latitude) {
         try {
             verifyLocation(longitude, latitude);
-            Point point = geometryFactory.createPoint(new Coordinate(longitude, latitude));
-            return new Location(point);
+            return new Location(longitude, latitude);
         } catch (NullPointerException e) {
             return NO_PROVIDE;
         }
@@ -58,11 +59,7 @@ public class Location {
         }
     }
 
-    public double getLongitude() {
-        return point.getX();
-    }
-
-    public double getLatitude() {
-        return point.getY();
+    public Point toPoint() {
+        return geometryFactory.createPoint(new Coordinate(longitude, latitude));
     }
 }

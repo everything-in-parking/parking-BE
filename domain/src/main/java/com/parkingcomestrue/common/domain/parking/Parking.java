@@ -1,6 +1,8 @@
 package com.parkingcomestrue.common.domain.parking;
 
 import com.parkingcomestrue.common.domain.AuditingEntity;
+import com.parkingcomestrue.common.infra.converter.LocationConverter;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,7 +33,7 @@ public class Parking extends AuditingEntity {
     @Embedded
     private BaseInformation baseInformation;
 
-    @Embedded
+    @Convert(converter = LocationConverter.class)
     private Location location;
 
     @Embedded

@@ -10,7 +10,6 @@ import com.parkingcomestrue.common.domain.parking.OperationType;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
 import com.parkingcomestrue.common.domain.parking.PayType;
-import com.parkingcomestrue.common.domain.parking.PayTypes;
 import com.parkingcomestrue.common.domain.parking.Space;
 import com.parkingcomestrue.common.domain.parking.TimeInfo;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;

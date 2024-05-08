@@ -3,10 +3,9 @@ package com.parkingcomestrue.common.domain.favorite;
 import com.parkingcomestrue.common.domain.AuditingEntity;
 import com.parkingcomestrue.common.domain.member.Member;
 import com.parkingcomestrue.common.domain.parking.Parking;
+import com.parkingcomestrue.common.infra.converter.AssociationConverter;
 import com.parkingcomestrue.common.support.Association;
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,12 +32,10 @@ public class Favorite extends AuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Embedded
-    @AttributeOverride(name = "id", column = @Column(name = "member_id"))
+    @Convert(converter = AssociationConverter.class)
     private Association<Member> memberId;
 
-    @Embedded
-    @AttributeOverride(name = "id", column = @Column(name = "parking_id"))
+    @Convert(converter = AssociationConverter.class)
     private Association<Parking> parkingId;
 
     public Favorite(Association<Member> memberId, Association<Parking> parkingId) {

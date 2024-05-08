@@ -1,6 +1,5 @@
 package com.parkingcomestrue.fake;
 
-import com.parkingcomestrue.external.parkingapi.ParkingApiService;
 import com.parkingcomestrue.common.domain.parking.BaseInformation;
 import com.parkingcomestrue.common.domain.parking.Fee;
 import com.parkingcomestrue.common.domain.parking.FeePolicy;
@@ -10,9 +9,10 @@ import com.parkingcomestrue.common.domain.parking.OperatingTime;
 import com.parkingcomestrue.common.domain.parking.OperationType;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
-import com.parkingcomestrue.common.domain.parking.PayTypes;
+import com.parkingcomestrue.common.domain.parking.PayType;
 import com.parkingcomestrue.common.domain.parking.Space;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;
+import com.parkingcomestrue.external.parkingapi.ParkingApiService;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class OfferCurrentParkingApiService implements ParkingApiService {
         LinkedList<Parking> result = new LinkedList<>();
         for (int i = 0; i < readSize; i++) {
             Parking parking = new Parking(
-                    new BaseInformation("offer parking" + i, "02-000" + i, "서울시 어딘가 " + i, PayTypes.DEFAULT,
+                    new BaseInformation("offer parking" + i, "02-000" + i, "서울시 어딘가 " + i, List.of(PayType.NO_INFO),
                             ParkingType.NO_INFO,
                             OperationType.PUBLIC),
                     Location.of("11.111" + i, "22.222" + i),
