@@ -16,7 +16,9 @@ import com.parkingcomestrue.common.domain.parking.TimeUnit;
 import java.time.DateTimeException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,6 +27,7 @@ public class PusanPublicParkingAdapter {
     private static final String EMPTY = "-";
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
     private static final String HOURS_24 = "24:00";
+    private static final String HOURS_00 = "00:00";
 
     public List<Parking> convert(PusanPublicParkingResponse response) {
         return response.getGetParkingInfoDetails().getBody().getItems().getItem()
@@ -48,7 +51,7 @@ public class PusanPublicParkingAdapter {
                 response.getParkingName(),
                 response.getTelephoneNumber(),
                 filterAddress(response),
-                List.of(PayType.NO_INFO),
+                toPayTypes(response),
                 ParkingType.find(response.getParkingTypeNM()),
                 OperationType.PUBLIC
         );
@@ -61,6 +64,19 @@ public class PusanPublicParkingAdapter {
         return response.getOldAddress();
     }
 
+    private Set<PayType> toPayTypes(PusanPublicParkingResponse.ParkingInfo.Item item) {
+        Set<PayType> payTypes = new HashSet<>();
+        for (PayType payType : PayType.values()) {
+            if (item.getPayType().contains(payType.getDescription())) {
+                payTypes.add(payType);
+            }
+        }
+        if (payTypes.isEmpty()) {
+            return Set.of(PayType.NO_INFO);
+        }
+        return payTypes;
+    }
+
     private Location getLocation(final PusanPublicParkingResponse.ParkingInfo.Item response) {
         return Location.of(response.getLongitude(), response.getLatitude());
     }
@@ -71,13 +87,20 @@ public class PusanPublicParkingAdapter {
 
     private OperatingTime getOperatingTime(final PusanPublicParkingResponse.ParkingInfo.Item response) {
         return new OperatingTime(
-                new TimeInfo(parsingOperationTime(response.getWeekdayBeginTime()),
-                        parsingOperationTime(response.getWeekdayEndTime())),
-                new TimeInfo(parsingOperationTime(response.getWeekendBeginTime()),
-                        parsingOperationTime(response.getWeekendEndTime())),
-                new TimeInfo(parsingOperationTime(response.getHolidayBeginTime()),
-                        parsingOperationTime(response.getHolidayEndTime()))
+                toTimeInfo(response.getWeekdayBeginTime(), response.getWeekdayEndTime()),
+                toTimeInfo(response.getWeekendBeginTime(), response.getWeekendEndTime()),
+                toTimeInfo(response.getHolidayBeginTime(), response.getHolidayEndTime())
         );
+    }
+
+    private TimeInfo toTimeInfo(String beginTime, String endTime) {
+        if (HOURS_00.equals(beginTime) && HOURS_24.equals(endTime)) {
+            return TimeInfo.ALL_DAY;
+        }
+        if (HOURS_00.equals(beginTime) && HOURS_00.equals(endTime)) {
+            return TimeInfo.CLOSED;
+        }
+        return new TimeInfo(parsingOperationTime(beginTime), parsingOperationTime(endTime));
     }
 
     private LocalTime parsingOperationTime(String time) {

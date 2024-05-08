@@ -10,8 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -93,15 +93,15 @@ public class Parking extends AuditingEntity {
         this.location = location;
     }
 
-    public boolean containsOperationType(List<OperationType> operationTypes) {
+    public boolean containsOperationType(Set<OperationType> operationTypes) {
         return baseInformation.containsOperationType(operationTypes);
     }
 
-    public boolean containsParkingType(List<ParkingType> parkingTypes) {
+    public boolean containsParkingType(Set<ParkingType> parkingTypes) {
         return baseInformation.containsParkingType(parkingTypes);
     }
 
-    public boolean containsPayType(List<PayType> memberPayTypes) {
+    public boolean containsPayType(Set<PayType> memberPayTypes) {
         return baseInformation.containsPayType(memberPayTypes);
     }
 

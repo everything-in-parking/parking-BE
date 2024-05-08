@@ -79,7 +79,7 @@ public class SeoulPublicParkingAdapter {
                 response.getParkingName(),
                 response.getTel(),
                 response.getAddr(),
-                List.of(PayType.NO_INFO),
+                Set.of(PayType.NO_INFO),
                 ParkingType.find(response.getParkingTypeNM()),
                 OperationType.PUBLIC
         );

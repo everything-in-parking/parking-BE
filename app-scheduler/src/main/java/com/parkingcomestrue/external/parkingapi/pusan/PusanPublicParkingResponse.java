@@ -1,5 +1,6 @@
 package com.parkingcomestrue.external.parkingapi.pusan;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.Getter;
@@ -11,10 +12,12 @@ public class PusanPublicParkingResponse {
     private ParkingInfo getParkingInfoDetails;
 
     @Getter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ParkingInfo {
         private Body body;
 
         @Getter
+        @JsonIgnoreProperties(ignoreUnknown = true)
         public static class Body {
             private Items items;
         }
@@ -25,6 +28,7 @@ public class PusanPublicParkingResponse {
         }
 
         @Getter
+        @JsonIgnoreProperties(ignoreUnknown = true)
         public static class Item {
 
             @JsonProperty("pkNam")
@@ -36,6 +40,8 @@ public class PusanPublicParkingResponse {
             @JsonProperty("tponNum")
             private String telephoneNumber;
 
+            @JsonProperty("payMtd")
+            private String payType;
 
             @JsonProperty("doroAddr")
             private String newAddress;

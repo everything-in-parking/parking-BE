@@ -4,7 +4,7 @@ import com.parkingcomestrue.common.domain.searchcondition.FeeType;
 import jakarta.persistence.Converter;
 
 @Converter
-public class FeeTypeConverter extends EnumListConverter<FeeType> {
+public class FeeTypeConverter extends EnumsConverter<FeeType> {
 
     public FeeTypeConverter() {
         super(FeeType.class);

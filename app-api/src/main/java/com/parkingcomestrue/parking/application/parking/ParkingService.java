@@ -9,7 +9,7 @@ import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.ParkingFeeCalculator;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
 import com.parkingcomestrue.common.domain.parking.PayType;
-import com.parkingcomestrue.common.domain.parking.SearchingCondition;
+import com.parkingcomestrue.common.domain.parking.service.SearchingCondition;
 import com.parkingcomestrue.common.domain.parking.repository.ParkingRepository;
 import com.parkingcomestrue.common.domain.parking.service.ParkingFilteringService;
 import com.parkingcomestrue.common.domain.searchcondition.FeeType;
@@ -89,10 +89,10 @@ public class ParkingService {
     }
 
     private SearchingCondition toSearchingCondition(ParkingSearchConditionRequest request) {
-        List<ParkingType> parkingTypes = searchConditionMapper.toEnums(ParkingType.class, request.getParkingTypes());
-        List<OperationType> operationTypes = searchConditionMapper.toEnums(OperationType.class,
+        Set<ParkingType> parkingTypes = searchConditionMapper.toEnums(ParkingType.class, request.getParkingTypes());
+        Set<OperationType> operationTypes = searchConditionMapper.toEnums(OperationType.class,
                 request.getOperationTypes());
-        List<PayType> payTypes = searchConditionMapper.toEnums(PayType.class, request.getPayTypes());
+        Set<PayType> payTypes = searchConditionMapper.toEnums(PayType.class, request.getPayTypes());
         FeeType feeType = searchConditionMapper.toEnum(FeeType.class, request.getFeeType());
 
         return new SearchingCondition(operationTypes, parkingTypes, payTypes, feeType, request.getHours());

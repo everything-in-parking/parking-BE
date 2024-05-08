@@ -1,0 +1,52 @@
+{
+  "getPblcPrkngInfo": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL_CODE"
+    },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "guNm": "부산광역시 사상구청",
+            "pkNam": "백양고가도로주변",
+            "mgntNum": "2009000009",
+            "doroAddr": "-",
+            "jibunAddr": "사상구 주례1동 340",
+            "tponNum": "051-310-4501",
+            "pkFm": "노외",
+            "pkCnt": "23",
+            "svcSrtTe": "00:00",
+            "svcEndTe": "24:00",
+            "satSrtTe": "00:00",
+            "satEndTe": "24:00",
+            "hldSrtTe": "00:00",
+            "hldEndTe": "24:00",
+            "ldRtg": "4",
+            "tenMin": "0",
+            "ftDay": "0",
+            "ftMon": "40000",
+            "xCdnt": "-",
+            "yCdnt": "-",
+            "fnlDt": "08/15/2014",
+            "pkGubun": "공영",
+            "bujeGubun": "-",
+            "oprDay": "-",
+            "feeInfo": "-",
+            "pkBascTime": "10",
+            "pkAddTime": "10",
+            "feeAdd": "0",
+            "ftDayApplytime": "-",
+            "payMtd": "-",
+            "spclNote": "-",
+            "currava": "-",
+            "oprt_fm": "구(군)직영"
+          }
+        ]
+      },
+      "numOfRows": 1,
+      "pageNo": 10,
+      "totalCount": 615
+    }
+  }
+}

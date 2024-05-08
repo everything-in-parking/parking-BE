@@ -1,6 +1,7 @@
 package com.parkingcomestrue.external.config;
 
 import com.parkingcomestrue.external.coordinate.CoordinateErrorHandler;
+import java.time.Duration;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -29,8 +30,9 @@ public class RestTemplateConfig {
     @Qualifier("parkingApiRestTemplate")
     public RestTemplate parkingApiRestTemplate(RestTemplateBuilder restTemplateBuilder) {
         return restTemplateBuilder
+                .setConnectTimeout(Duration.ofSeconds(30))
                 .errorHandler(new ParkingApiErrorHandler())
-                .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .build();
     }
 }

@@ -68,7 +68,7 @@ public class BasicParkingRepository implements ParkingRepository, BasicRepositor
         for (int i = 0; i < size; i++) {
             Parking parking = new Parking(
                     new BaseInformation("not offer parking" + i, "051-000" + i, "부산시 어딘가 " + i,
-                            List.of(PayType.NO_INFO),
+                            Set.of(PayType.NO_INFO),
                             ParkingType.NO_INFO,
                             OperationType.PUBLIC),
                     Location.of("133.333" + i, "44.444" + i),

@@ -14,6 +14,7 @@ import com.parkingcomestrue.common.domain.searchcondition.Priority;
 import com.parkingcomestrue.common.domain.searchcondition.SearchConditionAvailable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -63,7 +64,7 @@ class SearchConditionMapperTest {
                                                                                        List<String> descriptions,
                                                                                        List<E> expected) {
         //given, when
-        List<E> actual = searchConditionMapper.toEnums(clazz, descriptions);
+        Set<E> actual = searchConditionMapper.toEnums(clazz, descriptions);
 
         //then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
