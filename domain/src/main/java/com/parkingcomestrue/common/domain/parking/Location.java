@@ -19,7 +19,7 @@ import org.locationtech.jts.geom.PrecisionModel;
 public class Location {
 
     private static final GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
-    private static final Location NO_PROVIDE = new Location(-1.0, -1.0);
+    public static final Location NO_PROVIDE = new Location(-1.0, -1.0);
 
     private static final Double MAX_LONGITUDE = 180.0;
     private static final Double MIN_LONGITUDE = -180.0;

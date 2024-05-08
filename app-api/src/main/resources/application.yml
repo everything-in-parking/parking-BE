@@ -28,4 +28,4 @@ authcode:
 cors:
   allowedOrigins: ${ORIGIN:http://localhost:3000}
 
-api-prefix: ${API_PREFIX:/api/}
+api-prefix: ${API_PREFIX:/}

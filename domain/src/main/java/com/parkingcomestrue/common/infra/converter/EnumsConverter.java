@@ -2,21 +2,21 @@ package com.parkingcomestrue.common.infra.converter;
 
 import jakarta.persistence.AttributeConverter;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class EnumListConverter<E extends Enum<E>> implements AttributeConverter<List<E>, String> {
+public abstract class EnumsConverter<E extends Enum<E>> implements AttributeConverter<Set<E>, String> {
 
     private static final String DELIMITER = ", ";
 
     private final Class<E> enumClass;
 
-    protected EnumListConverter(Class<E> enumClass) {
+    protected EnumsConverter(Class<E> enumClass) {
         this.enumClass = enumClass;
     }
 
     @Override
-    public String convertToDatabaseColumn(List<E> attribute) {
+    public String convertToDatabaseColumn(Set<E> attribute) {
         return attribute.stream()
                 .map(Enum::name)
                 .sorted()
@@ -24,9 +24,9 @@ public abstract class EnumListConverter<E extends Enum<E>> implements AttributeC
     }
 
     @Override
-    public List<E> convertToEntityAttribute(String dbData) {
+    public Set<E> convertToEntityAttribute(String dbData) {
         return Arrays.stream(dbData.split(DELIMITER))
                 .map(name -> Enum.valueOf(enumClass, name))
-                .toList();
+                .collect(Collectors.toSet());
     }
 }

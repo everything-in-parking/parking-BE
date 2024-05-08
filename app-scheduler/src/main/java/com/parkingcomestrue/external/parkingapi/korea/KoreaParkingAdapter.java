@@ -10,15 +10,15 @@ import com.parkingcomestrue.common.domain.parking.OperationType;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
 import com.parkingcomestrue.common.domain.parking.PayType;
-import com.parkingcomestrue.common.domain.parking.PayTypes;
 import com.parkingcomestrue.common.domain.parking.Space;
 import com.parkingcomestrue.common.domain.parking.TimeInfo;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;
 import java.time.DateTimeException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Component;
 
@@ -66,14 +66,17 @@ public class KoreaParkingAdapter {
         return item.getOldAddress();
     }
 
-    private PayTypes toPayTypes(KoreaParkingResponse.Response.Body.Item item) {
-        List<PayType> payTypes = new ArrayList<>();
+    private Set<PayType> toPayTypes(KoreaParkingResponse.Response.Body.Item item) {
+        Set<PayType> payTypes = new HashSet<>();
         for (PayType payType : PayType.values()) {
             if (item.getPayType().contains(payType.getDescription())) {
                 payTypes.add(payType);
             }
         }
-        return PayTypes.from(payTypes);
+        if (payTypes.isEmpty()) {
+            return Set.of(PayType.NO_INFO);
+        }
+        return payTypes;
     }
 
     private Location getLocation(KoreaParkingResponse.Response.Body.Item item) {

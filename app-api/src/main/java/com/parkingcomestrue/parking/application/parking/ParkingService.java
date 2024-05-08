@@ -89,10 +89,10 @@ public class ParkingService {
     }
 
     private SearchingCondition toSearchingCondition(ParkingSearchConditionRequest request) {
-        List<ParkingType> parkingTypes = searchConditionMapper.toEnums(ParkingType.class, request.getParkingTypes());
-        List<OperationType> operationTypes = searchConditionMapper.toEnums(OperationType.class,
+        Set<ParkingType> parkingTypes = searchConditionMapper.toEnums(ParkingType.class, request.getParkingTypes());
+        Set<OperationType> operationTypes = searchConditionMapper.toEnums(OperationType.class,
                 request.getOperationTypes());
-        List<PayType> payTypes = searchConditionMapper.toEnums(PayType.class, request.getPayTypes());
+        Set<PayType> payTypes = searchConditionMapper.toEnums(PayType.class, request.getPayTypes());
         FeeType feeType = searchConditionMapper.toEnum(FeeType.class, request.getFeeType());
 
         return new SearchingCondition(operationTypes, parkingTypes, payTypes, feeType, request.getHours());

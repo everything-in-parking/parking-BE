@@ -72,14 +72,14 @@ class KoreaParkingAdapterTest {
                     soft.assertThat(parking.getFeePolicy().getBaseFee()).isEqualTo(Fee.ZERO);
                     soft.assertThat(parking.getFeePolicy().getBaseTimeUnit()).isEqualTo(TimeUnit.from(0));
                     soft.assertThat(parking.getFeePolicy().getExtraFee()).isEqualTo(Fee.NO_INFO);
-                    soft.assertThat(parking.getFeePolicy().getExtraTimUnit()).isEqualTo(TimeUnit.NO_INFO);
+                    soft.assertThat(parking.getFeePolicy().getExtraTimeUnit()).isEqualTo(TimeUnit.NO_INFO);
                     soft.assertThat(parking.getFeePolicy().getDayMaximumFee()).isEqualTo(Fee.NO_INFO);
 
                     soft.assertThat(parking.getOperatingTime().getWeekday()).isEqualTo(TimeInfo.ALL_DAY);
                     soft.assertThat(parking.getOperatingTime().getSaturday()).isEqualTo(TimeInfo.ALL_DAY);
                     soft.assertThat(parking.getOperatingTime().getHoliday()).isEqualTo(TimeInfo.ALL_DAY);
 
-                    soft.assertThat(parking.getBaseInformation().getPayTypes().getDescription()).isEqualTo(PayType.CARD.getDescription());
+                    soft.assertThat(parking.getBaseInformation().getPayTypesDescription()).isEqualTo(PayType.CARD.getDescription());
                 }
         );
     }

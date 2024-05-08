@@ -14,7 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,12 +37,12 @@ public class Review {
     private Association<Member> reviewerId;
 
     @Convert(converter = ContentConverter.class)
-    private List<Content> contents;
+    private Set<Content> contents;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    public Review(Association<Parking> parkingId, Association<Member> reviewerId, List<Content> contents) {
+    public Review(Association<Parking> parkingId, Association<Member> reviewerId, Set<Content> contents) {
         validate(contents);
         this.parkingId = parkingId;
         this.reviewerId = reviewerId;
@@ -50,7 +50,7 @@ public class Review {
         this.createdAt = LocalDateTime.now();
     }
 
-    private static void validate(List<Content> contents) {
+    private static void validate(Set<Content> contents) {
         if (contents == null || contents.isEmpty() || contents.size() > MAX_CONTENTS_SIZE) {
             throw new DomainException(DomainExceptionInformation.INVALID_CONTENTS_SIZE);
         }

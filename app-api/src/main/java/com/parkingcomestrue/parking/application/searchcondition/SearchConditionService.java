@@ -13,6 +13,7 @@ import com.parkingcomestrue.common.domain.searchcondition.SearchConditionAvailab
 import com.parkingcomestrue.common.domain.searchcondition.repository.SearchConditionRepository;
 import com.parkingcomestrue.common.support.Association;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,9 +42,10 @@ public class SearchConditionService {
         );
     }
 
-    private <E extends SearchConditionAvailable> List<String> toDescriptions(List<E> enums) {
+    private <E extends SearchConditionAvailable> List<String> toDescriptions(Set<E> enums) {
         return enums.stream()
                 .map(SearchConditionAvailable::getDescription)
+                .sorted()
                 .toList();
     }
 

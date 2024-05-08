@@ -25,6 +25,7 @@ import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoRes
 import com.parkingcomestrue.parking.application.review.dto.ReviewCreateRequest;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -64,7 +65,7 @@ class ParkingServiceTest extends ContainerTest {
     private Parking makeParking(String parkingName) {
         return new Parking
                 (
-                        new BaseInformation(parkingName, "010", "부산", List.of(PayType.NO_INFO), ParkingType.MECHANICAL,
+                        new BaseInformation(parkingName, "010", "부산", Set.of(PayType.NO_INFO), ParkingType.MECHANICAL,
                                 OperationType.PRIVATE),
                         Location.of(30d, 30d),
                         Space.of(100, 30),

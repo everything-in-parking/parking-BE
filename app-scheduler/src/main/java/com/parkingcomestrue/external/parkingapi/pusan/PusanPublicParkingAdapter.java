@@ -16,8 +16,9 @@ import com.parkingcomestrue.common.domain.parking.TimeUnit;
 import java.time.DateTimeException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -63,14 +64,17 @@ public class PusanPublicParkingAdapter {
         return response.getOldAddress();
     }
 
-    private PayTypes toPayTypes(PusanPublicParkingResponse.ParkingInfo.Item item) {
-        List<PayType> payTypes = new ArrayList<>();
+    private Set<PayType> toPayTypes(PusanPublicParkingResponse.ParkingInfo.Item item) {
+        Set<PayType> payTypes = new HashSet<>();
         for (PayType payType : PayType.values()) {
             if (item.getPayType().contains(payType.getDescription())) {
                 payTypes.add(payType);
             }
         }
-        return PayTypes.from(payTypes);
+        if (payTypes.isEmpty()) {
+            return Set.of(PayType.NO_INFO);
+        }
+        return payTypes;
     }
 
     private Location getLocation(final PusanPublicParkingResponse.ParkingInfo.Item response) {

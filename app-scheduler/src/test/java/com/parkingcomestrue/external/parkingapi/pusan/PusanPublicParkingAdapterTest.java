@@ -73,14 +73,14 @@ class PusanPublicParkingAdapterTest {
                     soft.assertThat(parking.getFeePolicy().getBaseFee()).isEqualTo(Fee.ZERO);
                     soft.assertThat(parking.getFeePolicy().getBaseTimeUnit()).isEqualTo(TimeUnit.from(10));
                     soft.assertThat(parking.getFeePolicy().getExtraFee()).isEqualTo(Fee.ZERO);
-                    soft.assertThat(parking.getFeePolicy().getExtraTimUnit()).isEqualTo(TimeUnit.from(10));
+                    soft.assertThat(parking.getFeePolicy().getExtraTimeUnit()).isEqualTo(TimeUnit.from(10));
                     soft.assertThat(parking.getFeePolicy().getDayMaximumFee()).isEqualTo(Fee.ZERO);
 
                     soft.assertThat(parking.getOperatingTime().getWeekday()).isEqualTo(TimeInfo.ALL_DAY);
                     soft.assertThat(parking.getOperatingTime().getSaturday()).isEqualTo(TimeInfo.ALL_DAY);
                     soft.assertThat(parking.getOperatingTime().getHoliday()).isEqualTo(TimeInfo.ALL_DAY);
 
-                    soft.assertThat(parking.getBaseInformation().getPayTypes().getDescription()).isEqualTo(PayType.NO_INFO.getDescription());
+                    soft.assertThat(parking.getBaseInformation().getPayTypesDescription()).isEqualTo(PayType.NO_INFO.getDescription());
                 }
         );
     }

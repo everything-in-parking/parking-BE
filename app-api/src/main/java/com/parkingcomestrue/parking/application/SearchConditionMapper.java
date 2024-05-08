@@ -5,16 +5,18 @@ import com.parkingcomestrue.parking.support.exception.ClientException;
 import com.parkingcomestrue.parking.support.exception.ClientExceptionInformation;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SearchConditionMapper {
 
-    public <E extends Enum<E> & SearchConditionAvailable> List<E> toEnums(Class<E> searchConditionAvailableClass,
-                                                                          List<String> descriptions) {
+    public <E extends Enum<E> & SearchConditionAvailable> Set<E> toEnums(Class<E> searchConditionAvailableClass,
+                                                                         List<String> descriptions) {
         return descriptions.stream()
                 .map(description -> toEnum(searchConditionAvailableClass, description))
-                .toList();
+                .collect(Collectors.toSet());
     }
 
     public <E extends Enum<E> & SearchConditionAvailable> E toEnum(Class<E> searchConditionAvailableClass,
