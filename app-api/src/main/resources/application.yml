@@ -1,7 +1,7 @@
 spring:
   profiles:
     active: ${PROFILE:dev}
-# MAIL
+  # MAIL
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
@@ -14,7 +14,7 @@ spring:
           timeout: 5000
           starttls:
             enable: true
-# REDIS
+  # REDIS
   data:
     redis:
       host: ${REDIS_HOST:localhost}
@@ -22,7 +22,7 @@ spring:
 
 # AUTH CODE
 authcode:
-  expired-time: 300
+  expired-time: 180
 
 # Allow origin
 cors:

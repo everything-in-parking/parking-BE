@@ -1,31 +1,36 @@
 package com.parkingcomestrue.parking.application.auth;
 
+import com.parkingcomestrue.common.domain.session.MemberSession;
+import com.parkingcomestrue.common.domain.session.repository.MemberSessionRepository;
 import com.parkingcomestrue.parking.application.auth.authcode.AuthCodeCategory;
 import com.parkingcomestrue.parking.application.auth.authcode.AuthCodePlatform;
 import com.parkingcomestrue.parking.application.auth.authcode.AuthCodeValidator;
 import com.parkingcomestrue.parking.application.auth.authcode.dto.AuthCodeCertificateRequest;
-import com.parkingcomestrue.parking.application.auth.authcode.dto.AuthCodeRequest;
 import com.parkingcomestrue.parking.application.auth.authcode.dto.AuthCodeCreateEvent;
+import com.parkingcomestrue.parking.application.auth.authcode.dto.AuthCodeRequest;
 import com.parkingcomestrue.parking.application.auth.authcode.util.AuthCodeGenerator;
 import com.parkingcomestrue.parking.application.auth.authcode.util.AuthCodeKeyConverter;
-import com.parkingcomestrue.common.domain.session.MemberSession;
-import com.parkingcomestrue.common.domain.session.repository.MemberSessionRepository;
 import com.parkingcomestrue.parking.support.exception.ClientException;
 import com.parkingcomestrue.parking.support.exception.ClientExceptionInformation;
-import java.time.LocalDateTime;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @Service
 public class AuthService {
 
     private static final Long DURATION_MINUTE = 30L;
+
+    @Value("${authcode.expired-time}")
+    private Long authCodeExpired;
 
     private final MemberSessionRepository memberSessionRepository;
     private final AuthCodeGenerator authCodeGenerator;
@@ -66,7 +71,7 @@ public class AuthService {
         String randomAuthCode = authCodeGenerator.generateAuthCode();
         String authCodeKey = AuthCodeKeyConverter.convert(randomAuthCode, destination, authCodePlatform.getPlatform(),
                 authCodeCategory.getCategoryName());
-        redisTemplate.opsForValue().set(authCodeKey, randomAuthCode, 300L, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(authCodeKey, randomAuthCode, authCodeExpired, TimeUnit.SECONDS);
 
         publishAuthCodeCreateEvent(destination, authCodePlatform, authCodeCategory, randomAuthCode);
         return randomAuthCode;
