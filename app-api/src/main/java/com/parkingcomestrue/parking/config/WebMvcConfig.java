@@ -37,7 +37,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/signup",
                         "/signin",
                         "/parkings/**",
-                        "/actuator/**"
+                        "/actuator/**",
+                        "/authcode/**"
                 ));
     }
 
