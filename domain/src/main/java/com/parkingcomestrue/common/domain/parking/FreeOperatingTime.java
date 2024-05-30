@@ -70,4 +70,28 @@ public class FreeOperatingTime {
         }
         return localTime.getHour() * 60 + localTime.getMinute();
     }
+
+    public LocalTime getWeekdayBeginTime() {
+        return weekday.getBeginTime();
+    }
+
+    public LocalTime getWeekdayEndTime() {
+        return weekday.getEndTime();
+    }
+
+    public LocalTime getSaturdayBeginTime() {
+        return saturday.getBeginTime();
+    }
+
+    public LocalTime getSaturdayEndTime() {
+        return saturday.getEndTime();
+    }
+
+    public LocalTime getHolidayBeginTime() {
+        return holiday.getBeginTime();
+    }
+
+    public LocalTime getHolidayEndTime() {
+        return holiday.getEndTime();
+    }
 }
