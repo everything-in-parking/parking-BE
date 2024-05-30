@@ -138,6 +138,10 @@ public class Parking extends AuditingEntity {
         return diffMinute.intValue();
     }
 
+    public boolean isLocationAvailable() {
+        return !location.equals(Location.NO_PROVIDE);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

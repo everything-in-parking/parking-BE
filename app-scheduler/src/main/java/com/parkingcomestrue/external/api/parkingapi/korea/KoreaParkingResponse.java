@@ -1,4 +1,4 @@
-package com.parkingcomestrue.external.parkingapi.korea;
+package com.parkingcomestrue.external.api.parkingapi.korea;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -29,6 +29,7 @@ public class KoreaParkingResponse {
         public static class Body {
 
             private List<Item> items;
+            private int totalCount;
 
             @Getter
             @JsonIgnoreProperties(ignoreUnknown = true)

@@ -1,4 +1,4 @@
-package com.parkingcomestrue.external.parkingapi.korea;
+package com.parkingcomestrue.external.api.parkingapi.korea;
 
 import com.parkingcomestrue.common.domain.parking.BaseInformation;
 import com.parkingcomestrue.common.domain.parking.Fee;

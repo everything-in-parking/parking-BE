@@ -1,10 +1,10 @@
 package com.parkingcomestrue.external.scheduler;
 
-import com.parkingcomestrue.external.coordinate.CoordinateApiService;
-import com.parkingcomestrue.external.parkingapi.ParkingApiService;
+import com.parkingcomestrue.external.respository.ParkingBatchRepository;
 import com.parkingcomestrue.common.domain.parking.Location;
 import com.parkingcomestrue.common.domain.parking.Parking;
-import com.parkingcomestrue.common.domain.parking.repository.ParkingRepository;
+import com.parkingcomestrue.external.api.coordinate.CoordinateApiService;
+import com.parkingcomestrue.external.api.parkingapi.ParkingApiService;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +27,7 @@ public class ParkingUpdateScheduler {
 
     private final List<ParkingApiService> parkingApiServices;
     private final CoordinateApiService coordinateApiService;
-    private final ParkingRepository parkingRepository;
+    private final ParkingBatchRepository parkingBatchRepository;
 
     @Scheduled(cron = "0 */30 * * * *")
     public void autoUpdateOfferCurrentParking() {
@@ -63,7 +63,7 @@ public class ParkingUpdateScheduler {
     }
 
     private Map<String, Parking> findAllByName(Set<String> names) {
-        return parkingRepository.findAllByBaseInformationNameIn(names)
+        return parkingBatchRepository.findAllByBaseInformationNameIn(names)
                 .stream()
                 .collect(toParkingMap());
     }
@@ -83,12 +83,12 @@ public class ParkingUpdateScheduler {
                 .map(parkingLots::get)
                 .toList();
         updateLocation(newParkingLots);
-        parkingRepository.saveAll(newParkingLots);
+        parkingBatchRepository.saveWithBatch(newParkingLots);
     }
 
     private void updateLocation(List<Parking> newParkingLots) {
         for (Parking parking : newParkingLots) {
-            if (!parking.getLocation().equals(Location.NO_PROVIDE)) {
+            if (parking.isLocationAvailable()) {
                 continue;
             }
             Location locationByAddress = coordinateApiService.extractLocationByAddress(

@@ -1,11 +1,15 @@
-package com.parkingcomestrue.external.parkingapi.korea;
+package com.parkingcomestrue.external.api.parkingapi.korea;
 
 import com.parkingcomestrue.common.domain.parking.Parking;
-import com.parkingcomestrue.external.parkingapi.ParkingApiService;
+import com.parkingcomestrue.external.api.AsyncApiExecutor;
+import com.parkingcomestrue.external.api.parkingapi.ParkingApiService;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -35,25 +39,32 @@ public class KoreaParkingApiService implements ParkingApiService {
 
     @Override
     public List<Parking> read() throws Exception {
-        Set<KoreaParkingResponse> result = new HashSet<>();
-        for (int pageNumber = 1; ; pageNumber++) {
-            KoreaParkingResponse response = call(pageNumber, SIZE);
-            String resultCode = response.getResponse().getHeader().getResultCode();
-            if (NORMAL_RESULT_CODE.equals(resultCode)) {
-                result.add(response);
-                continue;
-            }
-            break;
-        }
+        int pageNumber = 1;
+        KoreaParkingResponse response = call(pageNumber++, SIZE).getBody();
+        int lastPageNumber = response.getResponse().getBody().getTotalCount() / SIZE + 1;
+
+        Set<KoreaParkingResponse> result = new HashSet<>(lastPageNumber);
+        result.add(response);
+
+        List<CompletableFuture<KoreaParkingResponse>> apis = Stream.iterate(pageNumber, i -> i <= lastPageNumber,
+                        i -> i + 1)
+                .map(i -> AsyncApiExecutor.executeAsync(() -> call(i, SIZE).getBody()))
+                .toList();
+
+        Set<KoreaParkingResponse> responses = apis.stream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.toSet());
+
+        result.addAll(responses);
+
         return result.stream()
-                .flatMap(response -> adapter.convert(response).stream())
+                .flatMap(koreaParkingResponse -> adapter.convert(koreaParkingResponse).stream())
                 .toList();
     }
 
-    private KoreaParkingResponse call(int startIndex, int size) {
+    private ResponseEntity<KoreaParkingResponse> call(int startIndex, int size) {
         URI uri = makeUri(startIndex, size);
-        ResponseEntity<KoreaParkingResponse> response = restTemplate.getForEntity(uri, KoreaParkingResponse.class);
-        return response.getBody();
+        return restTemplate.getForEntity(uri, KoreaParkingResponse.class);
     }
 
     private URI makeUri(int startIndex, int size) {
