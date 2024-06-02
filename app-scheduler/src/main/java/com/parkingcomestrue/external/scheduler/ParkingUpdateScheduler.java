@@ -1,10 +1,10 @@
 package com.parkingcomestrue.external.scheduler;
 
-import com.parkingcomestrue.external.coordinate.CoordinateApiService;
-import com.parkingcomestrue.external.parkingapi.ParkingApiService;
 import com.parkingcomestrue.common.domain.parking.Location;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.repository.ParkingRepository;
+import com.parkingcomestrue.external.coordinate.CoordinateApiService;
+import com.parkingcomestrue.external.parkingapi.ParkingApiService;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +17,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,7 @@ public class ParkingUpdateScheduler {
     private final ParkingRepository parkingRepository;
 
     @Scheduled(cron = "0 */30 * * * *")
+    @SchedulerLock(name = "autoUpdateOffer")
     public void autoUpdateOfferCurrentParking() {
         Map<String, Parking> parkingLots = readBy(ParkingApiService::offerCurrentParking);
         Map<String, Parking> saved = findAllByName(parkingLots.keySet());

@@ -10,4 +10,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     // 프로메테우스 추가
     implementation 'io.micrometer:micrometer-registry-prometheus'
+    // shed-lock
+    implementation 'net.javacrumbs.shedlock:shedlock-spring:5.1.0'
+    implementation 'net.javacrumbs.shedlock:shedlock-provider-jdbc-template:5.1.0'
 }
