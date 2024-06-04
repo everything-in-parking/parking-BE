@@ -156,6 +156,7 @@ public class ParkingService {
         return new ParkingDetailInfoResponse(
                 parking.getBaseInformation().getName(),
                 parking.getBaseInformation().getParkingType().getDescription(),
+                parking.getBaseInformation().getAddress(),
                 parking.getLocation().getLatitude(),
                 parking.getLocation().getLongitude(),
                 new FeeInfo(
