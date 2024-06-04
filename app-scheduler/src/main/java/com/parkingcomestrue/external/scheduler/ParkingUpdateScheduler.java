@@ -1,10 +1,11 @@
 package com.parkingcomestrue.external.scheduler;
 
-import com.parkingcomestrue.external.coordinate.CoordinateApiService;
-import com.parkingcomestrue.external.parkingapi.ParkingApiService;
 import com.parkingcomestrue.common.domain.parking.Location;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.repository.ParkingRepository;
+import com.parkingcomestrue.external.coordinate.CoordinateApiService;
+import com.parkingcomestrue.external.parkingapi.ParkingApiService;
+import com.parkingcomestrue.external.service.ParkingService;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -28,13 +29,14 @@ public class ParkingUpdateScheduler {
     private final List<ParkingApiService> parkingApiServices;
     private final CoordinateApiService coordinateApiService;
     private final ParkingRepository parkingRepository;
+    private final ParkingService parkingService;
 
     @Scheduled(cron = "0 */30 * * * *")
     public void autoUpdateOfferCurrentParking() {
         Map<String, Parking> parkingLots = readBy(ParkingApiService::offerCurrentParking);
         Map<String, Parking> saved = findAllByName(parkingLots.keySet());
-        updateSavedParkingLots(parkingLots, saved);
-        saveNewParkingLots(parkingLots, saved);
+        List<Parking> newParkingLots = findNewParkingLots(parkingLots, saved);
+        parkingService.updateParkingLots(parkingLots, saved, newParkingLots);
     }
 
     private Map<String, Parking> readBy(Predicate<ParkingApiService> currentParkingAvailable) {
@@ -68,23 +70,16 @@ public class ParkingUpdateScheduler {
                 .collect(toParkingMap());
     }
 
-    private void updateSavedParkingLots(Map<String, Parking> parkingLots, Map<String, Parking> saved) {
-        for (String parkingName : saved.keySet()) {
-            Parking origin = saved.get(parkingName);
-            Parking updated = parkingLots.get(parkingName);
-            origin.update(updated);
-        }
-    }
-
-    private void saveNewParkingLots(Map<String, Parking> parkingLots, Map<String, Parking> saved) {
+    private List<Parking> findNewParkingLots(Map<String, Parking> parkingLots, Map<String, Parking> saved) {
         List<Parking> newParkingLots = parkingLots.keySet()
                 .stream()
                 .filter(parkingName -> !saved.containsKey(parkingName))
                 .map(parkingLots::get)
                 .toList();
         updateLocation(newParkingLots);
-        parkingRepository.saveAll(newParkingLots);
+        return newParkingLots;
     }
+
 
     private void updateLocation(List<Parking> newParkingLots) {
         for (Parking parking : newParkingLots) {
@@ -102,7 +97,7 @@ public class ParkingUpdateScheduler {
     public void autoUpdateNotOfferCurrentParking() {
         Map<String, Parking> parkingLots = readBy(parkingApiService -> !parkingApiService.offerCurrentParking());
         Map<String, Parking> saved = findAllByName(parkingLots.keySet());
-        updateSavedParkingLots(parkingLots, saved);
-        saveNewParkingLots(parkingLots, saved);
+        List<Parking> newParkingLots = findNewParkingLots(parkingLots, saved);
+        parkingService.updateParkingLots(parkingLots, saved, newParkingLots);
     }
 }
