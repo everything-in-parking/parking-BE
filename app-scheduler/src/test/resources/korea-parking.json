@@ -1,0 +1,51 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL_SERVICE",
+      "type": "json"
+    },
+    "body": {
+      "items": [
+        {
+          "prkplceNo": "260-2-000068",
+          "prkplceNm": "횡계의원 뒤 1주차장",
+          "prkplceSe": "공영",
+          "prkplceType": "노외",
+          "rdnmadr": "강원도 평창군 대관령면 축제길 40",
+          "lnmadr": "강원도 평창군 대관령면 횡계리 321-10",
+          "prkcmprt": "28",
+          "feedingSe": "1",
+          "enforceSe": "미시행",
+          "operDay": "평일+토요일+공휴일",
+          "weekdayOperOpenHhmm": "00:00",
+          "weekdayOperColseHhmm": "23:59",
+          "satOperOperOpenHhmm": "00:00",
+          "satOperCloseHhmm": "23:59",
+          "holidayOperOpenHhmm": "00:00",
+          "holidayCloseOpenHhmm": "23:59",
+          "parkingchrgeInfo": "무료",
+          "basicTime": "0",
+          "basicCharge": "0",
+          "addUnitTime": "",
+          "addUnitCharge": "",
+          "dayCmmtktAdjTime": "",
+          "dayCmmtkt": "",
+          "monthCmmtkt": "",
+          "metpay": "카드전용",
+          "spcmnt": "",
+          "institutionNm": "강원도 평창군청",
+          "phoneNumber": "033-330-2285",
+          "latitude": "37.67170099",
+          "longitude": "128.7079653",
+          "pwdbsPpkZoneYn": "null",
+          "referenceDate": "2022-09-27",
+          "insttCode": "4280000"
+        }
+      ],
+      "totalCount": "16932",
+      "numOfRows": "1",
+      "pageNo": "1"
+    }
+  }
+}

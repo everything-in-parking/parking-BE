@@ -1,6 +1,5 @@
 package com.parkingcomestrue.fake;
 
-import com.parkingcomestrue.external.parkingapi.ParkingApiService;
 import com.parkingcomestrue.common.domain.parking.BaseInformation;
 import com.parkingcomestrue.common.domain.parking.Fee;
 import com.parkingcomestrue.common.domain.parking.FeePolicy;
@@ -10,11 +9,13 @@ import com.parkingcomestrue.common.domain.parking.OperatingTime;
 import com.parkingcomestrue.common.domain.parking.OperationType;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
-import com.parkingcomestrue.common.domain.parking.PayTypes;
+import com.parkingcomestrue.common.domain.parking.PayType;
 import com.parkingcomestrue.common.domain.parking.Space;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;
+import com.parkingcomestrue.external.parkingapi.ParkingApiService;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class NotOfferCurrentParkingApiService implements ParkingApiService {
 
@@ -34,7 +35,8 @@ public class NotOfferCurrentParkingApiService implements ParkingApiService {
         LinkedList<Parking> result = new LinkedList<>();
         for (int i = 0; i < readSize; i++) {
             Parking parking = new Parking(
-                    new BaseInformation("not offer parking" + i, "051-000" + i, "부산시 어딘가 " + i, PayTypes.DEFAULT,
+                    new BaseInformation("not offer parking" + i, "051-000" + i, "부산시 어딘가 " + i,
+                            Set.of(PayType.NO_INFO),
                             ParkingType.NO_INFO,
                             OperationType.PUBLIC),
                     Location.of("33.333" + i, "44.444" + i),

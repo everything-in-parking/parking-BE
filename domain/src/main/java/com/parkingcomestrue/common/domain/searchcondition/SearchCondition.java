@@ -4,13 +4,12 @@ import com.parkingcomestrue.common.domain.member.Member;
 import com.parkingcomestrue.common.domain.parking.OperationType;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
 import com.parkingcomestrue.common.domain.parking.PayType;
+import com.parkingcomestrue.common.infra.converter.AssociationConverter;
 import com.parkingcomestrue.common.infra.converter.FeeTypeConverter;
 import com.parkingcomestrue.common.infra.converter.OperationTypeConverter;
 import com.parkingcomestrue.common.infra.converter.ParkingTypeConverter;
 import com.parkingcomestrue.common.infra.converter.PayTypeConverter;
 import com.parkingcomestrue.common.support.Association;
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -19,7 +18,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.util.List;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,21 +32,20 @@ public class SearchCondition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Embedded
-    @AttributeOverride(name = "id", column = @Column(name = "member_id"))
+    @Convert(converter = AssociationConverter.class)
     private Association<Member> memberId;
 
     @Convert(converter = OperationTypeConverter.class)
-    private List<OperationType> operationTypes;
+    private Set<OperationType> operationTypes;
 
     @Convert(converter = ParkingTypeConverter.class)
-    private List<ParkingType> parkingTypes;
+    private Set<ParkingType> parkingTypes;
 
     @Convert(converter = FeeTypeConverter.class)
-    private List<FeeType> feeTypes;
+    private Set<FeeType> feeTypes;
 
     @Convert(converter = PayTypeConverter.class)
-    private List<PayType> payTypes;
+    private Set<PayType> payTypes;
 
     @Enumerated(EnumType.STRING)
     private Priority priority;
@@ -55,9 +53,9 @@ public class SearchCondition {
     @Embedded
     private Hours hours;
 
-    public SearchCondition(Association<Member> memberId, List<OperationType> operationTypes,
-                           List<ParkingType> parkingTypes,
-                           List<FeeType> feeTypes, List<PayType> payTypes, Priority priority, Hours hours) {
+    public SearchCondition(Association<Member> memberId, Set<OperationType> operationTypes,
+                           Set<ParkingType> parkingTypes,
+                           Set<FeeType> feeTypes, Set<PayType> payTypes, Priority priority, Hours hours) {
         this.memberId = memberId;
         this.operationTypes = operationTypes;
         this.parkingTypes = parkingTypes;

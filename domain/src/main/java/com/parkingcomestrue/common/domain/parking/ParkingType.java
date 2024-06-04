@@ -24,7 +24,7 @@ public enum ParkingType implements SearchConditionAvailable {
 
     public static ParkingType find(String description) {
         return Arrays.stream(values())
-                .filter(e -> description.startsWith(e.getDescription()))
+                .filter(e -> description.contains(e.getDescription()))
                 .findAny()
                 .orElse(NO_INFO);
     }

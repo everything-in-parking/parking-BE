@@ -15,6 +15,7 @@ import com.parkingcomestrue.common.domain.review.service.ReviewDomainService;
 import com.parkingcomestrue.common.support.Association;
 import com.parkingcomestrue.common.support.exception.DomainException;
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import repository.BasicMemberRepository;
 import repository.BasicParkingRepository;
@@ -65,9 +66,9 @@ class ReviewServiceTest {
         Association<Parking> parkingId = Association.from(parking.getId());
         List<Member> reviewers = memberRepository.saveAndGet(3);
 
-        List<Content> contents1 = List.of(Content.LOW_PRICE);
-        List<Content> contents2 = List.of(Content.LOW_PRICE, Content.EASY_TO_PAY);
-        List<Content> contents3 = List.of(Content.LOW_PRICE, Content.EASY_TO_PAY, Content.GOOD_ACCESSIBILITY);
+        Set<Content> contents1 = Set.of(Content.LOW_PRICE);
+        Set<Content> contents2 = Set.of(Content.LOW_PRICE, Content.EASY_TO_PAY);
+        Set<Content> contents3 = Set.of(Content.LOW_PRICE, Content.EASY_TO_PAY, Content.GOOD_ACCESSIBILITY);
         reviewRepository.save(
                 new Review(parkingId, Association.from(reviewers.get(0).getId()), contents1)
         );

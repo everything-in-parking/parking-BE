@@ -9,7 +9,7 @@ import com.parkingcomestrue.common.domain.parking.OperatingTime;
 import com.parkingcomestrue.common.domain.parking.OperationType;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
-import com.parkingcomestrue.common.domain.parking.PayTypes;
+import com.parkingcomestrue.common.domain.parking.PayType;
 import com.parkingcomestrue.common.domain.parking.Space;
 import com.parkingcomestrue.common.domain.parking.TimeInfo;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;
@@ -33,20 +33,23 @@ public class SeoulPublicParkingAdapter {
 
     public List<Parking> convert(SeoulPublicParkingResponse response) {
         List<SeoulPublicParkingResponse.ParkingInfo.SeoulCityParking> rows = response.getParkingInfo().getRows();
-        List<SeoulPublicParkingResponse.ParkingInfo.SeoulCityParking> seoulCityParkingLots = calculateCapacity(filterByOperation(rows));
+        List<SeoulPublicParkingResponse.ParkingInfo.SeoulCityParking> seoulCityParkingLots = calculateCapacity(
+                filterByOperation(rows));
 
         return seoulCityParkingLots.stream()
                 .map(this::toParking)
                 .toList();
     }
 
-    private List<SeoulPublicParkingResponse.ParkingInfo.SeoulCityParking> filterByOperation(final List<SeoulPublicParkingResponse.ParkingInfo.SeoulCityParking> rows) {
+    private List<SeoulPublicParkingResponse.ParkingInfo.SeoulCityParking> filterByOperation(
+            final List<SeoulPublicParkingResponse.ParkingInfo.SeoulCityParking> rows) {
         return rows.stream()
                 .filter(result -> TIMED_PARKING_RULES.contains(result.getOperationRule()))
                 .toList();
     }
 
-    private List<SeoulPublicParkingResponse.ParkingInfo.SeoulCityParking> calculateCapacity(final List<SeoulPublicParkingResponse.ParkingInfo.SeoulCityParking> results) {
+    private List<SeoulPublicParkingResponse.ParkingInfo.SeoulCityParking> calculateCapacity(
+            final List<SeoulPublicParkingResponse.ParkingInfo.SeoulCityParking> results) {
         final Map<String, List<SeoulPublicParkingResponse.ParkingInfo.SeoulCityParking>> collect = results.stream()
                 .collect(Collectors.groupingBy(a -> a.getParkingCode()));
 
@@ -76,7 +79,7 @@ public class SeoulPublicParkingAdapter {
                 response.getParkingName(),
                 response.getTel(),
                 response.getAddr(),
-                PayTypes.DEFAULT,
+                Set.of(PayType.NO_INFO),
                 ParkingType.find(response.getParkingTypeNM()),
                 OperationType.PUBLIC
         );

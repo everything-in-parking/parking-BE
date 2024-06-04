@@ -15,6 +15,7 @@ public enum DomainExceptionInformation {
     INVALID_CONTENTS_SIZE("리뷰 내용은 1개에서 3개까지 선택가능합니다."),
     INVALID_HOURS("이용 시간은 1~12, 24 시간까지만 선택할 수 있습니다."),
     INVALID_SEARCH_CONDITION("해당 회원의 검색 조건이 존재하지 않습니다."),
+    INVALID_PAY_TYPES_SIZE("결제 방식이 존재하지 않거나, 너무 많이 선택되었습니다."),
 
     ENCRYPT_EXCEPTION("암호화에 실패했습니다."),
 

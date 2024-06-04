@@ -22,7 +22,7 @@ public interface ParkingRepository extends Repository<Parking, Long> {
     @Query("""
             SELECT p 
             FROM Parking p 
-            WHERE ST_Contains(ST_Buffer(:point, :radius), p.location.point)
+            WHERE ST_Contains(ST_Buffer(:point, :radius), p.location)
             """
     )
     List<Parking> findAroundParkingLots(@Param("point") Point point, @Param("radius") int radius);
@@ -30,8 +30,8 @@ public interface ParkingRepository extends Repository<Parking, Long> {
     @Query("""
             SELECT p 
             FROM Parking p 
-            WHERE ST_Contains(ST_Buffer(:point, :radius), p.location.point)
-            ORDER BY ST_DISTANCE_SPHERE(:point, p.location.point)
+            WHERE ST_Contains(ST_Buffer(:point, :radius), p.location)
+            ORDER BY ST_DISTANCE_SPHERE(:point, p.location)
             """
     )
     List<Parking> findAroundParkingLotsOrderByDistance(

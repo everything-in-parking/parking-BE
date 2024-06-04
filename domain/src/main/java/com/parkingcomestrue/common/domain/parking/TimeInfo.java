@@ -3,12 +3,14 @@ package com.parkingcomestrue.common.domain.parking;
 import jakarta.persistence.Embeddable;
 import java.time.LocalTime;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
+@EqualsAndHashCode(of = {"beginTime", "endTime"})
 public class TimeInfo {
 
     public static final TimeInfo CLOSED = new TimeInfo(LocalTime.MIN, LocalTime.MIN);

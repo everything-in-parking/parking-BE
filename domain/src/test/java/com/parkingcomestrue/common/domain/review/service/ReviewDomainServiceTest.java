@@ -14,6 +14,7 @@ import com.parkingcomestrue.common.support.Association;
 import com.parkingcomestrue.common.support.exception.DomainException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import repository.BasicReviewRepository;
 
@@ -27,7 +28,7 @@ class ReviewDomainServiceTest {
         //given
         Association<Parking> parkingId = Association.from(1L);
         Association<Member> reviewerId = Association.from(1L);
-        reviewRepository.save(new Review(parkingId, reviewerId, List.of(Content.LOW_PRICE)));
+        reviewRepository.save(new Review(parkingId, reviewerId, Set.of(Content.LOW_PRICE)));
 
         //when, then
         assertThatThrownBy(() -> reviewDomainService.validateDuplicateReview(parkingId, reviewerId))
@@ -40,13 +41,13 @@ class ReviewDomainServiceTest {
         //given
         List<Review> reviews = List.of(
                 new Review(Association.from(1L), Association.from(1L),
-                        List.of(Content.LOW_PRICE)
+                        Set.of(Content.LOW_PRICE)
                 ),
                 new Review(Association.from(1L), Association.from(2L),
-                        List.of(Content.LOW_PRICE, Content.EASY_TO_PAY)
+                        Set.of(Content.LOW_PRICE, Content.EASY_TO_PAY)
                 ),
                 new Review(Association.from(1L), Association.from(3L),
-                        List.of(Content.LOW_PRICE, Content.EASY_TO_PAY, Content.GOOD_ACCESSIBILITY)
+                        Set.of(Content.LOW_PRICE, Content.EASY_TO_PAY, Content.GOOD_ACCESSIBILITY)
                 )
         );
         //when
@@ -63,9 +64,9 @@ class ReviewDomainServiceTest {
     @Test
     void 전체_리뷰수를_구한다() {
         //given
-        List<Content> contents1 = List.of(Content.LOW_PRICE);
-        List<Content> contents2 = List.of(Content.LOW_PRICE, Content.EASY_TO_PAY);
-        List<Content> contents3 = List.of(Content.LOW_PRICE, Content.EASY_TO_PAY, Content.GOOD_ACCESSIBILITY);
+        Set<Content> contents1 = Set.of(Content.LOW_PRICE);
+        Set<Content> contents2 = Set.of(Content.LOW_PRICE, Content.EASY_TO_PAY);
+        Set<Content> contents3 = Set.of(Content.LOW_PRICE, Content.EASY_TO_PAY, Content.GOOD_ACCESSIBILITY);
         List<Review> reviews = List.of(
                 new Review(Association.from(1L), Association.from(1L),
                         contents1

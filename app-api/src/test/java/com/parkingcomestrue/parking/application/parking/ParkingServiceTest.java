@@ -2,9 +2,6 @@ package com.parkingcomestrue.parking.application.parking;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.parkingcomestrue.parking.application.ContainerTest;
-import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse;
-import com.parkingcomestrue.parking.application.review.dto.ReviewCreateRequest;
 import com.parkingcomestrue.common.domain.member.Member;
 import com.parkingcomestrue.common.domain.member.Password;
 import com.parkingcomestrue.common.domain.parking.BaseInformation;
@@ -16,15 +13,19 @@ import com.parkingcomestrue.common.domain.parking.OperatingTime;
 import com.parkingcomestrue.common.domain.parking.OperationType;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
-import com.parkingcomestrue.common.domain.parking.PayTypes;
+import com.parkingcomestrue.common.domain.parking.PayType;
 import com.parkingcomestrue.common.domain.parking.Space;
 import com.parkingcomestrue.common.domain.parking.TimeInfo;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;
 import com.parkingcomestrue.common.domain.review.Content;
 import com.parkingcomestrue.common.support.exception.DomainException;
 import com.parkingcomestrue.common.support.exception.DomainExceptionInformation;
+import com.parkingcomestrue.parking.application.ContainerTest;
+import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse;
+import com.parkingcomestrue.parking.application.review.dto.ReviewCreateRequest;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +47,7 @@ class ParkingServiceTest extends ContainerTest {
         List<Parking> parkings = List.of(parking);
         parkingService.saveAll(parkings);
 
-        Member member = new Member( "email", "하디", new Password("qwer1234"));
+        Member member = new Member("email", "하디", new Password("qwer1234"));
         memberRepository.save(member);
 
         ReviewCreateRequest reviewCreateRequest = new ReviewCreateRequest(
@@ -64,7 +65,7 @@ class ParkingServiceTest extends ContainerTest {
     private Parking makeParking(String parkingName) {
         return new Parking
                 (
-                        new BaseInformation(parkingName, "010", "부산", PayTypes.DEFAULT, ParkingType.MECHANICAL,
+                        new BaseInformation(parkingName, "010", "부산", Set.of(PayType.NO_INFO), ParkingType.MECHANICAL,
                                 OperationType.PRIVATE),
                         Location.of(30d, 30d),
                         Space.of(100, 30),
@@ -86,5 +87,4 @@ class ParkingServiceTest extends ContainerTest {
                                 Fee.from(50000))
                 );
     }
-
 }

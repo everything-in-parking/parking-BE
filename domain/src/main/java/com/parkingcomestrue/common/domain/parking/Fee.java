@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "fee")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class Fee {
