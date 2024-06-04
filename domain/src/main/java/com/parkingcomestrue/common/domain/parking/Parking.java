@@ -108,7 +108,7 @@ public class Parking extends AuditingEntity {
     public int calculateWalkingTime(Location destination) {
         double distance = calculateDistanceToDestination(destination);
         double averageWalkingTime = distance / AVERAGE_WALKING_SPEED;
-        return (int) Math.ceil(averageWalkingTime);
+        return (int) Math.ceil(averageWalkingTime * 60);
     }
 
     private double calculateDistanceToDestination(Location destination) {
