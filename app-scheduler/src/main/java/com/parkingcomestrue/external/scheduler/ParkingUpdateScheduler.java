@@ -46,19 +46,12 @@ public class ParkingUpdateScheduler {
         Map<String, Parking> result = new HashMap<>();
         for (ParkingApiService parkingApi : parkingApis) {
             HealthCheckResponse healthCheckResponse = parkingApi.check();
-
-            log.info("api = {}", parkingApi);
-            long start = System.currentTimeMillis();
-
             if (healthCheckResponse.isHealthy()) {
                 List<CompletableFuture<List<Parking>>> responses = fetchParkingDataAsync(
                         parkingApi, healthCheckResponse.getTotalSize());
                 Map<String, Parking> response = collectParkingData(responses);
                 result.putAll(response);
             }
-
-            long end = System.currentTimeMillis();
-            log.info("read Time = {}", end - start);
         }
         return result;
     }
