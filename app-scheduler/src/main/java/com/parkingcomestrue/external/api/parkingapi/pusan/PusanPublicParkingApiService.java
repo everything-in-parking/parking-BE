@@ -1,7 +1,9 @@
-package com.parkingcomestrue.external.parkingapi.pusan;
+package com.parkingcomestrue.external.api.parkingapi.pusan;
 
 import com.parkingcomestrue.common.domain.parking.Parking;
-import com.parkingcomestrue.external.parkingapi.ParkingApiService;
+import com.parkingcomestrue.external.api.CircuitBreaker;
+import com.parkingcomestrue.external.api.parkingapi.HealthCheckResponse;
+import com.parkingcomestrue.external.api.parkingapi.ParkingApiService;
 import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,6 +19,7 @@ public class PusanPublicParkingApiService implements ParkingApiService {
     private static final String URL = "http://apis.data.go.kr/6260000/BusanPblcPrkngInfoService/getPblcPrkngInfo";
     private static final String RESULT_TYPE = "json";
     private static final int SIZE = 1000;
+    private static String NORMAL_CODE = "00";
 
     @Value("${pusan-public-parking-key}")
     private String API_KEY;
@@ -31,16 +34,15 @@ public class PusanPublicParkingApiService implements ParkingApiService {
     }
 
     @Override
-    public List<Parking> read() throws Exception {
-        PusanPublicParkingResponse response = call(1, SIZE);
+    @CircuitBreaker
+    public List<Parking> read(int pageNumber, int size) {
+        PusanPublicParkingResponse response = call(pageNumber, size).getBody();
         return adapter.convert(response);
     }
 
-    private PusanPublicParkingResponse call(int startIndex, int size) {
-        URI uri = makeUri(startIndex, size);
-        ResponseEntity<PusanPublicParkingResponse> response = restTemplate.getForEntity(uri,
-                PusanPublicParkingResponse.class);
-        return response.getBody();
+    private ResponseEntity<PusanPublicParkingResponse> call(int pageNumber, int size) {
+        URI uri = makeUri(pageNumber, size);
+        return restTemplate.getForEntity(uri, PusanPublicParkingResponse.class);
     }
 
     private URI makeUri(int startIndex, int size) {
@@ -57,5 +59,22 @@ public class PusanPublicParkingApiService implements ParkingApiService {
     @Override
     public boolean offerCurrentParking() {
         return true;
+    }
+
+    @Override
+    public HealthCheckResponse check() {
+        ResponseEntity<PusanPublicParkingResponse> response = call(1, 1);
+        return new HealthCheckResponse(isHealthy(response),
+                response.getBody().getGetParkingInfoDetails().getBody().getTotalCount());
+    }
+
+    private boolean isHealthy(ResponseEntity<PusanPublicParkingResponse> response) {
+        return response.getStatusCode().is2xxSuccessful() && response.getBody().getGetParkingInfoDetails().getHeader()
+                .getResultCode().equals(NORMAL_CODE);
+    }
+
+    @Override
+    public int getReadSize() {
+        return SIZE;
     }
 }

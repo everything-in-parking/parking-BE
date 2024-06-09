@@ -1,20 +1,24 @@
 package com.parkingcomestrue.external.scheduler;
 
-import com.parkingcomestrue.external.respository.ParkingBatchRepository;
 import com.parkingcomestrue.common.domain.parking.Location;
 import com.parkingcomestrue.common.domain.parking.Parking;
+import com.parkingcomestrue.external.api.AsyncApiExecutor;
 import com.parkingcomestrue.external.api.coordinate.CoordinateApiService;
+import com.parkingcomestrue.external.api.parkingapi.HealthCheckResponse;
 import com.parkingcomestrue.external.api.parkingapi.ParkingApiService;
+import com.parkingcomestrue.external.respository.ParkingBatchRepository;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -38,20 +42,58 @@ public class ParkingUpdateScheduler {
     }
 
     private Map<String, Parking> readBy(Predicate<ParkingApiService> currentParkingAvailable) {
-        return parkingApiServices.stream()
-                .filter(currentParkingAvailable)
-                .map(this::read)
-                .flatMap(Collection::stream)
-                .collect(toParkingMap());
+        List<ParkingApiService> parkingApis = filterBy(currentParkingAvailable);
+        Map<String, Parking> result = new HashMap<>();
+        for (ParkingApiService parkingApi : parkingApis) {
+            HealthCheckResponse healthCheckResponse = parkingApi.check();
+
+            log.info("api = {}", parkingApi);
+            long start = System.currentTimeMillis();
+
+            if (healthCheckResponse.isHealthy()) {
+                List<CompletableFuture<List<Parking>>> responses = fetchParkingDataAsync(
+                        parkingApi, healthCheckResponse.getTotalSize());
+                Map<String, Parking> response = collectParkingData(responses);
+                result.putAll(response);
+            }
+
+            long end = System.currentTimeMillis();
+            log.info("read Time = {}", end - start);
+        }
+        return result;
     }
 
-    private List<Parking> read(ParkingApiService parkingApiService) {
-        try {
-            return parkingApiService.read();
-        } catch (Exception e) {
-            log.warn("Error while converting {} to Parking {}", parkingApiService.getClass(), e.getMessage());
-            return Collections.emptyList();
+    private List<ParkingApiService> filterBy(Predicate<ParkingApiService> currentParkingAvailable) {
+        return parkingApiServices.stream()
+                .filter(currentParkingAvailable)
+                .toList();
+    }
+
+    private List<CompletableFuture<List<Parking>>> fetchParkingDataAsync(ParkingApiService parkingApi, int totalSize) {
+        int readSize = parkingApi.getReadSize();
+        int lastPageNumber = calculateLastPageNumber(totalSize, readSize);
+
+        return Stream.iterate(1, i -> i <= lastPageNumber, i -> i + 1)
+                .map(i -> AsyncApiExecutor.executeAsync(() -> parkingApi.read(i, readSize)))
+                .toList();
+    }
+
+    private int calculateLastPageNumber(int totalSize, int readSize) {
+        int lastPageNumber = totalSize / readSize;
+        if (totalSize % readSize == 0) {
+            return lastPageNumber;
         }
+        return lastPageNumber + 1;
+    }
+
+    private Map<String, Parking> collectParkingData(List<CompletableFuture<List<Parking>>> responses) {
+        List<List<Parking>> parkingLots = responses.stream()
+                .map(CompletableFuture::join)
+                .toList();
+
+        return parkingLots.stream()
+                .flatMap(Collection::stream)
+                .collect(toParkingMap());
     }
 
     private Collector<Parking, ?, Map<String, Parking>> toParkingMap() {

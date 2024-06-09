@@ -1,15 +1,11 @@
 package com.parkingcomestrue.external.api.parkingapi.korea;
 
 import com.parkingcomestrue.common.domain.parking.Parking;
-import com.parkingcomestrue.external.api.AsyncApiExecutor;
+import com.parkingcomestrue.external.api.CircuitBreaker;
+import com.parkingcomestrue.external.api.parkingapi.HealthCheckResponse;
 import com.parkingcomestrue.external.api.parkingapi.ParkingApiService;
 import java.net.URI;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -38,32 +34,19 @@ public class KoreaParkingApiService implements ParkingApiService {
     }
 
     @Override
-    public List<Parking> read() throws Exception {
-        int pageNumber = 1;
-        KoreaParkingResponse response = call(pageNumber++, SIZE).getBody();
-        int lastPageNumber = response.getResponse().getBody().getTotalCount() / SIZE + 1;
-
-        Set<KoreaParkingResponse> result = new HashSet<>(lastPageNumber);
-        result.add(response);
-
-        List<CompletableFuture<KoreaParkingResponse>> apis = Stream.iterate(pageNumber, i -> i <= lastPageNumber,
-                        i -> i + 1)
-                .map(i -> AsyncApiExecutor.executeAsync(() -> call(i, SIZE).getBody()))
-                .toList();
-
-        Set<KoreaParkingResponse> responses = apis.stream()
-                .map(CompletableFuture::join)
-                .collect(Collectors.toSet());
-
-        result.addAll(responses);
-
-        return result.stream()
-                .flatMap(koreaParkingResponse -> adapter.convert(koreaParkingResponse).stream())
-                .toList();
+    @CircuitBreaker
+    public List<Parking> read(int pageNumber, int size) {
+        ResponseEntity<KoreaParkingResponse> response = call(pageNumber, size);
+        return adapter.convert(response.getBody());
     }
 
-    private ResponseEntity<KoreaParkingResponse> call(int startIndex, int size) {
-        URI uri = makeUri(startIndex, size);
+    @Override
+    public int getReadSize() {
+        return SIZE;
+    }
+
+    private ResponseEntity<KoreaParkingResponse> call(int pageNumber, int size) {
+        URI uri = makeUri(pageNumber, size);
         return restTemplate.getForEntity(uri, KoreaParkingResponse.class);
     }
 
@@ -76,5 +59,16 @@ public class KoreaParkingApiService implements ParkingApiService {
                 .queryParam("numOfRows", size)
                 .queryParam("type", RESULT_TYPE)
                 .build();
+    }
+
+    @Override
+    public HealthCheckResponse check() {
+        ResponseEntity<KoreaParkingResponse> response = call(1, 1);
+        return new HealthCheckResponse(isHealthy(response), response.getBody().getResponse().getBody().getTotalCount());
+    }
+
+    private boolean isHealthy(ResponseEntity<KoreaParkingResponse> response) {
+        return response.getStatusCode().is2xxSuccessful() && response.getBody().getResponse().getHeader()
+                .getResultCode().equals(NORMAL_RESULT_CODE);
     }
 }
