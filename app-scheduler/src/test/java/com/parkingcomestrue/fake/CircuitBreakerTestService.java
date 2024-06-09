@@ -2,9 +2,10 @@ package com.parkingcomestrue.fake;
 
 import com.parkingcomestrue.external.api.CircuitBreaker;
 import java.util.concurrent.TimeUnit;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class CircuitBreakerTestService {
 
     @CircuitBreaker(resetTime = 2, timeUnit = TimeUnit.SECONDS)
