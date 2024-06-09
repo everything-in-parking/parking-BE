@@ -1,4 +1,4 @@
-package com.parkingcomestrue.external.coordinate.dto;
+package com.parkingcomestrue.external.api.coordinate.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;

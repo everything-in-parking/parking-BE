@@ -1,8 +1,9 @@
-package com.parkingcomestrue.external.coordinate;
+package com.parkingcomestrue.external.api.coordinate;
 
 import com.parkingcomestrue.common.domain.parking.Location;
-import com.parkingcomestrue.external.coordinate.dto.CoordinateResponse;
-import com.parkingcomestrue.external.coordinate.dto.CoordinateResponse.ExactLocation;
+import com.parkingcomestrue.external.api.HealthChecker;
+import com.parkingcomestrue.external.api.coordinate.dto.CoordinateResponse;
+import com.parkingcomestrue.external.api.parkingapi.HealthCheckResponse;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,7 +14,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
-public class CoordinateApiService {
+public class CoordinateApiService implements HealthChecker {
 
     private static final String KAKAO_URL = "https://dapi.kakao.com/v2/local/search/address.json";
 
@@ -32,12 +33,12 @@ public class CoordinateApiService {
             return location;
         }
 
-        ExactLocation exactLocation = getExactLocation(result);
+        CoordinateResponse.ExactLocation exactLocation = getExactLocation(result);
         return Location.of(exactLocation.getLongitude(), exactLocation.getLatitude());
     }
 
-    private ExactLocation getExactLocation(ResponseEntity<CoordinateResponse> result) {
-        List<ExactLocation> exactLocations = result.getBody().getExactLocations();
+    private CoordinateResponse.ExactLocation getExactLocation(ResponseEntity<CoordinateResponse> result) {
+        List<CoordinateResponse.ExactLocation> exactLocations = result.getBody().getExactLocations();
         return exactLocations.get(0);
     }
 
@@ -58,5 +59,16 @@ public class CoordinateApiService {
     private boolean isEmptyResultData(ResponseEntity<CoordinateResponse> result) {
         Integer matchingDataCount = result.getBody().getMeta().getTotalCount();
         return matchingDataCount == 0;
+    }
+
+    @Override
+    public HealthCheckResponse check() {
+        UriComponents uriComponents = makeCompleteUri("health check");
+        ResponseEntity<CoordinateResponse> response = connect(uriComponents);
+        return new HealthCheckResponse(isHealthy(response), 1);
+    }
+
+    private boolean isHealthy(ResponseEntity<CoordinateResponse> response) {
+        return response.getStatusCode().is2xxSuccessful();
     }
 }

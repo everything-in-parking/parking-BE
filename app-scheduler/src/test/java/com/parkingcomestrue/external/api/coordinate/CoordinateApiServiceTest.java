@@ -1,4 +1,4 @@
-package com.parkingcomestrue.external.coordinate;
+package com.parkingcomestrue.external.api.coordinate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import com.parkingcomestrue.external.coordinate.dto.CoordinateResponse;
+import com.parkingcomestrue.external.api.coordinate.dto.CoordinateResponse;
 import com.parkingcomestrue.common.domain.parking.Location;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;

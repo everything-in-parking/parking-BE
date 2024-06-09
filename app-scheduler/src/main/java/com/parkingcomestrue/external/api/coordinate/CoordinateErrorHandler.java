@@ -1,4 +1,4 @@
-package com.parkingcomestrue.external.coordinate;
+package com.parkingcomestrue.external.api.coordinate;
 
 import com.parkingcomestrue.external.support.exception.SchedulerException;
 import com.parkingcomestrue.external.support.exception.SchedulerExceptionInformation;

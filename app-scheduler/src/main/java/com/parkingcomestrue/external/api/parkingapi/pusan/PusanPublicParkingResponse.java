@@ -1,4 +1,4 @@
-package com.parkingcomestrue.external.parkingapi.pusan;
+package com.parkingcomestrue.external.api.parkingapi.pusan;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,12 +14,21 @@ public class PusanPublicParkingResponse {
     @Getter
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ParkingInfo {
+
+        private Header header;
         private Body body;
+
+        @Getter
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        public static class Header {
+            private String resultCode;
+        }
 
         @Getter
         @JsonIgnoreProperties(ignoreUnknown = true)
         public static class Body {
             private Items items;
+            private int totalCount;
         }
 
         @Getter

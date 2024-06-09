@@ -1,4 +1,4 @@
-package com.parkingcomestrue.external.parkingapi.seoul;
+package com.parkingcomestrue.external.api.parkingapi.seoul;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,8 +17,19 @@ public class SeoulPublicParkingResponse {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ParkingInfo {
 
+        @JsonProperty("RESULT")
+        private Result result;
+
         @JsonProperty("row")
         private List<SeoulCityParking> rows;
+
+        @Getter
+        @JsonNaming(value = PropertyNamingStrategies.UpperSnakeCaseStrategy.class)
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        public static class Result {
+
+            private String code;
+        }
 
         @Getter
         @JsonNaming(value = PropertyNamingStrategies.UpperSnakeCaseStrategy.class)

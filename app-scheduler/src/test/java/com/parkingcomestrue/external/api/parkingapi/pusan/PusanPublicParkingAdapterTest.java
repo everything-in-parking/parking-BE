@@ -1,4 +1,4 @@
-package com.parkingcomestrue.external.parkingapi.pusan;
+package com.parkingcomestrue.external.api.parkingapi.pusan;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parkingcomestrue.common.domain.parking.Fee;
@@ -8,6 +8,8 @@ import com.parkingcomestrue.common.domain.parking.ParkingType;
 import com.parkingcomestrue.common.domain.parking.PayType;
 import com.parkingcomestrue.common.domain.parking.TimeInfo;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;
+import com.parkingcomestrue.external.api.parkingapi.pusan.PusanPublicParkingAdapter;
+import com.parkingcomestrue.external.api.parkingapi.pusan.PusanPublicParkingResponse;
 import java.io.File;
 import java.io.IOException;
 import org.assertj.core.api.SoftAssertions;
