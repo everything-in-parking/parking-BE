@@ -12,7 +12,8 @@ import com.parkingcomestrue.common.domain.parking.ParkingType;
 import com.parkingcomestrue.common.domain.parking.PayType;
 import com.parkingcomestrue.common.domain.parking.Space;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;
-import com.parkingcomestrue.external.parkingapi.ParkingApiService;
+import com.parkingcomestrue.external.api.parkingapi.HealthCheckResponse;
+import com.parkingcomestrue.external.api.parkingapi.ParkingApiService;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -31,9 +32,9 @@ public class NotOfferCurrentParkingApiService implements ParkingApiService {
     }
 
     @Override
-    public List<Parking> read() {
+    public List<Parking> read(int pageNumber, int size) {
         LinkedList<Parking> result = new LinkedList<>();
-        for (int i = 0; i < readSize; i++) {
+        for (int i = 0; i < size; i++) {
             Parking parking = new Parking(
                     new BaseInformation("not offer parking" + i, "051-000" + i, "부산시 어딘가 " + i,
                             Set.of(PayType.NO_INFO),
@@ -51,7 +52,17 @@ public class NotOfferCurrentParkingApiService implements ParkingApiService {
         return result;
     }
 
+    @Override
+    public int getReadSize() {
+        return readSize;
+    }
+
     public void setReadSize(int readSize) {
         this.readSize = readSize;
+    }
+
+    @Override
+    public HealthCheckResponse check() {
+        return new HealthCheckResponse(true, readSize);
     }
 }
