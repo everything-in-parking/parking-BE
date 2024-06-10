@@ -12,7 +12,7 @@ import com.parkingcomestrue.common.domain.parking.ParkingType;
 import com.parkingcomestrue.common.domain.parking.PayType;
 import com.parkingcomestrue.common.domain.parking.Space;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;
-import com.parkingcomestrue.external.api.parkingapi.HealthCheckResponse;
+import com.parkingcomestrue.external.api.HealthCheckResponse;
 import com.parkingcomestrue.external.api.parkingapi.ParkingApiService;
 import java.util.LinkedList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.parkingcomestrue.fake;
 
-import com.parkingcomestrue.external.api.parkingapi.HealthCheckResponse;
+import com.parkingcomestrue.external.api.HealthCheckResponse;
 import com.parkingcomestrue.external.support.exception.SchedulerException;
 import com.parkingcomestrue.external.support.exception.SchedulerExceptionInformation;
 import com.parkingcomestrue.external.api.parkingapi.ParkingApiService;
