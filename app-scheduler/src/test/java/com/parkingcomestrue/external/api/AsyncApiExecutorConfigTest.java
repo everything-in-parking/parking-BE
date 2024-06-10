@@ -1,15 +1,22 @@
 package com.parkingcomestrue.external.api;
 
-import com.parkingcomestrue.external.api.AsyncApiExecutor;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-class AsyncApiExecutorTest {
+class AsyncApiExecutorConfigTest {
 
     private static final int MINUTE = 1000;
+
+    private final ExecutorService executorService = Executors.newFixedThreadPool(100, (Runnable r) -> {
+        Thread thread = new Thread(r);
+        thread.setDaemon(true);
+        return thread;
+    });
 
     @Test
     void executeAsync_메서드를_사용하면_100개의_스레드로_비동기_동작한다() {
@@ -20,7 +27,7 @@ class AsyncApiExecutorTest {
         //when
         long start = System.currentTimeMillis();
         List<CompletableFuture<Integer>> testCalls = Stream.iterate(pageNumber, i -> i <= lastPageNumber, i -> i + 1)
-                .map(i -> AsyncApiExecutor.executeAsync(() -> testCall(i)))
+                .map(i -> CompletableFuture.supplyAsync(() -> testCall(i), executorService))
                 .toList();
         long end = System.currentTimeMillis();
 

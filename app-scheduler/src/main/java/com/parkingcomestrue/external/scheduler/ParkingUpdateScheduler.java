@@ -2,7 +2,6 @@ package com.parkingcomestrue.external.scheduler;
 
 import com.parkingcomestrue.common.domain.parking.Location;
 import com.parkingcomestrue.common.domain.parking.Parking;
-import com.parkingcomestrue.external.api.AsyncApiExecutor;
 import com.parkingcomestrue.external.api.coordinate.CoordinateApiService;
 import com.parkingcomestrue.external.api.parkingapi.HealthCheckResponse;
 import com.parkingcomestrue.external.api.parkingapi.ParkingApiService;
@@ -13,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -32,6 +32,7 @@ public class ParkingUpdateScheduler {
     private final List<ParkingApiService> parkingApiServices;
     private final CoordinateApiService coordinateApiService;
     private final ParkingBatchRepository parkingBatchRepository;
+    private final ExecutorService executorService;
 
     @Scheduled(cron = "0 */30 * * * *")
     public void autoUpdateOfferCurrentParking() {
@@ -67,7 +68,7 @@ public class ParkingUpdateScheduler {
         int lastPageNumber = calculateLastPageNumber(totalSize, readSize);
 
         return Stream.iterate(1, i -> i <= lastPageNumber, i -> i + 1)
-                .map(i -> AsyncApiExecutor.executeAsync(() -> parkingApi.read(i, readSize)))
+                .map(i -> CompletableFuture.supplyAsync(() -> parkingApi.read(i, readSize), executorService))
                 .toList();
     }
 

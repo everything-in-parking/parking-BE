@@ -8,6 +8,8 @@ import com.parkingcomestrue.fake.FakeParkingBatchRepository;
 import com.parkingcomestrue.fake.NotOfferCurrentParkingApiService;
 import com.parkingcomestrue.fake.OfferCurrentParkingApiService;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,11 @@ class ParkingUpdateSchedulerTest {
 
     private final FakeParkingBatchRepository parkingRepository = new FakeParkingBatchRepository();
     private final CoordinateApiService coordinateService = new FakeCoordinateApiService();
+    private final ExecutorService executorService = Executors.newFixedThreadPool(100, (Runnable r) -> {
+        Thread thread = new Thread(r);
+        thread.setDaemon(true);
+        return thread;
+    });
 
     @DisplayName("실시간 주차 대수를 제공하는 API에서 주차장이 0~4까지 저장되어 있는 상태에서 0~9까지 주차장을 읽어와 업데이트한다.")
     @Test
@@ -29,7 +36,8 @@ class ParkingUpdateSchedulerTest {
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(offerCurrentParkingApiService),
                 coordinateService,
-                parkingRepository
+                parkingRepository,
+                executorService
         );
 
         //when
@@ -52,7 +60,8 @@ class ParkingUpdateSchedulerTest {
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(notOfferCurrentParkingApiService),
                 coordinateService,
-                parkingRepository
+                parkingRepository,
+                executorService
         );
 
         //when
@@ -76,7 +85,8 @@ class ParkingUpdateSchedulerTest {
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(offerCurrentParkingApiService, notOfferCurrentParkingApiService),
                 coordinateService,
-                parkingRepository
+                parkingRepository,
+                executorService
         );
 
         //when
@@ -93,7 +103,8 @@ class ParkingUpdateSchedulerTest {
         ParkingUpdateScheduler scheduler = new ParkingUpdateScheduler(
                 List.of(new OfferCurrentParkingApiService(5), new ExceptionParkingApiService()),
                 coordinateService,
-                parkingRepository
+                parkingRepository,
+                executorService
         );
 
         //when
