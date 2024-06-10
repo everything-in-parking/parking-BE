@@ -21,7 +21,7 @@ public class CircuitBreakerAspect {
     @Around("@annotation(annotation)")
     public Object around(ProceedingJoinPoint proceedingJoinPoint, CircuitBreaker annotation) {
         ApiCounter apiCounter = getApiCounter(proceedingJoinPoint, annotation.minTotalCount());
-        if (apiCounter.isClosed()) {
+        if (apiCounter.isOpened()) {
             log.warn("현재 해당 {} API는 오류로 인해 중지되었습니다.", proceedingJoinPoint.getTarget());
             return null;
         }
@@ -46,7 +46,7 @@ public class CircuitBreakerAspect {
     private void handleError(CircuitBreaker annotation, ApiCounter apiCounter) {
         apiCounter.errorCountUp();
         if (apiCounter.isErrorRateOverThan(annotation.errorRate())) {
-            apiCounter.close();
+            apiCounter.open();
             scheduler.schedule(apiCounter::reset, annotation.resetTime(), annotation.timeUnit());
         }
     }
