@@ -1,4 +1,4 @@
-package com.parkingcomestrue.external.api.parkingapi;
+package com.parkingcomestrue.external.api;
 
 import lombok.Getter;
 

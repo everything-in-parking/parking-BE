@@ -3,7 +3,7 @@ package com.parkingcomestrue.external.scheduler;
 import com.parkingcomestrue.common.domain.parking.Location;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.external.api.coordinate.CoordinateApiService;
-import com.parkingcomestrue.external.api.parkingapi.HealthCheckResponse;
+import com.parkingcomestrue.external.api.HealthCheckResponse;
 import com.parkingcomestrue.external.api.parkingapi.ParkingApiService;
 import com.parkingcomestrue.external.respository.ParkingBatchRepository;
 import java.util.Collection;

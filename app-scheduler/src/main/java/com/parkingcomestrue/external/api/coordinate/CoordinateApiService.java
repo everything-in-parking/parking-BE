@@ -3,7 +3,7 @@ package com.parkingcomestrue.external.api.coordinate;
 import com.parkingcomestrue.common.domain.parking.Location;
 import com.parkingcomestrue.external.api.HealthChecker;
 import com.parkingcomestrue.external.api.coordinate.dto.CoordinateResponse;
-import com.parkingcomestrue.external.api.parkingapi.HealthCheckResponse;
+import com.parkingcomestrue.external.api.HealthCheckResponse;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -1,7 +1,7 @@
 package com.parkingcomestrue.external.api.parkingapi.seoul;
 
 import com.parkingcomestrue.external.api.CircuitBreaker;
-import com.parkingcomestrue.external.api.parkingapi.HealthCheckResponse;
+import com.parkingcomestrue.external.api.HealthCheckResponse;
 import com.parkingcomestrue.external.api.parkingapi.ParkingApiService;
 import com.parkingcomestrue.common.domain.parking.Parking;
 import java.net.URI;
