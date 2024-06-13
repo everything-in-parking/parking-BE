@@ -1,6 +1,8 @@
 package com.parkingcomestrue.parking.application.searchcondition;
 
+import com.parkingcomestrue.common.domain.member.Member;
 import com.parkingcomestrue.parking.application.SearchConditionMapper;
+import com.parkingcomestrue.parking.application.member.dto.MemberId;
 import com.parkingcomestrue.parking.application.searchcondition.dto.SearchConditionDto;
 import com.parkingcomestrue.common.domain.parking.OperationType;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
@@ -26,8 +28,8 @@ public class SearchConditionService {
     private final SearchConditionRepository searchConditionRepository;
     private final SearchConditionMapper searchConditionMapper;
 
-    public SearchConditionDto findSearchCondition(Long memberId) {
-        SearchCondition searchCondition = searchConditionRepository.getByMemberId(memberId);
+    public SearchConditionDto findSearchCondition(MemberId memberId) {
+        SearchCondition searchCondition = searchConditionRepository.getByMemberId(Association.from(memberId.getId()));
         return toSearchConditionDto(searchCondition);
     }
 
@@ -50,18 +52,18 @@ public class SearchConditionService {
     }
 
     @Transactional
-    public void updateSearchCondition(Long memberId, SearchConditionDto searchConditionDto) {
-        SearchCondition newSearchCondition = createSearchCondition(memberId, searchConditionDto);
+    public void updateSearchCondition(MemberId memberId, SearchConditionDto searchConditionDto) {
+        SearchCondition newSearchCondition = createSearchCondition(Association.from(memberId.getId()), searchConditionDto);
 
-        searchConditionRepository.findByMemberId(memberId).ifPresentOrElse(
+        searchConditionRepository.findByMemberId(Association.from(memberId.getId())).ifPresentOrElse(
                 existingSearchCondition -> existingSearchCondition.update(newSearchCondition),
                 () -> searchConditionRepository.save(newSearchCondition)
         );
     }
 
-    private SearchCondition createSearchCondition(Long memberId, SearchConditionDto searchConditionDto) {
+    private SearchCondition createSearchCondition(Association<Member> memberId, SearchConditionDto searchConditionDto) {
         return new SearchCondition(
-                Association.from(memberId),
+                memberId,
                 searchConditionMapper.toEnums(OperationType.class, searchConditionDto.getOperationType()),
                 searchConditionMapper.toEnums(ParkingType.class, searchConditionDto.getParkingType()),
                 searchConditionMapper.toEnums(FeeType.class, searchConditionDto.getFeeType()),

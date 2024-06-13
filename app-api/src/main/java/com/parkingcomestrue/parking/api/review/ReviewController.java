@@ -1,5 +1,6 @@
 package com.parkingcomestrue.parking.api.review;
 
+import com.parkingcomestrue.parking.application.member.dto.MemberId;
 import com.parkingcomestrue.parking.application.review.ReviewService;
 import com.parkingcomestrue.parking.application.review.dto.ReviewCreateRequest;
 import com.parkingcomestrue.parking.config.argumentresolver.MemberAuth;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +24,9 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @Operation(summary = "리뷰 등록", description = "리뷰 등록")
-    @PostMapping("/parkings/{parkingId}/reviews")
+    @PostMapping(value = "/parkings/{parkingId}/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Long> createReview(@PathVariable Long parkingId,
-                                             @Parameter(hidden = true) @MemberAuth Long memberId,
+                                             @Parameter(hidden = true) @MemberAuth MemberId memberId,
                                              @ModelAttribute ReviewCreateRequest request) {
         Long reviewId = reviewService.createReview(parkingId, memberId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(reviewId);

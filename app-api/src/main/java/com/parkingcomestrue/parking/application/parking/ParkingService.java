@@ -9,12 +9,13 @@ import com.parkingcomestrue.common.domain.parking.Parking;
 import com.parkingcomestrue.common.domain.parking.ParkingFeeCalculator;
 import com.parkingcomestrue.common.domain.parking.ParkingType;
 import com.parkingcomestrue.common.domain.parking.PayType;
-import com.parkingcomestrue.common.domain.parking.service.SearchingCondition;
 import com.parkingcomestrue.common.domain.parking.repository.ParkingRepository;
 import com.parkingcomestrue.common.domain.parking.service.ParkingFilteringService;
+import com.parkingcomestrue.common.domain.parking.service.SearchingCondition;
 import com.parkingcomestrue.common.domain.searchcondition.FeeType;
 import com.parkingcomestrue.common.support.Association;
 import com.parkingcomestrue.parking.application.SearchConditionMapper;
+import com.parkingcomestrue.parking.application.member.dto.MemberId;
 import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse;
 import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse.FeeInfo;
 import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse.HolidayOperatingTime;
@@ -51,7 +52,7 @@ public class ParkingService {
     @Transactional(readOnly = true)
     public ParkingLotsResponse findParkingLots(ParkingQueryRequest parkingQueryRequest,
                                                ParkingSearchConditionRequest parkingSearchConditionRequest,
-                                               Long memberId) {
+                                               MemberId memberId) {
         LocalDateTime now = LocalDateTime.now();
         Location destination = Location.of(parkingQueryRequest.getLongitude(), parkingQueryRequest.getLatitude());
 
@@ -72,11 +73,11 @@ public class ParkingService {
         return new ParkingLotsResponse(parkingResponses);
     }
 
-    private List<Favorite> findMemberFavorites(Long memberId) {
-        if (memberId == null) {
+    private List<Favorite> findMemberFavorites(MemberId memberId) {
+        if (memberId.isGuestUser()) {
             return Collections.emptyList();
         }
-        return favoriteRepository.findByMemberId(Association.from(memberId));
+        return favoriteRepository.findByMemberId(Association.from(memberId.getId()));
     }
 
     private List<Parking> findParkingLotsByOrderCondition(String priority, ParkingQueryRequest parkingQueryRequest,

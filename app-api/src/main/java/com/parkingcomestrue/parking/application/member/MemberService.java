@@ -1,12 +1,12 @@
 package com.parkingcomestrue.parking.application.member;
 
+import com.parkingcomestrue.common.domain.member.Member;
+import com.parkingcomestrue.common.domain.member.Password;
+import com.parkingcomestrue.common.domain.member.repository.MemberRepository;
 import com.parkingcomestrue.parking.application.member.dto.MemberInfoResponse;
 import com.parkingcomestrue.parking.application.member.dto.MemberLoginRequest;
 import com.parkingcomestrue.parking.application.member.dto.MemberSignupRequest;
 import com.parkingcomestrue.parking.application.member.dto.PasswordChangeRequest;
-import com.parkingcomestrue.common.domain.member.Member;
-import com.parkingcomestrue.common.domain.member.repository.MemberRepository;
-import com.parkingcomestrue.common.domain.member.Password;
 import com.parkingcomestrue.parking.support.exception.ClientException;
 import com.parkingcomestrue.parking.support.exception.ClientExceptionInformation;
 import org.springframework.stereotype.Service;

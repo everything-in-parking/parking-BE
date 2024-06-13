@@ -1,6 +1,7 @@
 package com.parkingcomestrue.parking.controlleradvice;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.parkingcomestrue.parking.controlleradvice.dto.ExceptionResponse;
@@ -30,16 +31,16 @@ public class GlobalExceptionHandler {
         final ExceptionResponse exceptionResponse = new ExceptionResponse("알지 못하는 예외 발생");
         log.error("알지 못하는 예외 발생", e);
 
-        return ResponseEntity.internalServerError()
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR)
                 .body(exceptionResponse);
     }
 
     @ExceptionHandler(DomainException.class)
-    public ResponseEntity<ExceptionResponse> handleServerException(final DomainException e) {
+    public ResponseEntity<ExceptionResponse> handleDomainException(final DomainException e) {
         final ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
-        log.error(e.getMessage(), e);
+        log.warn(e.getMessage(), e);
 
-        return ResponseEntity.internalServerError()
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(exceptionResponse);
     }
 

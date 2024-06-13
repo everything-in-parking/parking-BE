@@ -2,6 +2,7 @@ package com.parkingcomestrue.parking.config.interceptor;
 
 import com.parkingcomestrue.parking.application.auth.AuthService;
 import com.parkingcomestrue.common.domain.session.MemberSession;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,18 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         log.info("request: {}", request.getRequestURL());
-        String sessionId = request.getHeader(JSESSIONID);
+        String sessionId = getJsessionid(request);
         MemberSession session = authService.findSession(sessionId);
         authService.updateSessionExpiredAt(session);
         return true;
+    }
+
+    private String getJsessionid(HttpServletRequest request) {
+        for(Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals(JSESSIONID)) {
+                return cookie.getValue();
+            }
+        }
+        return null;
     }
 }
