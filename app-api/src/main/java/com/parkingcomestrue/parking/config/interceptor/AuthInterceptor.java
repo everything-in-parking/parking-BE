@@ -2,6 +2,8 @@ package com.parkingcomestrue.parking.config.interceptor;
 
 import com.parkingcomestrue.parking.application.auth.AuthService;
 import com.parkingcomestrue.common.domain.session.MemberSession;
+import com.parkingcomestrue.parking.support.exception.ClientException;
+import com.parkingcomestrue.parking.support.exception.ClientExceptionInformation;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,6 +36,6 @@ public class AuthInterceptor implements HandlerInterceptor {
                 return cookie.getValue();
             }
         }
-        return null;
+        throw new ClientException(ClientExceptionInformation.UNAUTHORIZED);
     }
 }
