@@ -39,7 +39,7 @@ public class Location {
         try {
             verifyLocation(longitude, latitude);
             return new Location(longitude, latitude);
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | DomainException e) {
             return NO_PROVIDE;
         }
     }

@@ -1,5 +1,7 @@
 package com.parkingcomestrue.common.domain.parking;
 
+import static com.parkingcomestrue.common.domain.parking.TimeInfo.MAX_END_TIME;
+
 import com.parkingcomestrue.common.domain.parking.Day;
 import com.parkingcomestrue.common.domain.parking.DayParking;
 import com.parkingcomestrue.common.domain.parking.FreeOperatingTime;
@@ -36,7 +38,7 @@ class FreeOperatingTimeTest {
                  */
                 Arguments.of(
                         FreeOperatingTime.ALWAYS_FREE,
-                        new DayParking(Day.WEEKDAY, LocalTime.MIN, LocalTime.MAX),
+                        new DayParking(Day.WEEKDAY, LocalTime.MIN, MAX_END_TIME),
                         0
                 ),
                 /*
@@ -58,7 +60,7 @@ class FreeOperatingTimeTest {
                                 TimeInfo.ALL_DAY,
                                 TimeInfo.ALL_DAY
                         ),
-                        new DayParking(Day.WEEKDAY, LocalTime.MIN, LocalTime.MAX),
+                        new DayParking(Day.WEEKDAY, LocalTime.MIN, MAX_END_TIME),
                         1200
                 ),
                 /*

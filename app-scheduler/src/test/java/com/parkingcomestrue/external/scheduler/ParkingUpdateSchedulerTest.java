@@ -1,29 +1,35 @@
 package com.parkingcomestrue.external.scheduler;
 
 
-import com.parkingcomestrue.external.coordinate.CoordinateApiService;
-import com.parkingcomestrue.external.service.ParkingService;
+import com.parkingcomestrue.external.api.coordinate.CoordinateApiService;
 import com.parkingcomestrue.fake.ExceptionParkingApiService;
 import com.parkingcomestrue.fake.FakeCoordinateApiService;
+import com.parkingcomestrue.fake.FakeParkingBatchRepository;
 import com.parkingcomestrue.fake.NotOfferCurrentParkingApiService;
 import com.parkingcomestrue.fake.OfferCurrentParkingApiService;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import repository.BasicParkingRepository;
 
 class ParkingUpdateSchedulerTest {
 
-    private final BasicParkingRepository parkingRepository = new BasicParkingRepository();
+    private final FakeParkingBatchRepository parkingRepository = new FakeParkingBatchRepository();
     private final CoordinateApiService coordinateService = new FakeCoordinateApiService();
+    private final ExecutorService executorService = Executors.newFixedThreadPool(100, (Runnable r) -> {
+        Thread thread = new Thread(r);
+        thread.setDaemon(true);
+        return thread;
+    });
 
     @DisplayName("실시간 주차 대수를 제공하는 API에서 주차장이 0~4까지 저장되어 있는 상태에서 0~9까지 주차장을 읽어와 업데이트한다.")
     @Test
     void autoUpdateOfferCurrentParking() {
         //given
         OfferCurrentParkingApiService offerCurrentParkingApiService = new OfferCurrentParkingApiService(5);
-        parkingRepository.saveAll(offerCurrentParkingApiService.read());
+        parkingRepository.saveAll(offerCurrentParkingApiService.read(0, offerCurrentParkingApiService.getReadSize()));
         int readSize = 10;
         offerCurrentParkingApiService.setReadSize(readSize);
 
@@ -31,7 +37,7 @@ class ParkingUpdateSchedulerTest {
                 List.of(offerCurrentParkingApiService),
                 coordinateService,
                 parkingRepository,
-                new ParkingService(parkingRepository)
+                executorService
         );
 
         //when
@@ -47,7 +53,7 @@ class ParkingUpdateSchedulerTest {
         //given
         NotOfferCurrentParkingApiService notOfferCurrentParkingApiService = new NotOfferCurrentParkingApiService(
                 5);
-        parkingRepository.saveAll(notOfferCurrentParkingApiService.read());
+        parkingRepository.saveAll(notOfferCurrentParkingApiService.read(0, notOfferCurrentParkingApiService.getReadSize()));
         int readSize = 10;
         notOfferCurrentParkingApiService.setReadSize(readSize);
 
@@ -55,7 +61,7 @@ class ParkingUpdateSchedulerTest {
                 List.of(notOfferCurrentParkingApiService),
                 coordinateService,
                 parkingRepository,
-                new ParkingService(parkingRepository)
+                executorService
         );
 
         //when
@@ -72,7 +78,7 @@ class ParkingUpdateSchedulerTest {
         OfferCurrentParkingApiService offerCurrentParkingApiService = new OfferCurrentParkingApiService(5);
         NotOfferCurrentParkingApiService notOfferCurrentParkingApiService = new NotOfferCurrentParkingApiService(
                 5);
-        parkingRepository.saveAll(offerCurrentParkingApiService.read());
+        parkingRepository.saveAll(offerCurrentParkingApiService.read(0, offerCurrentParkingApiService.getReadSize()));
         int readSize = 10;
         notOfferCurrentParkingApiService.setReadSize(readSize);
 
@@ -80,7 +86,7 @@ class ParkingUpdateSchedulerTest {
                 List.of(offerCurrentParkingApiService, notOfferCurrentParkingApiService),
                 coordinateService,
                 parkingRepository,
-                new ParkingService(parkingRepository)
+                executorService
         );
 
         //when
@@ -98,7 +104,7 @@ class ParkingUpdateSchedulerTest {
                 List.of(new OfferCurrentParkingApiService(5), new ExceptionParkingApiService()),
                 coordinateService,
                 parkingRepository,
-                new ParkingService(parkingRepository)
+                executorService
         );
 
         //when

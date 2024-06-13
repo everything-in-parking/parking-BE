@@ -58,6 +58,7 @@ public class Parking extends AuditingEntity {
         this.freeOperatingTime = freeOperatingTime;
         this.operatingTime = operatingTime;
         this.feePolicy = feePolicy;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Parking(BaseInformation baseInformation, Location location, Space space,
@@ -68,6 +69,8 @@ public class Parking extends AuditingEntity {
         this.freeOperatingTime = freeOperatingTime;
         this.operatingTime = operatingTime;
         this.feePolicy = feePolicy;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     public int calculatePayOfChargeMinutes(DayParking dayParking) {
@@ -87,10 +90,12 @@ public class Parking extends AuditingEntity {
         this.freeOperatingTime = updated.freeOperatingTime;
         this.operatingTime = updated.operatingTime;
         this.feePolicy = updated.feePolicy;
+        this.updatedAt = LocalDateTime.now();
     }
 
     public void update(Location location) {
         this.location = location;
+        this.updatedAt = LocalDateTime.now();
     }
 
     public boolean containsOperationType(Set<OperationType> operationTypes) {
@@ -136,6 +141,10 @@ public class Parking extends AuditingEntity {
         Duration diff = Duration.between(now, getUpdatedAt());
         Long diffMinute = diff.getSeconds() / MINUTE_UNIT;
         return diffMinute.intValue();
+    }
+
+    public boolean isLocationAvailable() {
+        return !location.equals(Location.NO_PROVIDE);
     }
 
     @Override

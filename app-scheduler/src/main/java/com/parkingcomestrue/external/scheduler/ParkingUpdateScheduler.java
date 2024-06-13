@@ -2,20 +2,23 @@ package com.parkingcomestrue.external.scheduler;
 
 import com.parkingcomestrue.common.domain.parking.Location;
 import com.parkingcomestrue.common.domain.parking.Parking;
-import com.parkingcomestrue.common.domain.parking.repository.ParkingRepository;
-import com.parkingcomestrue.external.coordinate.CoordinateApiService;
-import com.parkingcomestrue.external.parkingapi.ParkingApiService;
-import com.parkingcomestrue.external.service.ParkingService;
+import com.parkingcomestrue.external.api.coordinate.CoordinateApiService;
+import com.parkingcomestrue.external.api.HealthCheckResponse;
+import com.parkingcomestrue.external.api.parkingapi.ParkingApiService;
+import com.parkingcomestrue.external.respository.ParkingBatchRepository;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,32 +31,63 @@ public class ParkingUpdateScheduler {
 
     private final List<ParkingApiService> parkingApiServices;
     private final CoordinateApiService coordinateApiService;
-    private final ParkingRepository parkingRepository;
-    private final ParkingService parkingService;
+    private final ParkingBatchRepository parkingBatchRepository;
+    private final ExecutorService executorService;
 
     @Scheduled(cron = "0 */30 * * * *")
     public void autoUpdateOfferCurrentParking() {
         Map<String, Parking> parkingLots = readBy(ParkingApiService::offerCurrentParking);
         Map<String, Parking> saved = findAllByName(parkingLots.keySet());
-        List<Parking> newParkingLots = findNewParkingLots(parkingLots, saved);
-        parkingService.updateParkingLots(parkingLots, saved, newParkingLots);
+        updateSavedParkingLots(parkingLots, saved);
+        saveNewParkingLots(parkingLots, saved);
     }
 
     private Map<String, Parking> readBy(Predicate<ParkingApiService> currentParkingAvailable) {
-        return parkingApiServices.stream()
-                .filter(currentParkingAvailable)
-                .map(this::read)
-                .flatMap(Collection::stream)
-                .collect(toParkingMap());
+        List<ParkingApiService> parkingApis = filterBy(currentParkingAvailable);
+        Map<String, Parking> result = new HashMap<>();
+        for (ParkingApiService parkingApi : parkingApis) {
+            HealthCheckResponse healthCheckResponse = parkingApi.check();
+            if (healthCheckResponse.isHealthy()) {
+                List<CompletableFuture<List<Parking>>> responses = fetchParkingDataAsync(
+                        parkingApi, healthCheckResponse.getTotalSize());
+                Map<String, Parking> response = collectParkingData(responses);
+                result.putAll(response);
+            }
+        }
+        return result;
     }
 
-    private List<Parking> read(ParkingApiService parkingApiService) {
-        try {
-            return parkingApiService.read();
-        } catch (Exception e) {
-            log.warn("Error while converting {} to Parking {}", parkingApiService.getClass(), e.getMessage());
-            return Collections.emptyList();
+    private List<ParkingApiService> filterBy(Predicate<ParkingApiService> currentParkingAvailable) {
+        return parkingApiServices.stream()
+                .filter(currentParkingAvailable)
+                .toList();
+    }
+
+    private List<CompletableFuture<List<Parking>>> fetchParkingDataAsync(ParkingApiService parkingApi, int totalSize) {
+        int readSize = parkingApi.getReadSize();
+        int lastPageNumber = calculateLastPageNumber(totalSize, readSize);
+
+        return Stream.iterate(1, i -> i <= lastPageNumber, i -> i + 1)
+                .map(i -> CompletableFuture.supplyAsync(() -> parkingApi.read(i, readSize), executorService))
+                .toList();
+    }
+
+    private int calculateLastPageNumber(int totalSize, int readSize) {
+        int lastPageNumber = totalSize / readSize;
+        if (totalSize % readSize == 0) {
+            return lastPageNumber;
         }
+        return lastPageNumber + 1;
+    }
+
+    private Map<String, Parking> collectParkingData(List<CompletableFuture<List<Parking>>> responses) {
+        List<List<Parking>> parkingLots = responses.stream()
+                .map(CompletableFuture::join)
+                .toList();
+
+        return parkingLots.stream()
+                .flatMap(Collection::stream)
+                .collect(toParkingMap());
     }
 
     private Collector<Parking, ?, Map<String, Parking>> toParkingMap() {
@@ -65,25 +99,32 @@ public class ParkingUpdateScheduler {
     }
 
     private Map<String, Parking> findAllByName(Set<String> names) {
-        return parkingRepository.findAllByBaseInformationNameIn(names)
+        return parkingBatchRepository.findAllByBaseInformationNameIn(names)
                 .stream()
                 .collect(toParkingMap());
     }
 
-    private List<Parking> findNewParkingLots(Map<String, Parking> parkingLots, Map<String, Parking> saved) {
+    private void updateSavedParkingLots(Map<String, Parking> parkingLots, Map<String, Parking> saved) {
+        for (String parkingName : saved.keySet()) {
+            Parking origin = saved.get(parkingName);
+            Parking updated = parkingLots.get(parkingName);
+            origin.update(updated);
+        }
+    }
+
+    private void saveNewParkingLots(Map<String, Parking> parkingLots, Map<String, Parking> saved) {
         List<Parking> newParkingLots = parkingLots.keySet()
                 .stream()
                 .filter(parkingName -> !saved.containsKey(parkingName))
                 .map(parkingLots::get)
                 .toList();
         updateLocation(newParkingLots);
-        return newParkingLots;
+        parkingBatchRepository.saveWithBatch(newParkingLots);
     }
-
 
     private void updateLocation(List<Parking> newParkingLots) {
         for (Parking parking : newParkingLots) {
-            if (!parking.getLocation().equals(Location.NO_PROVIDE)) {
+            if (parking.isLocationAvailable()) {
                 continue;
             }
             Location locationByAddress = coordinateApiService.extractLocationByAddress(
@@ -97,7 +138,7 @@ public class ParkingUpdateScheduler {
     public void autoUpdateNotOfferCurrentParking() {
         Map<String, Parking> parkingLots = readBy(parkingApiService -> !parkingApiService.offerCurrentParking());
         Map<String, Parking> saved = findAllByName(parkingLots.keySet());
-        List<Parking> newParkingLots = findNewParkingLots(parkingLots, saved);
-        parkingService.updateParkingLots(parkingLots, saved, newParkingLots);
+        updateSavedParkingLots(parkingLots, saved);
+        saveNewParkingLots(parkingLots, saved);
     }
 }

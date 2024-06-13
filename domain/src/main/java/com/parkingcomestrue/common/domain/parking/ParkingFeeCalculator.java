@@ -1,5 +1,7 @@
 package com.parkingcomestrue.common.domain.parking;
 
+import static com.parkingcomestrue.common.domain.parking.TimeInfo.MAX_END_TIME;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ public class ParkingFeeCalculator {
         dayParkingDates.add(makeFirstDayParking(beginTime));
         beginTime = beginTime.plusDays(1);
         while (!isSameDate(beginTime, endTime)) {
-            dayParkingDates.add(new DayParking(Day.from(beginTime.getDayOfWeek()), LocalTime.MIN, LocalTime.MAX));
+            dayParkingDates.add(new DayParking(Day.from(beginTime.getDayOfWeek()), LocalTime.MIN, MAX_END_TIME));
             beginTime = beginTime.plusDays(1);
         }
         dayParkingDates.add(makeLastDayParking(endTime));
@@ -62,7 +64,7 @@ public class ParkingFeeCalculator {
     }
 
     private DayParking makeFirstDayParking(LocalDateTime beginTime) {
-        return new DayParking(Day.from(beginTime.getDayOfWeek()), beginTime.toLocalTime(), LocalTime.MAX);
+        return new DayParking(Day.from(beginTime.getDayOfWeek()), beginTime.toLocalTime(), MAX_END_TIME);
     }
 
     private DayParking makeLastDayParking(LocalDateTime endTime) {
