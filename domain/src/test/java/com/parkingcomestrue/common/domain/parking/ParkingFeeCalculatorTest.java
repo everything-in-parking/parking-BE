@@ -1,5 +1,7 @@
 package com.parkingcomestrue.common.domain.parking;
 
+import static com.parkingcomestrue.common.domain.parking.TimeInfo.MAX_END_TIME;
+
 import com.parkingcomestrue.common.domain.parking.BaseInformation;
 import com.parkingcomestrue.common.domain.parking.Fee;
 import com.parkingcomestrue.common.domain.parking.FeePolicy;
@@ -267,7 +269,7 @@ class ParkingFeeCalculatorTest {
                                         ),
                                         new TimeInfo(
                                                 LocalTime.of(6, 0),
-                                                LocalTime.MAX
+                                                MAX_END_TIME
                                         ),
                                         TimeInfo.ALL_DAY
                                 ),
@@ -325,7 +327,7 @@ class ParkingFeeCalculatorTest {
                                         TimeInfo.ALL_DAY,
                                         new TimeInfo(
                                                 LocalTime.of(4, 0),
-                                                LocalTime.MAX
+                                                MAX_END_TIME
                                         )
                                 ),
                                 new OperatingTime(),
@@ -384,7 +386,7 @@ class ParkingFeeCalculatorTest {
                                         TimeInfo.ALL_DAY,
                                         new TimeInfo(
                                                 LocalTime.of(4, 0),
-                                                LocalTime.MAX
+                                                MAX_END_TIME
                                         )
                                 ),
                                 new OperatingTime(),

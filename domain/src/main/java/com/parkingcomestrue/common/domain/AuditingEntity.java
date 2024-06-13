@@ -1,5 +1,6 @@
 package com.parkingcomestrue.common.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
@@ -14,8 +15,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public abstract class AuditingEntity {
 
     @CreatedDate
-    private LocalDateTime createdAt;
+    @Column(updatable = false)
+    protected LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime updatedAt;
+    protected LocalDateTime updatedAt;
 }
