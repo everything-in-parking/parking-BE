@@ -1,6 +1,7 @@
 package com.parkingcomestrue.common.domain.parking;
 
-import com.parkingcomestrue.common.domain.parking.TimeInfo;
+import static com.parkingcomestrue.common.domain.parking.TimeInfo.MAX_END_TIME;
+
 import java.time.LocalTime;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -26,9 +27,9 @@ class TimeInfoTest {
                         겹침 시간     : 00:00 ~ 24:00 -> 1440분
                  */
                 Arguments.of(
-                        new TimeInfo(LocalTime.MIN, LocalTime.MAX),
+                        new TimeInfo(LocalTime.MIN, MAX_END_TIME),
                         LocalTime.MIN,
-                        LocalTime.MAX,
+                        MAX_END_TIME,
                         1440),
                 /*
                         무료 운영 시간 : 00:00 ~ 24:00
@@ -36,7 +37,7 @@ class TimeInfoTest {
                         겹침 시간     : 01:30 ~ 22:11 -> 1241분
                  */
                 Arguments.of(
-                        new TimeInfo(LocalTime.MIN, LocalTime.MAX),
+                        new TimeInfo(LocalTime.MIN, MAX_END_TIME),
                         LocalTime.of(1, 30),
                         LocalTime.of(22, 11),
                         1241),
@@ -118,7 +119,7 @@ class TimeInfoTest {
                 Arguments.of(
                         new TimeInfo(LocalTime.of(21, 0), LocalTime.of(9, 0)),
                         LocalTime.of(21, 0),
-                        LocalTime.MAX,
+                        MAX_END_TIME,
                         180),
                 /*
                         무료 운영 시간 : 21:00 ~ 09:00

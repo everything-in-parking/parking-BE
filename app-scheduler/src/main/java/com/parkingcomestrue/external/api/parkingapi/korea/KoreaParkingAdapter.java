@@ -1,5 +1,7 @@
 package com.parkingcomestrue.external.api.parkingapi.korea;
 
+import static com.parkingcomestrue.common.domain.parking.TimeInfo.MAX_END_TIME;
+
 import com.parkingcomestrue.common.domain.parking.BaseInformation;
 import com.parkingcomestrue.common.domain.parking.Fee;
 import com.parkingcomestrue.common.domain.parking.FeePolicy;
@@ -114,7 +116,7 @@ public class KoreaParkingAdapter {
 
     private LocalTime parsingOperationTime(String time) {
         if (time.equals(HOURS_24)) {
-            return LocalTime.MAX;
+            return MAX_END_TIME;
         }
         try {
             return LocalTime.parse(time, TIME_FORMATTER);

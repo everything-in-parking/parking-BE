@@ -8,8 +8,6 @@ import com.parkingcomestrue.common.domain.parking.ParkingType;
 import com.parkingcomestrue.common.domain.parking.PayType;
 import com.parkingcomestrue.common.domain.parking.TimeInfo;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;
-import com.parkingcomestrue.external.api.parkingapi.pusan.PusanPublicParkingAdapter;
-import com.parkingcomestrue.external.api.parkingapi.pusan.PusanPublicParkingResponse;
 import java.io.File;
 import java.io.IOException;
 import org.assertj.core.api.SoftAssertions;
@@ -78,9 +76,9 @@ class PusanPublicParkingAdapterTest {
                     soft.assertThat(parking.getFeePolicy().getExtraTimeUnit()).isEqualTo(TimeUnit.from(10));
                     soft.assertThat(parking.getFeePolicy().getDayMaximumFee()).isEqualTo(Fee.ZERO);
 
-                    soft.assertThat(parking.getOperatingTime().getWeekday()).isEqualTo(TimeInfo.ALL_DAY);
-                    soft.assertThat(parking.getOperatingTime().getSaturday()).isEqualTo(TimeInfo.ALL_DAY);
-                    soft.assertThat(parking.getOperatingTime().getHoliday()).isEqualTo(TimeInfo.ALL_DAY);
+                    soft.assertThat(parking.getOperatingTime().getWeekdayOperatingTime()).isEqualTo(TimeInfo.ALL_DAY);
+                    soft.assertThat(parking.getOperatingTime().getSaturdayOperatingTime()).isEqualTo(TimeInfo.ALL_DAY);
+                    soft.assertThat(parking.getOperatingTime().getHolidayOperatingTime()).isEqualTo(TimeInfo.ALL_DAY);
 
                     soft.assertThat(parking.getBaseInformation().getPayTypesDescription()).isEqualTo(PayType.NO_INFO.getDescription());
                 }

@@ -8,8 +8,6 @@ import com.parkingcomestrue.common.domain.parking.ParkingType;
 import com.parkingcomestrue.common.domain.parking.PayType;
 import com.parkingcomestrue.common.domain.parking.TimeInfo;
 import com.parkingcomestrue.common.domain.parking.TimeUnit;
-import com.parkingcomestrue.external.api.parkingapi.seoul.SeoulPublicParkingAdapter;
-import com.parkingcomestrue.external.api.parkingapi.seoul.SeoulPublicParkingResponse;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
@@ -78,9 +76,9 @@ class SeoulPublicParkingAdapterTest {
             soft.assertThat(parking.getFeePolicy().getExtraTimeUnit()).isEqualTo(TimeUnit.from(5));
             soft.assertThat(parking.getFeePolicy().getDayMaximumFee()).isEqualTo(Fee.ZERO);
 
-            soft.assertThat(parking.getOperatingTime().getWeekday()).isEqualTo(new TimeInfo(LocalTime.of(9, 0), LocalTime.of(19, 0)));
-            soft.assertThat(parking.getOperatingTime().getSaturday()).isEqualTo(new TimeInfo(LocalTime.of(9, 0), LocalTime.of(15, 0)));
-            soft.assertThat(parking.getOperatingTime().getHoliday()).isEqualTo(new TimeInfo(LocalTime.of(0, 0), LocalTime.of(0, 0)));
+            soft.assertThat(parking.getOperatingTime().getWeekdayOperatingTime()).isEqualTo(new TimeInfo(LocalTime.of(9, 0), LocalTime.of(19, 0)));
+            soft.assertThat(parking.getOperatingTime().getSaturdayOperatingTime()).isEqualTo(new TimeInfo(LocalTime.of(9, 0), LocalTime.of(15, 0)));
+            soft.assertThat(parking.getOperatingTime().getHolidayOperatingTime()).isEqualTo(new TimeInfo(LocalTime.of(0, 0), LocalTime.of(0, 0)));
 
             soft.assertThat(parking.getBaseInformation().getPayTypesDescription()).isEqualTo(PayType.NO_INFO.getDescription());
         }

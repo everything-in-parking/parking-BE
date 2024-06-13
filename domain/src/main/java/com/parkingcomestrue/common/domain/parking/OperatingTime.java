@@ -1,9 +1,8 @@
 package com.parkingcomestrue.common.domain.parking;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
+import com.parkingcomestrue.common.infra.converter.TimeInfoConverter;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
 import java.time.LocalTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,50 +16,44 @@ public class OperatingTime {
     public static final OperatingTime ALWAYS_OPEN = new OperatingTime(TimeInfo.ALL_DAY, TimeInfo.ALL_DAY,
             TimeInfo.ALL_DAY);
 
-    @AttributeOverride(name = "beginTime", column = @Column(name = "weekday_begin_time"))
-    @AttributeOverride(name = "endTime", column = @Column(name = "weekday_end_time"))
-    @Embedded
-    private TimeInfo weekday;
+    @Convert(converter = TimeInfoConverter.class)
+    private TimeInfo weekdayOperatingTime;
 
-    @AttributeOverride(name = "beginTime", column = @Column(name = "saturday_begin_time"))
-    @AttributeOverride(name = "endTime", column = @Column(name = "saturday_end_time"))
-    @Embedded
-    private TimeInfo saturday;
+    @Convert(converter = TimeInfoConverter.class)
+    private TimeInfo saturdayOperatingTime;
 
-    @AttributeOverride(name = "beginTime", column = @Column(name = "holiday_begin_time"))
-    @AttributeOverride(name = "endTime", column = @Column(name = "holiday_end_time"))
-    @Embedded
-    private TimeInfo holiday;
+    @Convert(converter = TimeInfoConverter.class)
+    private TimeInfo holidayOperatingTime;
 
-    public OperatingTime(TimeInfo weekday,
-                         TimeInfo saturday,
-                         TimeInfo holiday) {
-        this.weekday = weekday;
-        this.saturday = saturday;
-        this.holiday = holiday;
+    public OperatingTime(TimeInfo weekdayOperatingTime,
+                         TimeInfo saturdayOperatingTime,
+                         TimeInfo holidayOperatingTime) {
+        this.weekdayOperatingTime = weekdayOperatingTime;
+        this.saturdayOperatingTime = saturdayOperatingTime;
+        this.holidayOperatingTime = holidayOperatingTime;
     }
 
     public LocalTime getWeekdayBeginTime() {
-        return weekday.getBeginTime();
+        return weekdayOperatingTime.getBeginTime();
     }
 
     public LocalTime getWeekdayEndTime() {
-        return weekday.getEndTime();
+        return weekdayOperatingTime.getEndTime();
     }
 
     public LocalTime getSaturdayBeginTime() {
-        return saturday.getBeginTime();
+        return saturdayOperatingTime.getBeginTime();
     }
 
     public LocalTime getSaturdayEndTime() {
-        return saturday.getEndTime();
+        return saturdayOperatingTime.getEndTime();
     }
 
     public LocalTime getHolidayBeginTime() {
-        return holiday.getBeginTime();
+        return holidayOperatingTime.getBeginTime();
     }
 
     public LocalTime getHolidayEndTime() {
-        return holiday.getEndTime();
+        return holidayOperatingTime.getEndTime();
     }
 }
