@@ -1,5 +1,6 @@
 package com.parkingcomestrue.parking.application.review;
 
+import com.parkingcomestrue.parking.application.member.dto.MemberId;
 import com.parkingcomestrue.parking.application.review.dto.ReviewCountResponse;
 import com.parkingcomestrue.parking.application.review.dto.ReviewCreateRequest;
 import com.parkingcomestrue.parking.application.review.dto.ReviewInfoResponse;
@@ -24,10 +25,10 @@ public class ReviewService {
     private final ReviewDomainService reviewDomainService;
 
     @Transactional
-    public Long createReview(Long parkingId, Long reviewerId, ReviewCreateRequest request) {
-        reviewDomainService.validateDuplicateReview(Association.from(parkingId), Association.from(reviewerId));
+    public Long createReview(Long parkingId, MemberId reviewerId, ReviewCreateRequest request) {
+        reviewDomainService.validateDuplicateReview(Association.from(parkingId), Association.from(reviewerId.getId()));
 
-        Review review = new Review(Association.from(parkingId), Association.from(reviewerId), request.toContents());
+        Review review = new Review(Association.from(parkingId), Association.from(reviewerId.getId()), request.toContents());
         reviewRepository.save(review);
         return review.getId();
     }

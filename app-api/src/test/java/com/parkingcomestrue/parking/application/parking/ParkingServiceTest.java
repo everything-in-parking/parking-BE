@@ -21,6 +21,7 @@ import com.parkingcomestrue.common.domain.review.Content;
 import com.parkingcomestrue.common.support.exception.DomainException;
 import com.parkingcomestrue.common.support.exception.DomainExceptionInformation;
 import com.parkingcomestrue.parking.application.ContainerTest;
+import com.parkingcomestrue.parking.application.member.dto.MemberId;
 import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse;
 import com.parkingcomestrue.parking.application.review.dto.ReviewCreateRequest;
 import java.time.LocalTime;
@@ -52,7 +53,7 @@ class ParkingServiceTest extends ContainerTest {
 
         ReviewCreateRequest reviewCreateRequest = new ReviewCreateRequest(
                 List.of(Content.LARGE_PARKING_SPACE.getDescription(), Content.EASY_TO_PAY.getDescription()));
-        reviewService.createReview(parking.getId(), member.getId(), reviewCreateRequest);
+        reviewService.createReview(parking.getId(), MemberId.from(member.getId()), reviewCreateRequest);
 
         // when, then
         ParkingDetailInfoResponse parkingDetailInfoResponse = parkingService.findParking(parking.getId());

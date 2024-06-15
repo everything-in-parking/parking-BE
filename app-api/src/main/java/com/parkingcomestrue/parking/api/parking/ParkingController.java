@@ -1,5 +1,6 @@
 package com.parkingcomestrue.parking.api.parking;
 
+import com.parkingcomestrue.parking.application.member.dto.MemberId;
 import com.parkingcomestrue.parking.application.parking.ParkingService;
 import com.parkingcomestrue.parking.application.parking.dto.ParkingDetailInfoResponse;
 import com.parkingcomestrue.parking.application.parking.dto.ParkingLotsResponse;
@@ -30,7 +31,6 @@ public class ParkingController {
     public ResponseEntity<ParkingDetailInfoResponse> findParking(@PathVariable Long parkingId) {
         ParkingDetailInfoResponse parkingDetailInfoResponse = parkingService.findParking(parkingId);
         return ResponseEntity.status(HttpStatus.OK).body(parkingDetailInfoResponse);
-
     }
 
     @Operation(summary = "주차장 반경 조회", description = "주차장 반경 조회")
@@ -38,7 +38,7 @@ public class ParkingController {
     public ResponseEntity<ParkingLotsResponse> find(
             @ParkingQuery ParkingQueryRequest parkingQueryRequest,
             @ParkingSearchCondition ParkingSearchConditionRequest parkingSearchConditionRequest,
-            @Parameter(hidden = true) @MemberAuth(nullable = true) Long parkingMemberId
+            @Parameter(hidden = true) @MemberAuth(nullable = true) MemberId parkingMemberId
     ) {
         ParkingLotsResponse parkingLots = parkingService.findParkingLots(parkingQueryRequest,
                 parkingSearchConditionRequest, parkingMemberId);

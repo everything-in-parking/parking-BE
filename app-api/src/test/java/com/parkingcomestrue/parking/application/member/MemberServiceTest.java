@@ -4,12 +4,12 @@ import static com.parkingcomestrue.common.support.exception.DomainExceptionInfor
 import static com.parkingcomestrue.common.support.exception.DomainExceptionInformation.INVALID_PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.parkingcomestrue.parking.application.member.dto.MemberLoginRequest;
-import com.parkingcomestrue.parking.application.member.dto.MemberSignupRequest;
-import com.parkingcomestrue.parking.application.member.dto.PasswordChangeRequest;
 import com.parkingcomestrue.common.domain.member.Member;
 import com.parkingcomestrue.common.domain.member.repository.MemberRepository;
 import com.parkingcomestrue.common.support.exception.DomainException;
+import com.parkingcomestrue.parking.application.member.dto.MemberLoginRequest;
+import com.parkingcomestrue.parking.application.member.dto.MemberSignupRequest;
+import com.parkingcomestrue.parking.application.member.dto.PasswordChangeRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

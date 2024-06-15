@@ -2,6 +2,7 @@ package com.parkingcomestrue.parking.api.member;
 
 import com.parkingcomestrue.parking.application.auth.AuthService;
 import com.parkingcomestrue.parking.application.member.MemberService;
+import com.parkingcomestrue.parking.application.member.dto.MemberId;
 import com.parkingcomestrue.parking.application.member.dto.MemberLoginRequest;
 import com.parkingcomestrue.parking.application.member.dto.MemberSignupRequest;
 import com.parkingcomestrue.parking.application.member.dto.PasswordChangeRequest;
@@ -49,9 +50,9 @@ public class MemberController {
 
     @Operation(summary = "비밀번호 변경", description = "비밀번호 변경")
     @PatchMapping("/member/password")
-    public ResponseEntity<Void> changePassword(@Parameter(hidden = true) @MemberAuth Long memberId,
+    public ResponseEntity<Void> changePassword(@Parameter(hidden = true) @MemberAuth MemberId memberId,
                                                @RequestBody PasswordChangeRequest request) {
-        memberService.changePassword(memberId, request);
+        memberService.changePassword(memberId.getId(), request);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

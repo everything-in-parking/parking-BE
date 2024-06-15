@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+import com.parkingcomestrue.parking.application.member.dto.MemberId;
 import com.parkingcomestrue.parking.application.review.dto.ReviewCreateRequest;
 import com.parkingcomestrue.parking.application.review.dto.ReviewInfoResponse;
 import com.parkingcomestrue.common.domain.member.Member;
@@ -39,7 +40,7 @@ class ReviewServiceTest {
         ReviewCreateRequest request = new ReviewCreateRequest(List.of("주차 자리가 많아요", "결제가 편리해요"));
 
         //when
-        Long reviewId = reviewService.createReview(parking.getId(), reviewer.getId(), request);
+        Long reviewId = reviewService.createReview(parking.getId(), MemberId.from(reviewer.getId()), request);
 
         //then
         assertThat(reviewId).isNotNull();
@@ -51,10 +52,10 @@ class ReviewServiceTest {
         Parking parking = parkingRepository.saveAndGet(1).get(0);
         Member reviewer = memberRepository.saveAndGet(1).get(0);
         ReviewCreateRequest request = new ReviewCreateRequest(List.of("주차 자리가 많아요", "결제가 편리해요"));
-        reviewService.createReview(parking.getId(), reviewer.getId(), request);
+        reviewService.createReview(parking.getId(), MemberId.from(reviewer.getId()), request);
 
         //when, then
-        assertThatThrownBy(() -> reviewService.createReview(parking.getId(), reviewer.getId(), request))
+        assertThatThrownBy(() -> reviewService.createReview(parking.getId(), MemberId.from(reviewer.getId()), request))
                 .isInstanceOf(DomainException.class)
                 .hasMessage(DUPLICATE_REVIEW.getMessage());
     }
