@@ -16,7 +16,7 @@ class CircuitBreakerAspectTest {
 
     /**
      * 요청 중 20%의 예외가 발생하면 api 요청 잠김
-     * 잠긴 후, 2초 후에 다시 요청보내지도록 reset
+     * 잠긴 후, 200ms 후에 다시 요청보내지도록 reset
      */
     @Autowired
     private CircuitBreakerTestService service;
@@ -41,7 +41,7 @@ class CircuitBreakerAspectTest {
     }
 
     @Test
-    void 서비스가_잠긴후_특정시간이_지나면_다시_요청을_보낼수있다() throws ExecutionException, InterruptedException {
+    void 서비스가_잠긴후_특정시간이_지나면_다시_요청을_보낼수있다() throws InterruptedException {
         //given
         for (int i = 0; i < 8; i++) {
             service.call(() -> {});
@@ -49,12 +49,10 @@ class CircuitBreakerAspectTest {
         for (int i = 0; i < 2; i++) {
             service.call(() -> {throw new RuntimeException();});
         }
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        Thread.sleep(1000);
 
         //when
-        ScheduledFuture<?> future = scheduler.schedule(() -> service.call(() -> isExecuted[1] = true), 2,
-                TimeUnit.SECONDS);
-        future.get();
+        service.call(() -> isExecuted[1] = true);
 
         //then
         Assertions.assertThat(isExecuted[1]).isTrue();
