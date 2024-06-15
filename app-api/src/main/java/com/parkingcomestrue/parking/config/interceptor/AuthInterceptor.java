@@ -25,8 +25,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         log.info("request: {}", request.getRequestURL());
         String sessionId = getJsessionid(request);
-        MemberSession session = authService.findSession(sessionId);
-        authService.updateSessionExpiredAt(session);
+        authService.findAndUpdateSession(sessionId);
         return true;
     }
 

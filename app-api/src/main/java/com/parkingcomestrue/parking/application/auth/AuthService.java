@@ -48,17 +48,18 @@ public class AuthService {
         return memberSession.getSessionId();
     }
 
+    @Transactional
+    public void findAndUpdateSession(String sessionId) {
+        MemberSession session = findSession(sessionId);
+        session.updateExpiredAt(LocalDateTime.now().plusMinutes(DURATION_MINUTE));
+        memberSessionRepository.save(session);
+    }
+
     @Transactional(readOnly = true)
     public MemberSession findSession(String sessionId) {
         return memberSessionRepository.findBySessionIdAndExpiredAtIsGreaterThanEqual(sessionId,
                         LocalDateTime.now())
                 .orElseThrow(() -> new ClientException(ClientExceptionInformation.UNAUTHORIZED));
-    }
-
-    @Transactional
-    public void updateSessionExpiredAt(MemberSession session) {
-        session.updateExpiredAt(LocalDateTime.now().plusMinutes(DURATION_MINUTE));
-        memberSessionRepository.save(session);
     }
 
     @Transactional
