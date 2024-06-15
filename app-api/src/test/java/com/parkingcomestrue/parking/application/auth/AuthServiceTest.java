@@ -50,7 +50,7 @@ class AuthServiceTest extends ContainerTest {
         LocalDateTime originExpiredAt = originSession.getExpiredAt();
 
         // when
-        authService.updateSessionExpiredAt(originSession);
+        authService.findAndUpdateSession(sessionId);
         MemberSession updatedSession = authService.findSession(sessionId);
         LocalDateTime updatedExpiredAt = updatedSession.getExpiredAt();
 
