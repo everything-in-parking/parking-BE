@@ -24,6 +24,11 @@ public class TimeInfo {
     private LocalTime endTime;
 
     public TimeInfo(LocalTime beginTime, LocalTime endTime) {
+        if (beginTime == null || endTime == null) {
+            this.beginTime = CLOSED.beginTime;
+            this.endTime = CLOSED.endTime;
+            return;
+        }
         this.beginTime = beginTime;
         this.endTime = endTime;
     }
