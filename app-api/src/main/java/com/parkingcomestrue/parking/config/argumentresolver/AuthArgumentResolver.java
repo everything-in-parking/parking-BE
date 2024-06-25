@@ -40,6 +40,9 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     private String getJsessionid(HttpServletRequest request) {
+        if (request == null) {
+            return null;
+        }
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals(JSESSIONID)) {
                 return cookie.getValue();
