@@ -27,7 +27,7 @@ public class CircuitBreakerAspect {
         }
         try {
             Object result = proceedingJoinPoint.proceed();
-            apiCounter.countUp();
+            apiCounter.totalCountUp();
             return result;
         } catch (Throwable e) {
             handleError(annotation, apiCounter);
@@ -37,10 +37,7 @@ public class CircuitBreakerAspect {
 
     private ApiCounter getApiCounter(ProceedingJoinPoint proceedingJoinPoint, int minTotalCount) {
         Object target = proceedingJoinPoint.getTarget();
-        if (!map.containsKey(target)) {
-            map.put(target, new ApiCounter(minTotalCount));
-        }
-        return map.get(target);
+        return map.computeIfAbsent(target, key -> new ApiCounter(minTotalCount));
     }
 
     private void handleError(CircuitBreaker annotation, ApiCounter apiCounter) {

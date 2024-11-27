@@ -24,25 +24,13 @@ public class ApiCounter {
         this.isOpened = false;
     }
 
-    public void countUp() {
-        while (true) {
-            int expected = getTotalCount();
-            int newValue = expected + 1;
-            if (totalCount.compareAndSet(expected, newValue)) {
-                return;
-            }
-        }
+    public void totalCountUp() {
+        totalCount.incrementAndGet();
     }
 
     public void errorCountUp() {
-        countUp();
-        while (true) {
-            int expected = getErrorCount();
-            int newValue = expected + 1;
-            if (errorCount.compareAndSet(expected, newValue)) {
-                return;
-            }
-        }
+        totalCountUp();
+        errorCount.incrementAndGet();
     }
 
     public void reset() {
