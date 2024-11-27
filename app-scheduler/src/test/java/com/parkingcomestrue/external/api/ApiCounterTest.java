@@ -15,7 +15,7 @@ class ApiCounterTest {
         ApiCounter apiCounter = new ApiCounter();
 
         for (int i = 0; i < 8; i++) {
-            apiCounter.countUp();
+            apiCounter.totalCountUp();
         }
         for (int i = 0; i < 2; i++) {
             apiCounter.errorCountUp();
@@ -50,7 +50,7 @@ class ApiCounterTest {
             }
             executorService.submit(() -> {
                 try {
-                    apiCounter.countUp();
+                    apiCounter.totalCountUp();
                 } finally {
                     latch.countDown();
                 }
@@ -76,7 +76,7 @@ class ApiCounterTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    apiCounter.countUp();
+                    apiCounter.totalCountUp();
                 } finally {
                     latch.countDown();
                 }
